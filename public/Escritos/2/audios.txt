@@ -1,2 +1,2 @@
-Audios/niveles/es_mucho_mas_dificil.mp3
-Audios/niveles/las_personas_mayores.mp3
+/audios/niveles/es_mucho_mas_dificil.mp3
+/audios/niveles/las_personas_mayores.mp3

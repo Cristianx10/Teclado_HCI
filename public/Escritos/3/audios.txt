@@ -1,2 +1,2 @@
-Audios/niveles/lo_que_veo_aqui_es_solo.mp3
-Audios/niveles/el_principito_que_me.mp3
+/audios/niveles/lo_que_veo_aqui_es_solo.mp3
+/audios/niveles/el_principito_que_me.mp3

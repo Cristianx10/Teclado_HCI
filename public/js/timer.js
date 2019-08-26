@@ -162,6 +162,9 @@ var Navegador = /** @class */ (function () {
         return contenido;
     };
     Navegador.prototype.iniciar = function () {
+        if (this.anidado != null) {
+            this.anidado.style.display = "";
+        }
         this.elementoActual().accionInicial();
         this.elementos.forEach(function (elemento, i) {
             if (i != 0) {
@@ -182,8 +185,8 @@ var Navegador = /** @class */ (function () {
         }
     };
     Navegador.prototype.incluirEn = function (ruta) {
-        var contenido = document.querySelector(ruta);
-        contenido.append(this.elemento);
+        this.anidado = document.querySelector(ruta);
+        this.anidado.append(this.elemento);
     };
     return Navegador;
 }());

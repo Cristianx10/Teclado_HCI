@@ -220,6 +220,7 @@ class Navegador {
     elemento: HTMLElement;
     elementos: Array<Contenido>;
     actual: number;
+    anidado?:HTMLElement;
 
     constructor() {
         this.elementos = new Array();
@@ -235,9 +236,12 @@ class Navegador {
     }
 
     iniciar() {
+        if(this.anidado != null){     
+            this.anidado.style.display = "";
+        }
+
         this.elementoActual().accionInicial();
         this.elementos.forEach((elemento, i) => {
-
             if (i != 0) {
                 elemento.ocultar();
             }
@@ -259,8 +263,8 @@ class Navegador {
     }
 
     incluirEn(ruta: string) {
-        let contenido = <HTMLElement>document.querySelector(ruta);
-        contenido.append(this.elemento);
+        this.anidado = <HTMLElement>document.querySelector(ruta);
+        this.anidado.append(this.elemento);
     }
 }
 
