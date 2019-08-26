@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Teclado Test</title>
+
+    <link rel="stylesheet" href="/sass/main.css">
+</head>
+
+<body onselectstart="return false">
+
+
+    <div class="contenedor" style="background-image: url('/img/background_nivel.png')">
+
+        <div class="pantalla pinicio" style="background-image: url('/img/inicio.jpg')">
+            <div class="centrar">
+                <h1 style=" width: 700px;
+                text-align: center;
+                line-height: 100px;">TEST DE VELOCIDAD DE REACCIÓN</h1>
+                <button class="boton siguiente">Jugar</button>
+            </div>
+        </div>
+
+        <div class="pantalla pformulario" style="background-image: url('/img/inicio.jpg')">
+            <div class="centrar">
+                <h1>¿Quién eres?</h1>
+                <form onsubmit="return false">
+
+                    <label>
+                        <h2>Nombre:</h2>
+                        <input id="form__usuario__nombre" type="text" placeholder="Ingresa tu nombre" required="required">
+                    </label>
+
+                    <div class="horizontal">
+                        <label>
+                            <h2>Edad:</h2>
+                            <input id="form__usuario__edad" type="text" placeholder="Tu edad">
+                        </label>
+
+                        <div class="vertical">
+                            <h2>Genero: <span id="form__usuario__genero" class="error"></span></h2>
+                            <div class="horizontal">
+                                <label>
+                                    <input id="form__usuario__genero__hombre" class="radial" type="radio" name="genero" id="" value="1">
+                                    <div class="boton">Hombre</div>
+                                </label>
+                                <label>
+                                    <input id="form__usuario__genero__mujer" class="radial" type="radio" name="genero" id="" value="2">
+                                    <div class="boton">Mujer</div>
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <label>
+                        <h2>Ocupación:</h2>
+                        <input id="form__usuario__ocupacion" type="text" placeholder="Mi oficio es:">
+                    </label>
+
+                    <div>
+                        <h2>Mano preferencia:  <span id="form__usuario__mano" class="error"></span></h2>
+                        <div class="horizontal">
+                            <label>
+                                <input id="form__usuario__mano__izquierda" class="radial" type="radio" name="mano" id="" value="1">
+                                <div class="boton">Zurdo</div>
+                            </label>
+                            <label>
+                                <input id="form__usuario__mano__derecha" class="radial" type="radio" name="mano" id="" value="2">
+                                <div class="boton">Derecho</div>
+                            </label>
+                        </div>
+                    </div>
+                    <input id="form__usuario__enviar" type="submit" class="boton" style="margin: 10px auto; height: 70px;" value="Continuar" />
+                </form>
+
+               
+            </div>
+        </div>
+
+        <div class="pantalla pinstrucciones" style="background-image: url('/img/background_nivel.png')">
+            <div class="centrar">
+                <h1>Instrucciones</h1>
+                <div class="bloque__instrucciones horizontal">
+                    <div class="bloque vertical">
+                        <h2>1</h2>
+                        <div>
+                            <div style="position: relative;
+                            top: -18px;" class="distribuir horizontal">
+                                <h3>A</h3>
+                                <h3>B</h3>
+                                <h3>C</h3>
+                            </div>
+                            <div>
+                                <p>Teclea las letras presentadas en la pantalla</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bloque vertical">
+                        <h2>2</h2>
+                        <div>
+                            <p>La dificultad irá aumentando hasta convertirse en palabras, que posteriormente serán
+                                frases.</p>
+                        </div>
+                    </div>
+                    <div class="bloque vertical">
+                        <h2>3</h2>
+                        <div>
+                            <p>El último nivel será un dictado</p>
+                            <img src="/img/icons/sonido.png" alt="" width="70" style="margin: 20px">
+                        </div>
+                    </div>
+                    <div class="bloque vertical">
+                        <h2>4</h2>
+                        <div>
+                            <p>Recuerda: Entre más rapido seas y menos te equivoques tu puntaje será mejor.</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="boton siguiente">Jugar</button>
+            </div>
+        </div>
+
+        <div class="pantalla ppractica vertical centrar">
+            <h1 style="color: white">Instrucciones</h1>
+            <div class="centrar bloque bloque__instrucciones" style="height: 400px; width: 70%;">
+                <p>Hola, estamos realizando una prueba para saber que tan óptimo es el teclado. Se te presentarán 4
+                    niveles en donde la dificultad irá en aumentando.</p>
+                <h1 style="color: #00A6B6">C</h1>
+                <h3>Teclea las letras que se te presentan en pantalla</h3>
+                <h2>¡Recuerda que estamos midiendo tu velocidad!</h2>
+            </div>
+            <button class="boton siguiente">Continuar</button>
+        </div>
+
+        <div class="pantalla ppractica1">
+            <div class="centrar">
+                <h1>Primero practiquemos</h1>
+                <button class="boton siguiente">Continuar</button>
+            </div>
+        </div>
+
+        <div class="pantalla centrar ppracticanivel">
+
+        </div>
+
+        <div class="pantalla ppractica2">
+            <div class="centrar">
+                <h1>Ahora si, !hagamoslo en serio¡</h1>
+                <button class="boton siguiente">Continuar</button>
+            </div>
+        </div>
+
+        <div class="pantalla pmundo1"></div>
+
+        <div class="pantalla pnivel1"></div>
+
+        <div class="pantalla pnivel1finalizado">
+            <div class="centrar">
+                <h1>!Nivel 1 terminado!</h1>
+                <img src="/img/icons/planeta1.png" alt="">
+                <button class="boton siguiente">Continuar</button>
+            </div>
+        </div>
+
+        <div class="pantalla pinstruccionespalabras" style="background-image: url('/img/background_nivel.png')">
+            <div class="centrar">
+                <h1>Instrucciones</h1>
+                <div class="bloque bloque__instrucciones vertical">
+
+                    <h1 style="color: #FE8556;">casa</h1>
+
+                    <p>Escribe las palabras que verás en pantalla. <strong>No tengas en cuenta ninguna tilde.</strong>
+                    </p>
+
+                    <h3 style="text-align: center">Creo que los de tu carrera no serán los más rápidos. ¿O me equivoco?
+                    </h3>
+
+                </div>
+                <button class="boton siguiente">Jugar</button>
+            </div>
+        </div>
+
+        <div class="pantalla pmundo2"></div>
+
+        <div class="pantalla pnivel2"></div>
+
+        <div class="pantalla pnivel2finalizado">
+            <div class="centrar">
+                <h1>!Nivel 2 terminado!</h1>
+                <img src="/img/icons/planeta2.png" alt="">
+                <button class="boton siguiente">Continuar</button>
+            </div>
+        </div>
+
+        <div class="pantalla pinstruccionesfrases" style="background-image: url('/img/background_nivel.png')">
+            <div class="centrar">
+                <h1>Instrucciones</h1>
+                <div class="bloque bloque__instrucciones vertical">
+
+                    <h1 style="color: #FE8556;">la casa es grande</h1>
+
+                    <p>Ahora se te presentarán unas frases. <strong>Recuerda omitir las tildes.</strong></p>
+
+                    <h3>¿Acaso no puedes escribir más rapido?</h3>
+
+                </div>
+                <button class="boton siguiente">Jugar</button>
+            </div>
+        </div>
+
+        <div class="pantalla pmundo3"></div>
+
+        <div class="pantalla pnivel3"></div>
+
+        <div class="pantalla pnivel3finalizado">
+            <div class="centrar">
+                <h1>!Nivel 3 terminado!</h1>
+                <img src="/img/icons/planeta3.png" alt="">
+                <button class="boton siguiente">Continuar</button>
+            </div>
+        </div>
+
+        <div class="pantalla pinstruccionesdictado" style="background-image: url('/img/background_nivel.png')">
+            <div class="centrar">
+                <h1>Instrucciones</h1>
+                <div class="bloque bloque__instrucciones vertical">
+
+                    <img src="/img/icons/sonido.png" alt="">
+
+                    <p>Llego la hora del dictado, <strong>Escucha con atención.</strong></p>
+
+                    <h3>¡Demuestra que tu carrera es la más rápida¡</h3>
+                </div>
+                <button class="boton siguiente">Jugar</button>
+            </div>
+        </div>
+
+        <div class="pantalla pmundo4"></div>
+
+        <div class="pantalla pnivel4"></div>
+
+
+
+        <div class="pantalla pnivel4finalizado">
+            <div class="centrar">
+                <h1>!Nivel 4 terminado!</h1>
+                <img src="/img/icons/planeta4.png" alt="">
+                <button class="boton siguiente">Continuar</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="/lib//preloadjs.js"></script>
+    <script src="/js/timer.js"></script>
+    <script src="/js/texto.js"></script>
+    <script src="/js/main.js"></script>
+
+    <script>
+
+    </script>
+
+</body>
+
+</html>

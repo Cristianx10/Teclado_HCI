@@ -1,0 +1,134 @@
+@import "tipographis";
+@import "modulos";
+
+*{
+    box-sizing: border-box;
+    font-family: "Nunito";
+
+}
+
+h1{
+    color: #FEBE5B;
+    font-size: 4em;
+    font-weight: bold;
+    margin: 0;
+
+}
+
+html, body{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.contenedor{
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.contenedor, .centrar{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.centrar{
+    justify-content: space-evenly;
+}
+
+.palabra{
+    display: flex;
+}
+
+.texto{
+    display: flex;
+}
+
+.letra{
+    font-size: 3em; 
+    padding-bottom: 10px;
+    transition: all .2s ease;
+    color: #A0A0A0;
+}
+
+.space{
+    color: transparent !important;
+   // width: 8px;
+}
+
+.underline{
+    color: #A0A0A0;
+    position: relative;
+
+    &::after{
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        background: #A0A0A0;
+        border-radius: 20px;
+        width: 100%;
+        height: 5px;
+    }
+}
+
+.error{
+    color: red;
+    font-size: .7em;
+}
+
+.validado{
+    display: block;
+    color: orange;
+}
+
+.texto__multiple{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    & > div{
+        position: absolute;
+    }
+
+    & .texto{
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 80%;
+        
+    }
+}
+
+
+.pantalla{
+    display: flex;
+    width: 1200px;
+    height: 700px;
+}
+
+.boton__play{
+    position: absolute;
+    display: flex;
+    background-color: #1E6D7B;
+    width: 150px;
+    height: 150px;
+    bottom: 0;
+    background-image: url("/img/icons/sonido.png");
+    background-repeat: no-repeat;
+    background-size: 50%;
+    background-position: center;
+    border-radius: 100px;
+    
+    &:hover{
+        background-color: #1E4F72;
+        cursor: pointer;
+    }
+}
+

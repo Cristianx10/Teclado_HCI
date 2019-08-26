@@ -1,0 +1,148 @@
+<html>
+
+<head>
+
+
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <input type="text" id="info_url" placeholder="Nombre.json">
+        <button id="button-a">Crear Excel</button>
+    </div>
+
+    <div id="navbar">
+        <h1>O tambien puedes solo seleccionarlo</h1>
+
+    </div>
+    <div>
+        <input type="file" id="file-input" />
+        <h3>Contenido del archivo:</h3>
+        <pre id="contenido-archivo"></pre>
+    </div>
+
+    <script lang="javascript" src="/lib/xlsx.full.min.js"></script>
+    <script src="/js/Excel.js"></script>
+
+    <script>
+
+        let resultados;
+        var wb = new Excel();
+
+
+        function crearArchivo(datos) {
+            let titulo = "Teclado HCI";
+            let asunto = Subject = "HCI";
+            let autor = Author = "Test_HCI";
+            let fecha = new Date();
+
+            wb.autor(titulo, asunto, autor, fecha);
+
+            //Nombre de hoja
+            wb.crearHoja("generales");
+            wb.crearHoja("especificas");
+
+            
+            resultados = datos;
+            let categorias = resultados.categorias;
+            let maximos = resultados.maximos;
+            let pruebas = resultados.pruebas;
+
+
+            //Informacion
+            var ws_data = [];
+
+            ws_data.push(["Valores generales de puntuacion por area"])
+
+            ws_data.push(["Area", "Puntuacion", "Porcentaje"])
+            categorias.forEach(c => {
+                ws_data.push([c.area, c.valor, c.porcentaje])
+            });
+            ws_data.push([]);
+
+            ws_data.push(["Valores maximos de puntuacion por area"])
+
+            ws_data.push(["Area", "Valor"])
+            maximos.forEach((m) => {
+                ws_data.push([m.area, m.valor])
+            });
+
+            //Convertir informacion
+            wb.cargarMatrix("Resultados", ws_data);
+
+            ws_data = [];
+            let formulario;
+
+            pruebas.forEach((p) => {
+                if (p.id == "formulario") {
+                    formulario = p;
+                } else {
+                    ws_data.push([p.id]);
+                    p.pruebas.forEach((pp) => {
+                        let val = pp.value;
+                        if (val == null) {
+                            val = pp.valor;
+                        }
+                        ws_data.push([pp.id, val]);
+                    });
+                    ws_data.push([]);
+                }
+
+            });
+
+            wb.cargarMatrix("Pruebas", ws_data);
+
+            ws_data = [];
+
+
+            ws_data.push([formulario.id]);
+
+            formulario.pruebas.forEach((pp) => {
+                let val = pp.value;
+                if (val == null) {
+                    val = pp.valor;
+                }
+                ws_data.push([pp.id, val]);
+            });
+            ws_data.push([]);
+
+
+
+            wb.cargarMatrix("Formulario", ws_data);
+            wb.guardar("Titulo.xlsx")
+        }
+
+        var crearArchivo = document.querySelector("#button-a");
+
+        crearArchivo.addEventListener("click", function () {
+            let url = document.querySelector("#info_url").value;
+            console.log(url)
+            cargar("/data/" + url);
+        });
+
+
+        function leerArchivo(e) {
+            var archivo = e.target.files[0];
+            if (!archivo) {
+                return;
+            }
+            var lector = new FileReader();
+            lector.onload = function (e) {
+                var contenido = e.target.result;
+                let datos = JSON.parse(contenido);
+                console.log(datos)
+                crearArchivo(datos);
+            };
+            lector.readAsText(archivo);
+        }
+
+        document.getElementById('file-input')
+            .addEventListener('change', leerArchivo, false);
+
+
+    </script>
+</body>
+
+</html>
