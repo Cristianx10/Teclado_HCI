@@ -1,2 +1,2 @@
-Audios/niveles/se_debe_perdir_a_cada_cual.mp3
-Audios/niveles/fue_tiempo_que_pasaste.mp3
+/audios/niveles/se_debe_perdir_a_cada_cual.mp3
+/audios/niveles/fue_tiempo_que_pasaste.mp3
