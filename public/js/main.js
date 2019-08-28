@@ -145,7 +145,7 @@ window.addEventListener("load", function () {
         });
         if (navegador.actual + 1 >= navegador.elementos.length) {
             registro.tiempo.detener();
-            var time = registro.tiempo.getTiempo() + "";
+            var time = registro.tiempo.getTiempo() / 1000 + "";
             time = time.replace(".", ",");
             registro.agregarRegistro("tiempoEmpleado", time);
         }
