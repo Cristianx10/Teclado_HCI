@@ -21,7 +21,7 @@ window.addEventListener("load", function () {
     animMundos[2].incluirEn(".pmundo3");
     animMundos[3].incluirEn(".pmundo4");
     /* --------------------------------  Preparacion de niveles -------------------------------------- */
-    var practica = new TextoMultiple(["ñ", "n", "c", "casa", "aqui y ahora"]);
+    var practica = new TextoMultiple(["á", "ñ", "n", "c", "casa", "aqui y ahora"]);
     practica.incluirEn(".ppracticanivel");
     practica.setFinal(seguir);
     var nivel_1 = new TextoMultiple();
@@ -34,16 +34,12 @@ window.addEventListener("load", function () {
     nivel_3.incluirEn(".pnivel3");
     nivel_3.setFinal(seguirnivel);
     var nivel_4 = new TextoMultiple();
-    /* [
-        "El principito que me hacia muchas preguntas jamas parecia oir las mias",
-        "El principito que me hacia muchas preguntas jamas parecia oir las mias"
-      ],
-      [
-        "/audios/niveles/el_principito_que_me.mp3",
-        "/audios/niveles/el_principito_que_me.mp3"
-      ]*/
     nivel_4.incluirEn(".pnivel4");
-    nivel_4.setFinal(seguirnivel);
+    nivel_4.setFinal(function () {
+        seguirnivel(nivel_4);
+        registro.descargarGeneral();
+        registro.descargarEspecifico();
+    });
     var teclado = document.addEventListener("keydown", function (event) {
         practica.keyPressed(event);
         nivel_1.keyPressed(event);
@@ -68,6 +64,9 @@ window.addEventListener("load", function () {
     /* --------------------------------  Configuación de la navegación entre paginas -------------------------------------- */
     /* --------------------------------  Configuación de la navegación entre paginas -------------------------------------- */
     var navegador = new Navegador();
+    navegador.agregar(".ppracticanivel").setInicial(function () {
+        practica.iniciar();
+    });
     navegador.agregar(".peleccion");
     /* -------------------- Inicio de la aplciacion ---------------------- */
     navegador.agregar(".pinicio");
@@ -78,9 +77,7 @@ window.addEventListener("load", function () {
     navegador.agregar(".ppractica");
     navegador.agregar(".ppractica1");
     /* -------------------- Nivel 1 ---------------------- */
-    navegador.agregar(".ppracticanivel").setInicial(function () {
-        practica.iniciar();
-    });
+    //---------------
     navegador.agregar(".ppractica2");
     navegador.agregar(".pmundo1").setInicial(function () {
         animMundos[0].iniciar();

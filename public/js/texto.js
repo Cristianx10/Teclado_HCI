@@ -39,10 +39,14 @@ var BloqueNum = /** @class */ (function () {
     };
     return BloqueNum;
 }());
+function eliminarDiacriticos(texto) {
+    return texto.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+}
 var Letra = /** @class */ (function () {
     function Letra(letra) {
         this.tiempo = new Timer();
         this.letra = letra.toLowerCase();
+        this.letra = eliminarDiacriticos(this.letra);
         this.validado = false;
         this.activo = false;
         this.errores = new Array();

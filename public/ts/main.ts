@@ -29,7 +29,7 @@ window.addEventListener("load", function () {
 
     /* --------------------------------  Preparacion de niveles -------------------------------------- */
 
-    var practica = new TextoMultiple(["ñ", "n", "c", "casa", "aqui y ahora"]);
+    var practica = new TextoMultiple(["á", "ñ", "n", "c", "casa", "aqui y ahora"]);
     practica.incluirEn(".ppracticanivel");
 
     practica.setFinal(seguir);
@@ -47,16 +47,14 @@ window.addEventListener("load", function () {
     nivel_3.setFinal(seguirnivel);
 
     var nivel_4 = new TextoMultiple();
-    /* [
-        "El principito que me hacia muchas preguntas jamas parecia oir las mias",
-        "El principito que me hacia muchas preguntas jamas parecia oir las mias"
-      ],
-      [
-        "/audios/niveles/el_principito_que_me.mp3",
-        "/audios/niveles/el_principito_que_me.mp3"
-      ]*/
+   
     nivel_4.incluirEn(".pnivel4");
-    nivel_4.setFinal(seguirnivel);
+    nivel_4.setFinal(()=>{
+        seguirnivel(nivel_4);
+
+        registro.descargarGeneral();
+        registro.descargarEspecifico();
+    });
 
 
     var teclado = document.addEventListener("keydown", event => {
@@ -93,6 +91,9 @@ window.addEventListener("load", function () {
 
     var navegador = new Navegador();
 
+    navegador.agregar(".ppracticanivel").setInicial(() => {
+        practica.iniciar();
+    });
 
     navegador.agregar(".peleccion");
 
@@ -110,10 +111,7 @@ window.addEventListener("load", function () {
     navegador.agregar(".ppractica1");
 
     /* -------------------- Nivel 1 ---------------------- */
-
-    navegador.agregar(".ppracticanivel").setInicial(() => {
-        practica.iniciar();
-    });
+//---------------
 
     navegador.agregar(".ppractica2");
 
@@ -174,6 +172,8 @@ window.addEventListener("load", function () {
     /* -------------------- Configuraciones de la navegación---------------------- */
     navegador.incluirEn(".contenedor");
     navegador.iniciar();
+
+    
 
     var siguientes = document.querySelectorAll(".siguiente");
 

@@ -73,6 +73,10 @@ class BloqueNum {
     }
 }
 
+function eliminarDiacriticos(texto:any) {
+    return texto.normalize('NFD').replace(/[\u0300-\u036f]/g,"");
+}
+
 interface Tecla {
     original: string;
     nuevo: string;
@@ -97,6 +101,7 @@ class Letra {
     constructor(letra: string) {
         this.tiempo = new Timer();
         this.letra = letra.toLowerCase();
+        this.letra = eliminarDiacriticos(this.letra);
         this.validado = false;
         this.activo = false;
         this.errores = new Array();
@@ -156,6 +161,7 @@ class Letra {
         if (this.validado == false && this.activo == true) {
             let key: string = event.key;
             key = key.toLowerCase();
+
 
             for (let i = 0; i < nuevoTeclado.length; i++) {
                 let tecla = nuevoTeclado[i];
