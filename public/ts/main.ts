@@ -99,12 +99,6 @@ window.addEventListener("load", function () {
     /* -------------------- Inicio de la aplciacion ---------------------- */
     navegador.agregar(".pinicio");
 
-    navegador.agregar(".pnivel4").setInicial(() => {
-        nivel_4.ocultar();
-        nivel_4.play();
-        nivel_4.iniciar(false);
-    });
-
     /* -------------------- Formulario ---------------------- */
     navegador.agregar(".pformulario");
 
@@ -169,7 +163,11 @@ window.addEventListener("load", function () {
         animMundos[3].iniciar();
     });
 
-    /*--------------------*/
+    navegador.agregar(".pnivel4").setInicial(() => {
+        nivel_4.ocultar();
+        nivel_4.play();
+        nivel_4.iniciar(false);
+    });
 
     navegador.agregar(".pnivel4finalizado");
 
@@ -355,14 +353,42 @@ window.addEventListener("load", function () {
         });
 
     }
-    
-    let btn_eleccion_titulo = document.querySelector("#cargaTecladoTitulo");
-    let btn_eleccion_teclado = document.querySelector("#cargaTeclado");
-    let btn_eleccion_1 = document.querySelector("#eleccion1");
-    let btn_eleccion_2 = document.querySelector("#eleccion2");
-    let btn_eleccion_3 = document.querySelector("#eleccion3");
+
+    let btn_eleccion_titulo: HTMLElement = <HTMLElement>document.querySelector("#cargaTecladoTitulo");
+    let btn_eleccion_teclado: HTMLElement = <HTMLElement>document.querySelector("#cargaTeclado");
+    let btn_eleccion_1: HTMLElement = <HTMLElement>document.querySelector("#eleccion1");
+    let btn_eleccion_2: HTMLElement = <HTMLElement>document.querySelector("#eleccion2");
+    let btn_eleccion_3: HTMLElement = <HTMLElement>document.querySelector("#eleccion3");
+
+    btn_eleccion_1.addEventListener("click", () => {
+        eleecionSeccion(1);
+        seguir();
+    });
+
+    btn_eleccion_2.addEventListener("click", () => {
+        eleecionSeccion(2);
+        seguir();
+    });
+
+    btn_eleccion_3.addEventListener("click", () => {
+        eleecionSeccion(3);
+        seguir();
+    });
 
 
-    eleecionSeccion(1);
+
+    btn_eleccion_teclado.addEventListener("change", function (a:any) {
+        console.log(a.target.files.length)
+
+        for (let i = 0; i < a.target.files.length; i++) {
+            let promesa = a.target.files[i].text();
+            promesa.then(function (s:any, n:any) {
+                console.log("Contenido", s);
+            })
+        }
+    });
+
+
+
 
 });

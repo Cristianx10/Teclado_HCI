@@ -140,9 +140,21 @@ html, body{
 }
 
 .circulo{
-    background: blue;
+    background: #00A4B7;
     width: 200px;
     height: 200px;
     color: white;
+    font-size: 5em;
+    border-radius: 200px;
+    margin: 20px;
+
+    &:hover{
+        cursor: pointer;
+        background: rgb(10, 94, 104);
+    }
 }
 
+#cargaTeclado{
+    color: white;
+    font-size: 2em;
+}

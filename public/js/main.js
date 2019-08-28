@@ -71,11 +71,6 @@ window.addEventListener("load", function () {
     navegador.agregar(".peleccion");
     /* -------------------- Inicio de la aplciacion ---------------------- */
     navegador.agregar(".pinicio");
-    navegador.agregar(".pnivel4").setInicial(function () {
-        nivel_4.ocultar();
-        nivel_4.play();
-        nivel_4.iniciar(false);
-    });
     /* -------------------- Formulario ---------------------- */
     navegador.agregar(".pformulario");
     /* -------------------- Instrucciones generales ---------------------- */
@@ -117,7 +112,11 @@ window.addEventListener("load", function () {
     navegador.agregar(".pmundo4").setInicial(function () {
         animMundos[3].iniciar();
     });
-    /*--------------------*/
+    navegador.agregar(".pnivel4").setInicial(function () {
+        nivel_4.ocultar();
+        nivel_4.play();
+        nivel_4.iniciar(false);
+    });
     navegador.agregar(".pnivel4finalizado");
     /* -------------------- Configuraciones de la navegación---------------------- */
     navegador.incluirEn(".contenedor");
@@ -283,5 +282,25 @@ window.addEventListener("load", function () {
     var btn_eleccion_1 = document.querySelector("#eleccion1");
     var btn_eleccion_2 = document.querySelector("#eleccion2");
     var btn_eleccion_3 = document.querySelector("#eleccion3");
-    eleecionSeccion(1);
+    btn_eleccion_1.addEventListener("click", function () {
+        eleecionSeccion(1);
+        seguir();
+    });
+    btn_eleccion_2.addEventListener("click", function () {
+        eleecionSeccion(2);
+        seguir();
+    });
+    btn_eleccion_3.addEventListener("click", function () {
+        eleecionSeccion(3);
+        seguir();
+    });
+    btn_eleccion_teclado.addEventListener("change", function (a) {
+        console.log(a.target.files.length);
+        for (var i = 0; i < a.target.files.length; i++) {
+            var promesa = a.target.files[i].text();
+            promesa.then(function (s, n) {
+                console.log("Contenido", s);
+            });
+        }
+    });
 });
