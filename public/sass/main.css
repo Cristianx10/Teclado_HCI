@@ -157,6 +157,13 @@ input:checked ~ div:hover {
   color: white;
 }
 
+.view__tiempo {
+  color: rgba(0, 165, 183, 0);
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
 .bloque__instrucciones {
   display: -webkit-box;
   display: -ms-flexbox;
