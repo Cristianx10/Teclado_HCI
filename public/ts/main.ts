@@ -31,7 +31,7 @@ window.addEventListener("load", function () {
 
     /* --------------------------------  Preparacion de niveles -------------------------------------- */
 
-    var practica = new TextoMultiple(["á", "ñ", "n", "c", "casa", "aqui y ahora"]);
+    var practica = new TextoMultiple(["a", "ñ", "n", "c", "casa", "aqui y ahora"]);
     practica.incluirEn(".ppracticanivel");
 
     practica.setFinal(seguir);
@@ -412,6 +412,13 @@ window.addEventListener("load", function () {
         return datos;
     }
 
+
+    var des:HTMLElement = <HTMLElement>document.querySelector("#descargarseguro");
+
+    des.addEventListener("click", ()=>{
+        registro.descargarGeneral();
+        registro.descargarEspecifico();
+    });
 
 
 

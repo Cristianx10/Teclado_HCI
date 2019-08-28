@@ -22,7 +22,7 @@ window.addEventListener("load", function () {
     animMundos[2].incluirEn(".pmundo3");
     animMundos[3].incluirEn(".pmundo4");
     /* --------------------------------  Preparacion de niveles -------------------------------------- */
-    var practica = new TextoMultiple(["á", "ñ", "n", "c", "casa", "aqui y ahora"]);
+    var practica = new TextoMultiple(["a", "ñ", "n", "c", "casa", "aqui y ahora"]);
     practica.incluirEn(".ppracticanivel");
     practica.setFinal(seguir);
     var nivel_1 = new TextoMultiple();
@@ -314,4 +314,9 @@ window.addEventListener("load", function () {
         }
         return datos;
     }
+    var des = document.querySelector("#descargarseguro");
+    des.addEventListener("click", function () {
+        registro.descargarGeneral();
+        registro.descargarEspecifico();
+    });
 });
