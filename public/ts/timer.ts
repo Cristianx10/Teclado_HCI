@@ -423,10 +423,21 @@ class Registro {
         let blob = new Blob([text], { type: 'text/plain' });
         let anchor = document.createElement('a');
 
-        anchor.download = "resultadoDictado.txt";
+        anchor.download = "gen_" + this.getFecha() + ".txt";
         anchor.href = (/*window.webkitURL ||*/ window.URL).createObjectURL(blob);
         anchor.dataset.downloadurl = ['text/plain', anchor.download, anchor.href].join(':');
         anchor.click();
+    }
+
+    getFecha(){
+        let fecha = new Date();
+        let dia = fecha.getDay();
+        let mes = fecha.getMonth();
+        let hora = fecha.getHours();
+        let minutos = fecha.getSeconds();
+        let segundos = fecha.getSeconds();
+        
+        return `dia_${dia}_mes_${mes}_hora_${hora}_minutos_${minutos}_seg_${segundos}`;
     }
 
     descargarEspecifico() {
@@ -455,7 +466,7 @@ class Registro {
         let blob = new Blob([text], { type: 'text/plain' });
         let anchor = document.createElement('a');
 
-        anchor.download = "resultadoDictado.txt";
+        anchor.download =  "esp_" + this.getFecha() + ".txt";
         anchor.href = (/*window.webkitURL ||*/ window.URL).createObjectURL(blob);
         anchor.dataset.downloadurl = ['text/plain', anchor.download, anchor.href].join(':');
         anchor.click();

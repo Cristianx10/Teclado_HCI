@@ -300,10 +300,19 @@ var Registro = /** @class */ (function () {
         });
         var blob = new Blob([text], { type: 'text/plain' });
         var anchor = document.createElement('a');
-        anchor.download = "resultadoDictado.txt";
+        anchor.download = "gen_" + this.getFecha() + ".txt";
         anchor.href = ( /*window.webkitURL ||*/window.URL).createObjectURL(blob);
         anchor.dataset.downloadurl = ['text/plain', anchor.download, anchor.href].join(':');
         anchor.click();
+    };
+    Registro.prototype.getFecha = function () {
+        var fecha = new Date();
+        var dia = fecha.getDay();
+        var mes = fecha.getMonth();
+        var hora = fecha.getHours();
+        var minutos = fecha.getSeconds();
+        var segundos = fecha.getSeconds();
+        return "dia_" + dia + "_mes_" + mes + "_hora_" + hora + "_minutos_" + minutos + "_seg_" + segundos;
     };
     Registro.prototype.descargarEspecifico = function () {
         var text = "";
@@ -328,7 +337,7 @@ var Registro = /** @class */ (function () {
         });
         var blob = new Blob([text], { type: 'text/plain' });
         var anchor = document.createElement('a');
-        anchor.download = "resultadoDictado.txt";
+        anchor.download = "esp_" + this.getFecha() + ".txt";
         anchor.href = ( /*window.webkitURL ||*/window.URL).createObjectURL(blob);
         anchor.dataset.downloadurl = ['text/plain', anchor.download, anchor.href].join(':');
         anchor.click();
