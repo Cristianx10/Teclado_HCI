@@ -138,6 +138,10 @@ input:checked ~ div {
   transition: all .5s ease;
 }
 
+input:checked ~ div:hover {
+  background: #388038;
+}
+
 .radial {
   position: absolute;
   opacity: 0;
@@ -319,7 +323,7 @@ html, body {
   height: 100%;
 }
 
-.texto__multiple > div {
+.texto__multiple > .contenedor__animacion {
   position: absolute;
 }
 
@@ -359,5 +363,19 @@ html, body {
 .boton__play:hover {
   background-color: #1E4F72;
   cursor: pointer;
+}
+
+.view__tiempo {
+  color: white;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.circulo {
+  background: blue;
+  width: 200px;
+  height: 200px;
+  color: white;
 }
 /*# sourceMappingURL=main.css.map */

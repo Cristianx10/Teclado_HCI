@@ -1,7 +1,9 @@
 var keys: any = {};
+var registro = new Registro("resultados");
+
 window.addEventListener("load", function () {
 
-    var registro = new Registro("resultados");
+
 
     var animMundos: Array<Animacion> = [];
 
@@ -53,7 +55,6 @@ window.addEventListener("load", function () {
         "/audios/niveles/el_principito_que_me.mp3",
         "/audios/niveles/el_principito_que_me.mp3"
       ]*/
-    nivel_4.ocultar();
     nivel_4.incluirEn(".pnivel4");
     nivel_4.setFinal(seguirnivel);
 
@@ -81,8 +82,6 @@ window.addEventListener("load", function () {
             }
         }
 
-        console.log("solot", key);
-
         keys[key] = false;
     });
 
@@ -94,21 +93,17 @@ window.addEventListener("load", function () {
 
     var navegador = new Navegador();
 
+
+    navegador.agregar(".peleccion");
+
+    /* -------------------- Inicio de la aplciacion ---------------------- */
     navegador.agregar(".pinicio");
 
     navegador.agregar(".pnivel4").setInicial(() => {
-        nivel_4.iniciar();
+        nivel_4.ocultar();
+        nivel_4.play();
+        nivel_4.iniciar(false);
     });
-
-
-    /*
-    navegador.agregar(".pnivel4").setInicial(() => {
-      nivel_4.iniciar();
-    });
-    */
-
-    /* -------------------- Inicio de la aplciacion ---------------------- */
-    //navegador.agregar(".pinicio");
 
     /* -------------------- Formulario ---------------------- */
     navegador.agregar(".pformulario");
@@ -174,7 +169,7 @@ window.addEventListener("load", function () {
         animMundos[3].iniciar();
     });
 
-    /**//* */
+    /*--------------------*/
 
     navegador.agregar(".pnivel4finalizado");
 
@@ -193,13 +188,13 @@ window.addEventListener("load", function () {
     }
 
     function seguirnivel(e: any) {
-        console.log("Continua con la actividad")
+
         navegador.siguiente();
 
 
         let reGeneral = e.toString();
         reGeneral.forEach((r: any) => {
-            console.log(r)
+
             registro.agregarGenerales(r);
         });
 
@@ -309,7 +304,7 @@ window.addEventListener("load", function () {
                     d = d.replace(/(\r\n|\n|\r)/gm, "");
                     datos.push(d);
                 }
-                console.log(datos.length)
+
                 nivel_1.agregarMultiple(datos);
             }
 
@@ -360,6 +355,13 @@ window.addEventListener("load", function () {
         });
 
     }
+    
+    let btn_eleccion_titulo = document.querySelector("#cargaTecladoTitulo");
+    let btn_eleccion_teclado = document.querySelector("#cargaTeclado");
+    let btn_eleccion_1 = document.querySelector("#eleccion1");
+    let btn_eleccion_2 = document.querySelector("#eleccion2");
+    let btn_eleccion_3 = document.querySelector("#eleccion3");
+
 
     eleecionSeccion(1);
 

@@ -88,6 +88,8 @@ class Letra {
     elemento: HTMLElement;
     ocultado: boolean;
 
+    tiempoIniciado: boolean;
+
     letra: string;
     tiempo: Timer;
     errores: Array<Registro_Error>;
@@ -110,12 +112,34 @@ class Letra {
         }
 
         this.sonidoError = sonidoError;
+        this.tiempoIniciado = false;
     }
 
-    iniciar() {
-        this.tiempo.iniciar();
-        this.activo = true;
-        this.elemento.classList.add("underline");
+    iniciar(inicio?: boolean) {
+        if (this.activo == false) {
+
+            if (inicio != null) {
+                if (inicio) {
+                    this.tiempoIniciado = true;
+                    this.tiempo.iniciar();
+                } else {
+
+                }
+            } else {
+                this.tiempoIniciado = true;
+                this.tiempo.iniciar();
+            }
+
+            this.activo = true;
+            this.elemento.classList.add("underline");
+        }
+    }
+
+    iniciarTiempo() {
+        if (this.tiempoIniciado == false) {
+            this.tiempoIniciado = true;
+            this.tiempo.iniciar();
+        }
     }
 
     detener() {
@@ -133,27 +157,22 @@ class Letra {
             let key: string = event.key;
             key = key.toLowerCase();
 
-          
-
             for (let i = 0; i < nuevoTeclado.length; i++) {
                 let tecla = nuevoTeclado[i];
                 let original = tecla.original.toLowerCase();
-             
+
                 if (key == original) {
                     key = tecla.nuevo.toLowerCase();
                     i = nuevoTeclado.length;
                 }
             }
 
-            
+
 
             if (keys[key] == false || keys[key] == null) {
-              
+
                 keys[key] = true;
 
-                console.log("presiono", key, keys[key]);
-
-              
                 if (key != "capslock" && key != "backspace" && key != "shift") {
 
                     if (key == this.letra) {
@@ -201,7 +220,7 @@ class Letra {
         this.errores.forEach((e) => {
             dataError.push(`{${e.error}, ${e.tiempo}}`);
         });
-        return [this.letra, this.tiempo.getTiempo() / 1000 + "", this.errores.length +"",JSON.stringify(dataError)];
+        return [this.letra, this.tiempo.getTiempo() / 1000 + "", this.errores.length + "", JSON.stringify(dataError)];
     }
 }
 
@@ -216,8 +235,12 @@ class Texto {
     elemento: HTMLElement;
     audio?: Sonido;
 
+    tiempoIniciado = false;
+
     errores: number;
     tiempo: Timer;
+
+    view_tiempo: HTMLElement;
 
     constructor(texto: string, url?: string) {
         this.texto = texto;
@@ -254,6 +277,19 @@ class Texto {
         if (url != null) {
             this.audio = new Sonido(url);
         }
+
+        this.view_tiempo = document.createElement("div");
+        this.view_tiempo.className = "view__tiempo";
+
+        this.tiempo.setProceso((t: number) => {
+            this.view_tiempo.innerHTML = t / 1000 + "";
+        });
+
+        this.verTiempo();
+    }
+
+    verTiempo() {
+        this.elemento.append(this.view_tiempo);
     }
 
     agregarSonido(url?: string) {
@@ -276,12 +312,47 @@ class Texto {
         }
     }
 
-    iniciar() {
+    iniciar(inicio?: boolean) {
         if (this.activo == false) {
             this.activo = true;
+
+            
+            if (inicio != null) {
+               
+                if (inicio) {
+                    this.tiempoIniciado = true;
+                    this.tiempo.iniciar();
+                } else {
+
+                }
+
+            } else {
+                this.tiempoIniciado = true;
+                this.tiempo.iniciar();
+            }
+
+        }
+        if (inicio != null) {
+            if (inicio) {
+                this.letras[this.contador].iniciar();
+            } else {
+                this.letras[this.contador].iniciar(inicio);
+            }
+        } else {
+            this.letras[this.contador].iniciar();
+        }
+
+    }
+
+    iniciarTiempo() {
+        if (this.tiempoIniciado == false) {
+            this.tiempoIniciado = true;
             this.tiempo.iniciar();
         }
-        this.letras[this.contador].iniciar();
+        if(this.contador < this.letras.length){
+            this.letras[this.contador].iniciarTiempo();
+        }
+        
     }
 
     detener() {
@@ -339,6 +410,10 @@ class Texto {
     }
 }
 
+function inicioDelTiempo(){
+
+}
+
 class TextoMultiple {
 
     textos: Array<Texto>;
@@ -350,6 +425,9 @@ class TextoMultiple {
     activado: boolean;
 
     btn_play?: HTMLElement;
+
+    inicial:boolean = true;
+
 
     constructor(textos?: Array<string>, urls?: Array<string>) {
 
@@ -414,7 +492,6 @@ class TextoMultiple {
                 t.agregarSonido(urls[index]);
             });
 
-
             this.btn_play = document.createElement("div");
             this.btn_play.className = "boton__play";
             this.elemento.append(this.btn_play);
@@ -424,10 +501,33 @@ class TextoMultiple {
         }
     }
 
-    iniciar() {
+    play() {
+        this.elementoActual().play();
+    }
+
+    iniciar(inicio?:boolean) {
         this.activado = true;
         let elemento = this.elementoActual();
+
+        if(inicio != null){
+            this.inicial = inicio;
+        }
+
+        if(this.inicial == false){
+            document.addEventListener("keydown", this.inicioAplicacion.bind(this));
+        }
+
         this.continuar(elemento);
+    }
+
+    inicioAplicacion(){
+        this.iniciarTiempo();
+        document.removeEventListener("keydown", this.inicioAplicacion);
+    }
+
+    iniciarTiempo(){
+        let elemento = this.elementoActual();
+        elemento.iniciarTiempo();
     }
 
     ocultar() {
@@ -437,8 +537,11 @@ class TextoMultiple {
     }
 
     continuar(elemento: Texto) {
+
         this.elemento.append(elemento.elemento);
-        elemento.iniciar();
+
+        elemento.iniciar(this.inicial);
+      
         elemento.setFinal(() => {
             this.emojiBien.iniciar();
             this.sonidoBien.play();
@@ -456,8 +559,10 @@ class TextoMultiple {
             let elemento = this.elementoActual();
             this.elemento.removeChild(elemento.elemento);
             this.actual++;
+
             if (this.actual < this.textos.length) {
                 elemento = this.elementoActual();
+                this.play();
                 this.continuar(elemento);
             } else {
                 this.detener();

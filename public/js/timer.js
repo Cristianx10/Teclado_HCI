@@ -29,7 +29,10 @@ var Timer = /** @class */ (function () {
             }
             //Impresion del tiempo
             //console.log(`Tiempo: horas[ ${this.horas} ]: minutos[ ${this.minutos} ]: segundos[ ${this.segundos} ]: milis[ ${this.milisegundos} ]:`);
-            hora_local = new Date();
+            //  hora_local = new Date();
+            if (_this.proceso) {
+                _this.proceso(_this.getTiempo());
+            }
         }, 10);
     };
     Timer.prototype.temporizador = function () {
@@ -92,6 +95,9 @@ var Timer = /** @class */ (function () {
         }
         this.tiempo = (this.horas * 3600000) + (this.minutos * 60000) + (this.segundos * 1000) + this.re_milisegundos;
         return this.tiempo + 0;
+    };
+    Timer.prototype.setProceso = function (proceso) {
+        this.proceso = proceso;
     };
     return Timer;
 }());
@@ -248,7 +254,6 @@ var Registro = /** @class */ (function () {
         this.update();
     };
     Registro.prototype.agregarGenerales = function (datos) {
-        console.log(this.general);
         this.general.push(datos);
         this.update();
     };

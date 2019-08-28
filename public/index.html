@@ -15,6 +15,21 @@
 
     <div class="contenedor" style="background-image: url('/img/background_nivel.png'); display: none;">
 
+        <div class="pantalla peleccion" style="background-image: url('/img/inicio.jpg')">
+            <div class="centrar">
+                <h1>Configura tu test</h1>
+                <div>
+                    <h2 id="cargaTecladoTitulo">Aun no has camaido tu teclado</h2>
+                    <button id="cargaTeclado">Carga teclado</button>
+                </div>
+                <div>
+                    <button id="eleccion1" class="circulo">1</button>
+                    <button id="eleccion2" class="circulo">2</button>
+                    <button id="eleccion3" class="circulo">3</button>
+                </div>
+            </div>
+        </div>
+
         <div class="pantalla pinicio" style="background-image: url('/img/inicio.jpg')">
             <div class="centrar">
                 <h1 style=" width: 700px;
@@ -31,7 +46,8 @@
 
                     <label>
                         <h2>Nombre:</h2>
-                        <input id="form__usuario__nombre" type="text" placeholder="Ingresa tu nombre" required="required">
+                        <input id="form__usuario__nombre" type="text" placeholder="Ingresa tu nombre"
+                            required="required">
                     </label>
 
                     <div class="horizontal">
@@ -44,11 +60,13 @@
                             <h2>Genero: <span id="form__usuario__genero" class="error"></span></h2>
                             <div class="horizontal">
                                 <label>
-                                    <input id="form__usuario__genero__hombre" class="radial" type="radio" name="genero" id="" value="1">
+                                    <input id="form__usuario__genero__hombre" class="radial" type="radio" name="genero"
+                                        id="" value="1">
                                     <div class="boton">Hombre</div>
                                 </label>
                                 <label>
-                                    <input id="form__usuario__genero__mujer" class="radial" type="radio" name="genero" id="" value="2">
+                                    <input id="form__usuario__genero__mujer" class="radial" type="radio" name="genero"
+                                        id="" value="2">
                                     <div class="boton">Mujer</div>
                                 </label>
                             </div>
@@ -63,22 +81,25 @@
                     </label>
 
                     <div>
-                        <h2>Mano preferencia:  <span id="form__usuario__mano" class="error"></span></h2>
+                        <h2>Mano preferencia: <span id="form__usuario__mano" class="error"></span></h2>
                         <div class="horizontal">
                             <label>
-                                <input id="form__usuario__mano__izquierda" class="radial" type="radio" name="mano" id="" value="1">
+                                <input id="form__usuario__mano__izquierda" class="radial" type="radio" name="mano" id=""
+                                    value="1">
                                 <div class="boton">Zurdo</div>
                             </label>
                             <label>
-                                <input id="form__usuario__mano__derecha" class="radial" type="radio" name="mano" id="" value="2">
+                                <input id="form__usuario__mano__derecha" class="radial" type="radio" name="mano" id=""
+                                    value="2">
                                 <div class="boton">Derecho</div>
                             </label>
                         </div>
                     </div>
-                    <input id="form__usuario__enviar" type="submit" class="boton" style="margin: 10px auto; height: 70px;" value="Continuar" />
+                    <input id="form__usuario__enviar" type="submit" class="boton"
+                        style="margin: 10px auto; height: 70px;" value="Continuar" />
                 </form>
 
-               
+
             </div>
         </div>
 

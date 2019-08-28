@@ -55,11 +55,31 @@ var Letra = /** @class */ (function () {
             this.elemento.innerText = "_";
         }
         this.sonidoError = sonidoError;
+        this.tiempoIniciado = false;
     }
-    Letra.prototype.iniciar = function () {
-        this.tiempo.iniciar();
-        this.activo = true;
-        this.elemento.classList.add("underline");
+    Letra.prototype.iniciar = function (inicio) {
+        if (this.activo == false) {
+            if (inicio != null) {
+                if (inicio) {
+                    this.tiempoIniciado = true;
+                    this.tiempo.iniciar();
+                }
+                else {
+                }
+            }
+            else {
+                this.tiempoIniciado = true;
+                this.tiempo.iniciar();
+            }
+            this.activo = true;
+            this.elemento.classList.add("underline");
+        }
+    };
+    Letra.prototype.iniciarTiempo = function () {
+        if (this.tiempoIniciado == false) {
+            this.tiempoIniciado = true;
+            this.tiempo.iniciar();
+        }
     };
     Letra.prototype.detener = function () {
         this.tiempo.detener();
@@ -83,7 +103,6 @@ var Letra = /** @class */ (function () {
             }
             if (keys[key] == false || keys[key] == null) {
                 keys[key] = true;
-                console.log("presiono", key, keys[key]);
                 if (key != "capslock" && key != "backspace" && key != "shift") {
                     if (key == this.letra) {
                         this.validando();
@@ -131,6 +150,8 @@ var Letra = /** @class */ (function () {
 }());
 var Texto = /** @class */ (function () {
     function Texto(texto, url) {
+        var _this = this;
+        this.tiempoIniciado = false;
         this.texto = texto;
         this.letras = new Array();
         this.contador = 0;
@@ -158,7 +179,16 @@ var Texto = /** @class */ (function () {
         if (url != null) {
             this.audio = new Sonido(url);
         }
+        this.view_tiempo = document.createElement("div");
+        this.view_tiempo.className = "view__tiempo";
+        this.tiempo.setProceso(function (t) {
+            _this.view_tiempo.innerHTML = t / 1000 + "";
+        });
+        this.verTiempo();
     }
+    Texto.prototype.verTiempo = function () {
+        this.elemento.append(this.view_tiempo);
+    };
     Texto.prototype.agregarSonido = function (url) {
         if (url != null) {
             this.audio = new Sonido(url);
@@ -177,12 +207,42 @@ var Texto = /** @class */ (function () {
             console.log("play");
         }
     };
-    Texto.prototype.iniciar = function () {
+    Texto.prototype.iniciar = function (inicio) {
         if (this.activo == false) {
             this.activo = true;
+            if (inicio != null) {
+                if (inicio) {
+                    this.tiempoIniciado = true;
+                    this.tiempo.iniciar();
+                }
+                else {
+                }
+            }
+            else {
+                this.tiempoIniciado = true;
+                this.tiempo.iniciar();
+            }
+        }
+        if (inicio != null) {
+            if (inicio) {
+                this.letras[this.contador].iniciar();
+            }
+            else {
+                this.letras[this.contador].iniciar(inicio);
+            }
+        }
+        else {
+            this.letras[this.contador].iniciar();
+        }
+    };
+    Texto.prototype.iniciarTiempo = function () {
+        if (this.tiempoIniciado == false) {
+            this.tiempoIniciado = true;
             this.tiempo.iniciar();
         }
-        this.letras[this.contador].iniciar();
+        if (this.contador < this.letras.length) {
+            this.letras[this.contador].iniciarTiempo();
+        }
     };
     Texto.prototype.detener = function () {
         this.tiempo.detener();
@@ -234,9 +294,12 @@ var Texto = /** @class */ (function () {
     };
     return Texto;
 }());
+function inicioDelTiempo() {
+}
 var TextoMultiple = /** @class */ (function () {
     function TextoMultiple(textos, urls) {
         var _this = this;
+        this.inicial = true;
         this.actual = 0;
         this.textos = new Array();
         this.activado = false;
@@ -298,10 +361,27 @@ var TextoMultiple = /** @class */ (function () {
             });
         }
     };
-    TextoMultiple.prototype.iniciar = function () {
+    TextoMultiple.prototype.play = function () {
+        this.elementoActual().play();
+    };
+    TextoMultiple.prototype.iniciar = function (inicio) {
         this.activado = true;
         var elemento = this.elementoActual();
+        if (inicio != null) {
+            this.inicial = inicio;
+        }
+        if (this.inicial == false) {
+            document.addEventListener("keydown", this.inicioAplicacion.bind(this));
+        }
         this.continuar(elemento);
+    };
+    TextoMultiple.prototype.inicioAplicacion = function () {
+        this.iniciarTiempo();
+        document.removeEventListener("keydown", this.inicioAplicacion);
+    };
+    TextoMultiple.prototype.iniciarTiempo = function () {
+        var elemento = this.elementoActual();
+        elemento.iniciarTiempo();
     };
     TextoMultiple.prototype.ocultar = function () {
         this.textos.forEach(function (t) {
@@ -311,7 +391,7 @@ var TextoMultiple = /** @class */ (function () {
     TextoMultiple.prototype.continuar = function (elemento) {
         var _this = this;
         this.elemento.append(elemento.elemento);
-        elemento.iniciar();
+        elemento.iniciar(this.inicial);
         elemento.setFinal(function () {
             _this.emojiBien.iniciar();
             _this.sonidoBien.play();
@@ -330,6 +410,7 @@ var TextoMultiple = /** @class */ (function () {
             this.actual++;
             if (this.actual < this.textos.length) {
                 elemento = this.elementoActual();
+                this.play();
                 this.continuar(elemento);
             }
             else {

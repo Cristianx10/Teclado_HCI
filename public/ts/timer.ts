@@ -10,6 +10,8 @@ class Timer {
 
     tiempo: number;
 
+    proceso?: Function;
+
 
     constructor() {
         this.horas = 0;
@@ -52,7 +54,12 @@ class Timer {
             //Impresion del tiempo
             //console.log(`Tiempo: horas[ ${this.horas} ]: minutos[ ${this.minutos} ]: segundos[ ${this.segundos} ]: milis[ ${this.milisegundos} ]:`);
 
-            hora_local = new Date();
+            //  hora_local = new Date();
+
+
+            if (this.proceso) {
+                this.proceso(this.getTiempo());
+            }
 
         }, 10);
 
@@ -141,6 +148,10 @@ class Timer {
 
         return this.tiempo + 0;
     }
+
+    setProceso(proceso: Function) {
+        this.proceso = proceso;
+    }
 }
 
 class Animacion {
@@ -220,7 +231,7 @@ class Navegador {
     elemento: HTMLElement;
     elementos: Array<Contenido>;
     actual: number;
-    anidado?:HTMLElement;
+    anidado?: HTMLElement;
 
     constructor() {
         this.elementos = new Array();
@@ -236,7 +247,7 @@ class Navegador {
     }
 
     iniciar() {
-        if(this.anidado != null){     
+        if (this.anidado != null) {
             this.anidado.style.display = "";
         }
 
@@ -319,9 +330,9 @@ class Contenido {
     }
 }
 
-interface Registro_Usuario{
-    nombre:string;
-    value:string;
+interface Registro_Usuario {
+    nombre: string;
+    value: string;
 }
 
 class Registro {
@@ -333,7 +344,7 @@ class Registro {
 
     constructor(origen: string) {
         this.origen = origen;
-        let data:any = localStorage.getItem(this.origen);
+        let data: any = localStorage.getItem(this.origen);
         data = JSON.parse(data);
         if (data != null) {
             this.usuario = data.usuario;
@@ -350,13 +361,12 @@ class Registro {
         localStorage.setItem(this.origen, JSON.stringify(this));
     }
 
-    agregarRegistro(nombre:string, value:string){
-        this.usuario.push({nombre, value});
+    agregarRegistro(nombre: string, value: string) {
+        this.usuario.push({ nombre, value });
         this.update();
     }
 
     agregarGenerales(datos: Array<string>) {
-        console.log(this.general);
         this.general.push(datos);
         this.update();
     }
@@ -390,24 +400,24 @@ class Registro {
     descargarGeneral() {
         let text = "";
 
-        this.usuario.forEach((user)=>{
+        this.usuario.forEach((user) => {
             let temp = text;
-            text = temp + user.nombre + ":	" + user.value + "\n"; 
+            text = temp + user.nombre + ":	" + user.value + "\n";
         });
 
-        this.general.forEach((n)=>{
+        this.general.forEach((n) => {
             let temp = text;
             let datos = "";
             for (let i = 0; i < n.length; i++) {
                 let d = n[i].replace(".", ",");
                 let temp_datos = datos;
-                if(i + 1 < n.length){
+                if (i + 1 < n.length) {
                     datos = temp_datos + d + "	";
-                }else{
+                } else {
                     datos = temp_datos + d;
                 }
             }
-            text = temp + datos + "\n"; 
+            text = temp + datos + "\n";
         });
 
         let blob = new Blob([text], { type: 'text/plain' });
@@ -422,24 +432,24 @@ class Registro {
     descargarEspecifico() {
         let text = "";
 
-        this.usuario.forEach((user)=>{
+        this.usuario.forEach((user) => {
             let temp = text;
-            text = temp + user.nombre + ":	" + user.value + "\n"; 
+            text = temp + user.nombre + ":	" + user.value + "\n";
         });
 
-        this.especifico.forEach((n)=>{
+        this.especifico.forEach((n) => {
             let temp = text;
             let datos = "";
             for (let i = 0; i < n.length; i++) {
                 let d = n[i].replace(".", ",");
                 let temp_datos = datos;
-                if(i + 1 < n.length){
+                if (i + 1 < n.length) {
                     datos = temp_datos + d + "	";
-                }else{
+                } else {
                     datos = temp_datos + d;
                 }
             }
-            text = temp + datos + "\n"; 
+            text = temp + datos + "\n";
         });
 
         let blob = new Blob([text], { type: 'text/plain' });

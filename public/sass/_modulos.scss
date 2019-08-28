@@ -83,6 +83,10 @@ input {
     &:checked~div {
         background: rgb(56, 128, 56);
         transition: all .5s ease;
+
+        &:hover{
+            background: rgb(56, 128, 56); 
+        }
     }
 
 
