@@ -190,7 +190,9 @@ class Letra {
 
                 keys[key] = true;
 
-                if (key != "capslock" && key != "backspace" && key != "shift") {
+                key = eliminarDiacriticos(key);
+
+                if (key != "capslock" && key != "backspace" && key != "shift" && key != "dead") {
 
                     if (key == this.letra) {
                         this.validando();

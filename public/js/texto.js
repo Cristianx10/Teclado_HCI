@@ -115,7 +115,8 @@ var Letra = /** @class */ (function () {
             }
             if (keys[key] == false || keys[key] == null) {
                 keys[key] = true;
-                if (key != "capslock" && key != "backspace" && key != "shift") {
+                key = eliminarDiacriticos(key);
+                if (key != "capslock" && key != "backspace" && key != "shift" && key != "dead") {
                     if (key == this.letra) {
                         this.validando();
                         if (this.ocultado) {

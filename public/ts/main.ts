@@ -62,7 +62,7 @@ window.addEventListener("load", function () {
 
 
     var teclado = document.addEventListener("keydown", event => {
-
+      
         practica.keyPressed(event);
         nivel_1.keyPressed(event);
         nivel_2.keyPressed(event);
@@ -109,6 +109,7 @@ window.addEventListener("load", function () {
         registro.agregarRegistro("hora", `${fecha.getHours()}:${fecha.getMinutes()}:${fecha.getSeconds()}`);
     });
 
+   
     /* -------------------- Formulario ---------------------- */
     navegador.agregar(".pformulario");
 
@@ -134,6 +135,7 @@ window.addEventListener("load", function () {
     navegador.agregar(".pnivel1").setInicial(() => {
         nivel_1.iniciar();
     });
+
 
 
     navegador.agregar(".pnivel1finalizado");
