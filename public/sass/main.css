@@ -391,4 +391,8 @@ html, body {
   color: white;
   font-size: 2em;
 }
+
+#restablecerTeclado {
+  display: none;
+}
 /*# sourceMappingURL=main.css.map */

@@ -462,3 +462,73 @@ class Registro {
     }
 
 }
+
+class TecladoLoad {
+    id: string;
+    teclado: Array<Tecla>;
+    cargado: boolean;
+    
+
+    constructor(id: string) {
+        this.id = id;
+
+        let data = localStorage.getItem(id);
+
+        if (data != null) {
+            let datos: TecladoLoad = JSON.parse(data);
+            this.teclado = datos.teclado;
+            this.cargado = datos.cargado;
+
+            if (this.cargado) {
+                let e = <HTMLElement>document.querySelector("#restablecerTeclado");
+                if (e != null) {
+                    e.style.display = "block"
+                    e.addEventListener("click",this.restablecer.bind(this) );
+                }
+            }
+        } else {
+            this.teclado = new Array();
+            this.cargado = false;
+        }
+        this.update();
+    }
+
+    agregar(texto: Array<string>) {
+        this.teclado = [];
+        for (let i = 0; i < texto.length; i++) {
+            let t = texto[i];
+            let teclas = t.split("/");
+            this.teclado.push({ original: teclas[0], nuevo: teclas[1] });
+        }
+        this.cargado = true;
+        let e = <HTMLElement>document.querySelector("#restablecerTeclado");
+        if (e != null) {
+            e.style.display = "block";
+        }
+        this.update();
+    }
+
+    restablecer() {
+        this.teclado = [];
+        this.cargado = false;
+        nuevoTeclado = [];
+        let e = <HTMLElement>document.querySelector("#restablecerTeclado");
+        if (e != null) {
+            e.style.display = "none"
+        }
+        this.update();
+    }
+
+    estado() {
+        return this.cargado;
+    }
+
+    update() {
+        localStorage.setItem(this.id, JSON.stringify(this));
+    }
+
+
+    cargar() {
+        return this.teclado;
+    }
+}

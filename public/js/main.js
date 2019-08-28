@@ -1,6 +1,7 @@
 "use strict";
 var keys = {};
 var registro = new Registro("resultados");
+var nuevoTeclado = [];
 window.addEventListener("load", function () {
     var animMundos = [];
     for (var i = 0; i < 4; i++) {
@@ -292,13 +293,25 @@ window.addEventListener("load", function () {
         eleecionSeccion(3);
         seguir();
     });
+    var teclasNuevas = new TecladoLoad("teclado");
     btn_eleccion_teclado.addEventListener("change", function (a) {
-        console.log(a.target.files.length);
         for (var i = 0; i < a.target.files.length; i++) {
             var promesa = a.target.files[i].text();
             promesa.then(function (s, n) {
-                console.log("Contenido", s);
+                var data = formatearTexto(s);
+                teclasNuevas.agregar(data);
+                nuevoTeclado = teclasNuevas.cargar();
             });
         }
     });
+    function formatearTexto(resultado) {
+        var datos = [];
+        var data = resultado.split("\n");
+        for (var i = 0; i < data.length; i++) {
+            var d = data[i];
+            d = d.replace(/(\r\n|\n|\r)/gm, "");
+            datos.push(d);
+        }
+        return datos;
+    }
 });

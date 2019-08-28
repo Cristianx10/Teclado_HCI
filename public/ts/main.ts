@@ -1,6 +1,8 @@
 var keys: any = {};
 var registro = new Registro("resultados");
 
+var nuevoTeclado: Array<Tecla> = [];
+
 window.addEventListener("load", function () {
 
 
@@ -380,16 +382,35 @@ window.addEventListener("load", function () {
 
 
 
+    
+    var teclasNuevas = new TecladoLoad("teclado");
+
+  
+
     btn_eleccion_teclado.addEventListener("change", function (a:any) {
-        console.log(a.target.files.length)
 
         for (let i = 0; i < a.target.files.length; i++) {
             let promesa = a.target.files[i].text();
             promesa.then(function (s:any, n:any) {
-                console.log("Contenido", s);
-            })
+                
+                let data = formatearTexto(s);
+                teclasNuevas.agregar(data);
+                nuevoTeclado = teclasNuevas.cargar();
+           
+            });
         }
     });
+
+    function formatearTexto(resultado:string){
+        let datos = []
+        let data = resultado.split("\n");
+        for (let i = 0; i < data.length; i++) {
+            let d = data[i];
+            d = d.replace(/(\r\n|\n|\r)/gm, "");
+            datos.push(d);
+        }
+        return datos;
+    }
 
 
 

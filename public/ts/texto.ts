@@ -1,4 +1,4 @@
-var nuevoTeclado: Array<Tecla> = [];
+
 
 class Sonido {
 

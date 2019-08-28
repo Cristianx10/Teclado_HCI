@@ -335,3 +335,60 @@ var Registro = /** @class */ (function () {
     };
     return Registro;
 }());
+var TecladoLoad = /** @class */ (function () {
+    function TecladoLoad(id) {
+        this.id = id;
+        var data = localStorage.getItem(id);
+        if (data != null) {
+            var datos = JSON.parse(data);
+            this.teclado = datos.teclado;
+            this.cargado = datos.cargado;
+            if (this.cargado) {
+                var e = document.querySelector("#restablecerTeclado");
+                if (e != null) {
+                    e.style.display = "block";
+                    e.addEventListener("click", this.restablecer.bind(this));
+                }
+            }
+        }
+        else {
+            this.teclado = new Array();
+            this.cargado = false;
+        }
+        this.update();
+    }
+    TecladoLoad.prototype.agregar = function (texto) {
+        this.teclado = [];
+        for (var i = 0; i < texto.length; i++) {
+            var t = texto[i];
+            var teclas = t.split("/");
+            this.teclado.push({ original: teclas[0], nuevo: teclas[1] });
+        }
+        this.cargado = true;
+        var e = document.querySelector("#restablecerTeclado");
+        if (e != null) {
+            e.style.display = "block";
+        }
+        this.update();
+    };
+    TecladoLoad.prototype.restablecer = function () {
+        this.teclado = [];
+        this.cargado = false;
+        nuevoTeclado = [];
+        var e = document.querySelector("#restablecerTeclado");
+        if (e != null) {
+            e.style.display = "none";
+        }
+        this.update();
+    };
+    TecladoLoad.prototype.estado = function () {
+        return this.cargado;
+    };
+    TecladoLoad.prototype.update = function () {
+        localStorage.setItem(this.id, JSON.stringify(this));
+    };
+    TecladoLoad.prototype.cargar = function () {
+        return this.teclado;
+    };
+    return TecladoLoad;
+}());

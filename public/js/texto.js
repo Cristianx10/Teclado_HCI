@@ -1,5 +1,4 @@
 "use strict";
-var nuevoTeclado = [];
 var Sonido = /** @class */ (function () {
     function Sonido(ruta) {
         this.elemento = document.createElement("audio");
