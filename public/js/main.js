@@ -64,9 +64,6 @@ window.addEventListener("load", function () {
     /* --------------------------------  Configuación de la navegación entre paginas -------------------------------------- */
     /* --------------------------------  Configuación de la navegación entre paginas -------------------------------------- */
     var navegador = new Navegador();
-    navegador.agregar(".ppracticanivel").setInicial(function () {
-        practica.iniciar();
-    });
     navegador.agregar(".peleccion");
     /* -------------------- Inicio de la aplciacion ---------------------- */
     navegador.agregar(".pinicio");
@@ -77,7 +74,9 @@ window.addEventListener("load", function () {
     navegador.agregar(".ppractica");
     navegador.agregar(".ppractica1");
     /* -------------------- Nivel 1 ---------------------- */
-    //---------------
+    navegador.agregar(".ppracticanivel").setInicial(function () {
+        practica.iniciar();
+    });
     navegador.agregar(".ppractica2");
     navegador.agregar(".pmundo1").setInicial(function () {
         animMundos[0].iniciar();

@@ -91,9 +91,7 @@ window.addEventListener("load", function () {
 
     var navegador = new Navegador();
 
-    navegador.agregar(".ppracticanivel").setInicial(() => {
-        practica.iniciar();
-    });
+
 
     navegador.agregar(".peleccion");
 
@@ -111,7 +109,9 @@ window.addEventListener("load", function () {
     navegador.agregar(".ppractica1");
 
     /* -------------------- Nivel 1 ---------------------- */
-//---------------
+    navegador.agregar(".ppracticanivel").setInicial(() => {
+        practica.iniciar();
+    });
 
     navegador.agregar(".ppractica2");
 
