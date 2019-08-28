@@ -217,7 +217,7 @@ window.addEventListener("load", function () {
             registro.agregarEspecificos(r);
         });
 
-        if(navegador.actual + 1 < navegador.elementos.length){
+        if(navegador.actual + 1 >= navegador.elementos.length){
             registro.tiempo.detener();
 
             let time = registro.tiempo.getTiempo() + "";

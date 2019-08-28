@@ -143,7 +143,7 @@ window.addEventListener("load", function () {
         reEspecifico.forEach(function (r) {
             registro.agregarEspecificos(r);
         });
-        if (navegador.actual + 1 < navegador.elementos.length) {
+        if (navegador.actual + 1 >= navegador.elementos.length) {
             registro.tiempo.detener();
             var time = registro.tiempo.getTiempo() + "";
             time = time.replace(".", ",");
