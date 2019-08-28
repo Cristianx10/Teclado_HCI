@@ -70,6 +70,7 @@ window.addEventListener("load", function () {
     navegador.agregar(".peleccion");
     navegador.agregar(".pinicio").setInicial(function () {
         registro.clear();
+        registro.tiempo.iniciar();
         registro.agregarRegistro("seccion", seccion + "");
         var fecha = new Date();
         registro.agregarRegistro("fecha", fecha.getDay() + "/" + fecha.getMonth() + "/" + fecha.getFullYear());
@@ -142,6 +143,12 @@ window.addEventListener("load", function () {
         reEspecifico.forEach(function (r) {
             registro.agregarEspecificos(r);
         });
+        if (navegador.actual + 1 < navegador.elementos.length) {
+            registro.tiempo.detener();
+            var time = registro.tiempo.getTiempo() + "";
+            time = time.replace(".", ",");
+            registro.agregarRegistro("tiempoEmpleado", time);
+        }
     }
     function selector(ruta) {
         var elemento = document.querySelector(ruta);

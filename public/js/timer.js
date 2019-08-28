@@ -190,6 +190,14 @@ var Navegador = /** @class */ (function () {
             this.elementoActual().accionInicial();
             this.elementoActual().mostrar();
         }
+        else {
+            if (this.final != null) {
+                this.final();
+            }
+        }
+    };
+    Navegador.prototype.setFinal = function (final) {
+        this.final = final;
     };
     Navegador.prototype.incluirEn = function (ruta) {
         this.anidado = document.querySelector(ruta);
@@ -246,6 +254,7 @@ var Registro = /** @class */ (function () {
             this.general = [];
             this.especifico = [];
         }
+        this.tiempo = new Timer();
     }
     Registro.prototype.update = function () {
         localStorage.setItem(this.origen, JSON.stringify(this));

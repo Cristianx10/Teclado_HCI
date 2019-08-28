@@ -103,10 +103,12 @@ window.addEventListener("load", function () {
     navegador.agregar(".pinicio").setInicial(() => {
         registro.clear();
 
+        registro.tiempo.iniciar();
         registro.agregarRegistro("seccion", seccion+"");
         let fecha = new Date();
         registro.agregarRegistro("fecha", `${fecha.getDay()}/${fecha.getMonth()}/${fecha.getFullYear()}`);
         registro.agregarRegistro("hora", `${fecha.getHours()}:${fecha.getMinutes()}:${fecha.getSeconds()}`);
+        
     });
 
    
@@ -207,7 +209,6 @@ window.addEventListener("load", function () {
 
         let reGeneral = e.toString();
         reGeneral.forEach((r: any) => {
-
             registro.agregarGenerales(r);
         });
 
@@ -215,6 +216,15 @@ window.addEventListener("load", function () {
         reEspecifico.forEach((r: any) => {
             registro.agregarEspecificos(r);
         });
+
+        if(navegador.actual + 1 < navegador.elementos.length){
+            registro.tiempo.detener();
+
+            let time = registro.tiempo.getTiempo() + "";
+            time = time.replace(".", ",");
+            registro.agregarRegistro("tiempoEmpleado", time);
+        }
+      
     }
 
     function selector(ruta: string) {

@@ -232,12 +232,16 @@ class Navegador {
     elementos: Array<Contenido>;
     actual: number;
     anidado?: HTMLElement;
+    final?:Function;
+   
 
     constructor() {
         this.elementos = new Array();
         this.actual = 0;
         this.elemento = document.createElement("div");
         this.elemento.className = "contenedor__nav";
+
+   
     }
 
     agregar(ruta: string) {
@@ -271,7 +275,16 @@ class Navegador {
             this.actual++;
             this.elementoActual().accionInicial();
             this.elementoActual().mostrar();
+        }else{
+            if(this.final != null){
+                this.final();
+            }
+           
         }
+    }
+
+    setFinal(final:Function){
+        this.final = final;
     }
 
     incluirEn(ruta: string) {
@@ -342,6 +355,8 @@ class Registro {
     general: Array<Array<string>>;
     especifico: Array<Array<string>>;
     origen: string;
+    
+    tiempo:Timer;
 
     constructor(origen: string) {
         this.origen = origen;
@@ -356,6 +371,7 @@ class Registro {
             this.general = [];
             this.especifico = [];
         }
+        this.tiempo = new Timer();
     }
 
     update() {
