@@ -4,6 +4,7 @@ class Sonido {
 
     elemento: HTMLAudioElement;
     recurso: HTMLSourceElement;
+    final?: Function;
 
     constructor(ruta: string) {
         this.elemento = document.createElement("audio");
@@ -11,6 +12,12 @@ class Sonido {
         this.recurso.type = "audio/mp3";
         this.recurso.src = ruta;
         this.elemento.append(this.recurso);
+
+        this.elemento.addEventListener("ended", () => {
+            if (this.final != null) {
+                this.final();
+            }
+        });
     }
 
     play() {
@@ -24,6 +31,10 @@ class Sonido {
 
     getTiempo() {
         return this.elemento.duration;
+    }
+
+    setFinal(final?:Function){
+        this.final = final;
     }
 
     stop() {
@@ -73,7 +84,7 @@ class BloqueNum {
     }
 }
 
-function eliminarDiacriticos(texto:any) {
+function eliminarDiacriticos(texto: any) {
     return texto.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u").replace("Á", "A").replace("É", "E").replace("Í", "I").replace("Ó", "O").replace("Ú", "U");
 }
 
@@ -249,6 +260,8 @@ class Texto {
     tiempo: Timer;
 
     view_tiempo: HTMLElement;
+    view_error: HTMLElement;
+
 
     constructor(texto: string, url?: string) {
         this.texto = texto;
@@ -289,15 +302,39 @@ class Texto {
         this.view_tiempo = document.createElement("div");
         this.view_tiempo.className = "view__tiempo";
 
+        this.view_error = document.createElement("div");
+        this.view_error.className = "view__error";
+        this.view_error.innerText = this.errores + "";
+
         this.tiempo.setProceso((t: number) => {
             this.view_tiempo.innerHTML = t / 1000 + "";
         });
-
-        this.verTiempo();
     }
 
-    verTiempo() {
-        this.elemento.append(this.view_tiempo);
+    verTiempo(ver?: boolean) {
+        if (ver != null) {
+            if (ver) {
+                this.elemento.append(this.view_tiempo);
+            } else {
+                this.elemento.removeChild(this.view_tiempo);
+            }
+        } else {
+            this.elemento.append(this.view_tiempo);
+        }
+    }
+
+    verError(ver?: boolean) {
+        if (ver != null) {
+            if (ver) {
+                this.elemento.append(this.view_error);
+            } else {
+                this.elemento.removeChild(this.view_error);
+            }
+        } else {
+            this.elemento.append(this.view_error);
+        }
+
+
     }
 
     agregarSonido(url?: string) {
@@ -324,9 +361,9 @@ class Texto {
         if (this.activo == false) {
             this.activo = true;
 
-            
+
             if (inicio != null) {
-               
+
                 if (inicio) {
                     this.tiempoIniciado = true;
                     this.tiempo.iniciar();
@@ -357,10 +394,10 @@ class Texto {
             this.tiempoIniciado = true;
             this.tiempo.iniciar();
         }
-        if(this.contador < this.letras.length){
+        if (this.contador < this.letras.length) {
             this.letras[this.contador].iniciarTiempo();
         }
-        
+
     }
 
     detener() {
@@ -394,6 +431,7 @@ class Texto {
                     }
                 } else {
                     this.errores++;
+                    this.view_error.innerText = this.errores + "";
                 }
             });
         }
@@ -418,7 +456,7 @@ class Texto {
     }
 }
 
-function inicioDelTiempo(){
+function inicioDelTiempo() {
 
 }
 
@@ -434,7 +472,9 @@ class TextoMultiple {
 
     btn_play?: HTMLElement;
 
-    inicial:boolean = true;
+    inicial: boolean = true;
+
+    view_proceso: HTMLElement;
 
 
     constructor(textos?: Array<string>, urls?: Array<string>) {
@@ -468,6 +508,13 @@ class TextoMultiple {
 
         this.emojiBien = emojiBien;
         this.sonidoBien = sonidoBien;
+
+        this.view_proceso = document.createElement("div");
+        this.view_proceso.className = "view__proceso";
+        this.view_proceso.innerText = this.actual + "/" + this.textos.length;
+
+
+
     }
 
     agregarMultiple(textos?: Array<string>, urls?: Array<string>) {
@@ -513,27 +560,64 @@ class TextoMultiple {
         this.elementoActual().play();
     }
 
-    iniciar(inicio?:boolean) {
+    iniciar(inicio?: boolean) {
         this.activado = true;
         let elemento = this.elementoActual();
 
-        if(inicio != null){
+        if (inicio != null) {
             this.inicial = inicio;
         }
 
-        if(this.inicial == false){
+        if (this.inicial == false) {
             document.addEventListener("keydown", this.inicioAplicacion.bind(this));
+        } else {
+            let audio = this.elementoActual().audio;
+            if (audio != null) {
+                audio.setFinal(()=>{
+                    this.iniciarTiempo();
+                });
+            }
+
         }
 
+        this.view_proceso.innerText = (this.actual + 1) + "/" + this.textos.length;
         this.continuar(elemento);
+
+
     }
 
-    inicioAplicacion(){
+    verProgreso(ver?: boolean) {
+        if (ver != null) {
+            if (ver) {
+                this.elemento.append(this.view_proceso);
+            } else {
+                this.elemento.removeChild(this.view_proceso);
+            }
+        } else {
+            this.elemento.append(this.view_proceso);
+        }
+    }
+
+    verTiempo(ver?: boolean) {
+        for (let i = 0; i < this.textos.length; i++) {
+            let t = this.textos[i];
+            t.verTiempo(ver);
+        }
+    }
+
+    verErrores(ver?: boolean) {
+        for (let i = 0; i < this.textos.length; i++) {
+            let t = this.textos[i];
+            t.verError(ver);
+        }
+    }
+
+    inicioAplicacion() {
         this.iniciarTiempo();
         document.removeEventListener("keydown", this.inicioAplicacion);
     }
 
-    iniciarTiempo(){
+    iniciarTiempo() {
         let elemento = this.elementoActual();
         elemento.iniciarTiempo();
     }
@@ -549,7 +633,7 @@ class TextoMultiple {
         this.elemento.append(elemento.elemento);
 
         elemento.iniciar(this.inicial);
-      
+
         elemento.setFinal(() => {
             this.emojiBien.iniciar();
             this.sonidoBien.play();
@@ -567,6 +651,7 @@ class TextoMultiple {
             let elemento = this.elementoActual();
             this.elemento.removeChild(elemento.elemento);
             this.actual++;
+            this.view_proceso.innerText = (this.actual + 1) + "/" + this.textos.length;
 
             if (this.actual < this.textos.length) {
                 elemento = this.elementoActual();

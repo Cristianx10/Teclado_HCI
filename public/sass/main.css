@@ -222,7 +222,8 @@ h1 {
   margin: 0;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   width: 100%;
@@ -234,7 +235,12 @@ html, body {
   background-repeat: no-repeat;
 }
 
-.contenedor, .centrar {
+.contenedor > div {
+  position: relative;
+}
+
+.contenedor,
+.centrar {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -336,7 +342,11 @@ html, body {
   max-width: 80%;
 }
 
-.pantalla {
+.pantalla,
+.contenedor__nav {
+  position: absolute;
+  top: 0;
+  height: 0;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -365,26 +375,157 @@ html, body {
   cursor: pointer;
 }
 
+.view__error {
+  position: absolute;
+  top: 50px;
+  left: 80px;
+  color: white;
+  font-size: 4em;
+}
+
+.view__error::after {
+  content: "";
+  background-image: url("/img/icons/botonError.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  top: 7px;
+  right: 67px;
+}
+
 .view__tiempo {
   color: white;
   position: absolute;
   bottom: 0;
   right: 0;
+  width: 100px;
+  font-size: 1.5em;
+}
+
+.view__proceso {
+  color: white;
+  position: absolute;
+  font-size: 4em;
+  top: 50px;
+  right: 0;
+  width: 150px;
+}
+
+.titulo__nivel {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  top: 50px;
+}
+
+.subir {
+  position: relative;
+  padding: 10px;
+  width: 250px;
+  height: 100px;
+  background-color: #2499e3;
+  -webkit-border-radius: 5px;
+  -webkit-box-shadow: 0px 3px 0px #1a71a9;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 20px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.subir input {
+  position: absolute;
+  opacity: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.subir input:hover {
+  cursor: pointer;
+}
+
+.subir__titulo {
+  margin: 0;
+  padding-bottom: 12px;
+  color: white;
+  font-size: 2em;
+  text-align: center;
+}
+
+.subir__titulo:hover {
+  cursor: pointer;
+}
+
+.subir:hover {
+  background-color: #166da3;
+}
+
+.orange {
+  background: #f5ac40;
+}
+
+.orange > div {
+  padding-bottom: 0;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.orange p {
+  width: 100%;
+  height: 100%;
+}
+
+.orange:hover {
+  cursor: pointer;
+  background: #dd8e16;
 }
 
 .circulo {
-  background: #00A4B7;
   width: 200px;
   height: 200px;
   color: white;
+  background-color: #166da3b7;
   font-size: 5em;
   border-radius: 200px;
   margin: 20px;
+  background-size: contain;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .circulo:hover {
   cursor: pointer;
   background: #0a5e68;
+}
+
+#eleccion1, #eleccion3 {
+  position: relative;
+  bottom: 100px;
 }
 
 #cargaTeclado {

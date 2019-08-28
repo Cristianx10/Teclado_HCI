@@ -237,6 +237,7 @@ class Navegador {
         this.elementos = new Array();
         this.actual = 0;
         this.elemento = document.createElement("div");
+        this.elemento.className = "contenedor__nav";
     }
 
     agregar(ruta: string) {
@@ -429,15 +430,16 @@ class Registro {
         anchor.click();
     }
 
-    getFecha(){
+    getFecha() {
         let fecha = new Date();
         let dia = fecha.getDay();
         let mes = fecha.getMonth();
+        let ano = fecha.getFullYear();
         let hora = fecha.getHours();
-        let minutos = fecha.getSeconds();
+        let minutos = fecha.getMinutes();
         let segundos = fecha.getSeconds();
-        
-        return `dia_${dia}_mes_${mes}_hora_${hora}_minutos_${minutos}_seg_${segundos}`;
+
+        return `${dia}-${mes}-${ano}_${hora}-${minutos}-${segundos}`;
     }
 
     descargarEspecifico() {
@@ -466,7 +468,7 @@ class Registro {
         let blob = new Blob([text], { type: 'text/plain' });
         let anchor = document.createElement('a');
 
-        anchor.download =  "esp_" + this.getFecha() + ".txt";
+        anchor.download = "esp_" + this.getFecha() + ".txt";
         anchor.href = (/*window.webkitURL ||*/ window.URL).createObjectURL(blob);
         anchor.dataset.downloadurl = ['text/plain', anchor.download, anchor.href].join(':');
         anchor.click();
@@ -478,7 +480,7 @@ class TecladoLoad {
     id: string;
     teclado: Array<Tecla>;
     cargado: boolean;
-    
+
 
     constructor(id: string) {
         this.id = id;
@@ -494,7 +496,12 @@ class TecladoLoad {
                 let e = <HTMLElement>document.querySelector("#restablecerTeclado");
                 if (e != null) {
                     e.style.display = "block"
-                    e.addEventListener("click",this.restablecer.bind(this) );
+                    e.addEventListener("click", this.restablecer.bind(this));
+                    e = <HTMLElement>document.querySelector("#subirTecladoTitulo");
+                    e.innerHTML = "Cambiar Teclado";
+                    e = <HTMLElement>document.querySelector("#cargaTecladoTitulo");
+                    e.innerHTML = "Tu teclado esta cargado";
+
                 }
             }
         } else {
@@ -516,6 +523,10 @@ class TecladoLoad {
         if (e != null) {
             e.style.display = "block";
         }
+        e = <HTMLElement>document.querySelector("#subirTecladoTitulo");
+        e.innerHTML = "Cambiar Teclado";
+        e = <HTMLElement>document.querySelector("#cargaTecladoTitulo");
+        e.innerHTML = "Tu teclado esta cargado";
         this.update();
     }
 
@@ -527,6 +538,12 @@ class TecladoLoad {
         if (e != null) {
             e.style.display = "none"
         }
+        e = <HTMLElement>document.querySelector("#subirTecladoTitulo");
+        e.innerHTML = "Subir teclado";
+        e = <HTMLElement>document.querySelector("#cargaTecladoTitulo");
+        e.innerHTML = "Aun no has escogido teclado";
+
+
         this.update();
     }
 

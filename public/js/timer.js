@@ -160,6 +160,7 @@ var Navegador = /** @class */ (function () {
         this.elementos = new Array();
         this.actual = 0;
         this.elemento = document.createElement("div");
+        this.elemento.className = "contenedor__nav";
     }
     Navegador.prototype.agregar = function (ruta) {
         var contenido = new Contenido(ruta);
@@ -309,10 +310,11 @@ var Registro = /** @class */ (function () {
         var fecha = new Date();
         var dia = fecha.getDay();
         var mes = fecha.getMonth();
+        var ano = fecha.getFullYear();
         var hora = fecha.getHours();
-        var minutos = fecha.getSeconds();
+        var minutos = fecha.getMinutes();
         var segundos = fecha.getSeconds();
-        return "dia_" + dia + "_mes_" + mes + "_hora_" + hora + "_minutos_" + minutos + "_seg_" + segundos;
+        return dia + "-" + mes + "-" + ano + "_" + hora + "-" + minutos + "-" + segundos;
     };
     Registro.prototype.descargarEspecifico = function () {
         var text = "";
@@ -357,6 +359,10 @@ var TecladoLoad = /** @class */ (function () {
                 if (e != null) {
                     e.style.display = "block";
                     e.addEventListener("click", this.restablecer.bind(this));
+                    e = document.querySelector("#subirTecladoTitulo");
+                    e.innerHTML = "Cambiar Teclado";
+                    e = document.querySelector("#cargaTecladoTitulo");
+                    e.innerHTML = "Tu teclado esta cargado";
                 }
             }
         }
@@ -378,6 +384,10 @@ var TecladoLoad = /** @class */ (function () {
         if (e != null) {
             e.style.display = "block";
         }
+        e = document.querySelector("#subirTecladoTitulo");
+        e.innerHTML = "Cambiar Teclado";
+        e = document.querySelector("#cargaTecladoTitulo");
+        e.innerHTML = "Tu teclado esta cargado";
         this.update();
     };
     TecladoLoad.prototype.restablecer = function () {
@@ -388,6 +398,10 @@ var TecladoLoad = /** @class */ (function () {
         if (e != null) {
             e.style.display = "none";
         }
+        e = document.querySelector("#subirTecladoTitulo");
+        e.innerHTML = "Subir teclado";
+        e = document.querySelector("#cargaTecladoTitulo");
+        e.innerHTML = "Aun no has escogido teclado";
         this.update();
     };
     TecladoLoad.prototype.estado = function () {

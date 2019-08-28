@@ -1,11 +1,17 @@
 "use strict";
 var Sonido = /** @class */ (function () {
     function Sonido(ruta) {
+        var _this = this;
         this.elemento = document.createElement("audio");
         this.recurso = document.createElement("source");
         this.recurso.type = "audio/mp3";
         this.recurso.src = ruta;
         this.elemento.append(this.recurso);
+        this.elemento.addEventListener("ended", function () {
+            if (_this.final != null) {
+                _this.final();
+            }
+        });
     }
     Sonido.prototype.play = function () {
         this.elemento.play();
@@ -16,6 +22,9 @@ var Sonido = /** @class */ (function () {
     };
     Sonido.prototype.getTiempo = function () {
         return this.elemento.duration;
+    };
+    Sonido.prototype.setFinal = function (final) {
+        this.final = final;
     };
     Sonido.prototype.stop = function () {
         this.elemento.pause();
@@ -186,13 +195,38 @@ var Texto = /** @class */ (function () {
         }
         this.view_tiempo = document.createElement("div");
         this.view_tiempo.className = "view__tiempo";
+        this.view_error = document.createElement("div");
+        this.view_error.className = "view__error";
+        this.view_error.innerText = this.errores + "";
         this.tiempo.setProceso(function (t) {
             _this.view_tiempo.innerHTML = t / 1000 + "";
         });
-        this.verTiempo();
     }
-    Texto.prototype.verTiempo = function () {
-        this.elemento.append(this.view_tiempo);
+    Texto.prototype.verTiempo = function (ver) {
+        if (ver != null) {
+            if (ver) {
+                this.elemento.append(this.view_tiempo);
+            }
+            else {
+                this.elemento.removeChild(this.view_tiempo);
+            }
+        }
+        else {
+            this.elemento.append(this.view_tiempo);
+        }
+    };
+    Texto.prototype.verError = function (ver) {
+        if (ver != null) {
+            if (ver) {
+                this.elemento.append(this.view_error);
+            }
+            else {
+                this.elemento.removeChild(this.view_error);
+            }
+        }
+        else {
+            this.elemento.append(this.view_error);
+        }
     };
     Texto.prototype.agregarSonido = function (url) {
         if (url != null) {
@@ -278,6 +312,7 @@ var Texto = /** @class */ (function () {
                 }
                 else {
                     _this.errores++;
+                    _this.view_error.innerText = _this.errores + "";
                 }
             });
         }
@@ -330,6 +365,9 @@ var TextoMultiple = /** @class */ (function () {
         }
         this.emojiBien = emojiBien;
         this.sonidoBien = sonidoBien;
+        this.view_proceso = document.createElement("div");
+        this.view_proceso.className = "view__proceso";
+        this.view_proceso.innerText = this.actual + "/" + this.textos.length;
     }
     TextoMultiple.prototype.agregarMultiple = function (textos, urls) {
         var _this = this;
@@ -370,6 +408,7 @@ var TextoMultiple = /** @class */ (function () {
         this.elementoActual().play();
     };
     TextoMultiple.prototype.iniciar = function (inicio) {
+        var _this = this;
         this.activado = true;
         var elemento = this.elementoActual();
         if (inicio != null) {
@@ -378,7 +417,41 @@ var TextoMultiple = /** @class */ (function () {
         if (this.inicial == false) {
             document.addEventListener("keydown", this.inicioAplicacion.bind(this));
         }
+        else {
+            var audio = this.elementoActual().audio;
+            if (audio != null) {
+                audio.setFinal(function () {
+                    _this.iniciarTiempo();
+                });
+            }
+        }
+        this.view_proceso.innerText = (this.actual + 1) + "/" + this.textos.length;
         this.continuar(elemento);
+    };
+    TextoMultiple.prototype.verProgreso = function (ver) {
+        if (ver != null) {
+            if (ver) {
+                this.elemento.append(this.view_proceso);
+            }
+            else {
+                this.elemento.removeChild(this.view_proceso);
+            }
+        }
+        else {
+            this.elemento.append(this.view_proceso);
+        }
+    };
+    TextoMultiple.prototype.verTiempo = function (ver) {
+        for (var i = 0; i < this.textos.length; i++) {
+            var t = this.textos[i];
+            t.verTiempo(ver);
+        }
+    };
+    TextoMultiple.prototype.verErrores = function (ver) {
+        for (var i = 0; i < this.textos.length; i++) {
+            var t = this.textos[i];
+            t.verError(ver);
+        }
     };
     TextoMultiple.prototype.inicioAplicacion = function () {
         this.iniciarTiempo();
@@ -413,6 +486,7 @@ var TextoMultiple = /** @class */ (function () {
             var elemento = this.elementoActual();
             this.elemento.removeChild(elemento.elemento);
             this.actual++;
+            this.view_proceso.innerText = (this.actual + 1) + "/" + this.textos.length;
             if (this.actual < this.textos.length) {
                 elemento = this.elementoActual();
                 this.play();

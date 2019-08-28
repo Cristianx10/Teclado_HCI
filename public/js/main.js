@@ -1,6 +1,7 @@
 "use strict";
 var keys = {};
 var registro = new Registro("resultados");
+var seccion = 0;
 var nuevoTeclado = [];
 window.addEventListener("load", function () {
     var animMundos = [];
@@ -65,10 +66,14 @@ window.addEventListener("load", function () {
     /* --------------------------------  Configuación de la navegación entre paginas -------------------------------------- */
     /* --------------------------------  Configuación de la navegación entre paginas -------------------------------------- */
     var navegador = new Navegador();
-    navegador.agregar(".peleccion");
     /* -------------------- Inicio de la aplciacion ---------------------- */
+    navegador.agregar(".peleccion");
     navegador.agregar(".pinicio").setInicial(function () {
         registro.clear();
+        registro.agregarRegistro("seccion", seccion + "");
+        var fecha = new Date();
+        registro.agregarRegistro("fecha", fecha.getDay() + "/" + fecha.getMonth() + "/" + fecha.getFullYear());
+        registro.agregarRegistro("hora", fecha.getHours() + ":" + fecha.getMinutes() + ":" + fecha.getSeconds());
     });
     /* -------------------- Formulario ---------------------- */
     navegador.agregar(".pformulario");
@@ -86,6 +91,9 @@ window.addEventListener("load", function () {
     });
     navegador.agregar(".pnivel1").setInicial(function () {
         nivel_1.iniciar();
+        nivel_1.verErrores();
+        nivel_1.verProgreso();
+        nivel_1.verTiempo();
     });
     navegador.agregar(".pnivel1finalizado");
     /* -------------------- Nivel 2 ---------------------- */
@@ -216,6 +224,18 @@ window.addEventListener("load", function () {
     var enviar = selector("#form__usuario__enviar");
     enviar.addEventListener("click", formulario);
     var carga = new createjs.LoadQueue();
+    function convertirToString(resultado) {
+        var datos = [];
+        var data = resultado.split("\n");
+        for (var i = 0; i < data.length; i++) {
+            var d = data[i];
+            d = d.replace(/(\r\n|\n|\r)/gm, "");
+            if (d != "") {
+                datos.push(d);
+            }
+        }
+        return datos;
+    }
     function eleecionSeccion(numero) {
         //Cargar el archivo
         carga.loadFile({ id: "letras", src: "/Escritos/" + numero + "/letras.txt" });
@@ -225,53 +245,23 @@ window.addEventListener("load", function () {
         carga.loadFile({ id: "audios", src: "/Escritos/" + numero + "/audios.txt" });
         carga.on("fileload", function (resultado) {
             if (resultado.item.id == "letras") {
-                var datos = [];
-                var data = resultado.result.split("\n");
-                for (var i = 0; i < data.length; i++) {
-                    var d = data[i];
-                    d = d.replace(/(\r\n|\n|\r)/gm, "");
-                    datos.push(d);
-                }
+                var datos = convertirToString(resultado.result);
                 nivel_1.agregarMultiple(datos);
             }
             if (resultado.item.id == "palabras") {
-                var datos = [];
-                var data = resultado.result.split("\n");
-                for (var i = 0; i < data.length; i++) {
-                    var d = data[i];
-                    d = d.replace(/(\r\n|\n|\r)/gm, "");
-                    datos.push(d);
-                }
+                var datos = convertirToString(resultado.result);
                 nivel_2.agregarMultiple(datos);
             }
             if (resultado.item.id == "frases") {
-                var datos = [];
-                var data = resultado.result.split("\n");
-                for (var i = 0; i < data.length; i++) {
-                    var d = data[i];
-                    d = d.replace(/(\r\n|\n|\r)/gm, "");
-                    datos.push(d);
-                }
+                var datos = convertirToString(resultado.result);
                 nivel_3.agregarMultiple(datos);
             }
             if (resultado.item.id == "dictados") {
-                var datos = [];
-                var data = resultado.result.split("\n");
-                for (var i = 0; i < data.length; i++) {
-                    var d = data[i];
-                    d = d.replace(/(\r\n|\n|\r)/gm, "");
-                    datos.push(d);
-                }
+                var datos = convertirToString(resultado.result);
                 nivel_4.agregarMultiple(datos);
             }
             if (resultado.item.id == "audios") {
-                var datos = [];
-                var data = resultado.result.split("\n");
-                for (var i = 0; i < data.length; i++) {
-                    var d = data[i];
-                    d = d.replace(/(\r\n|\n|\r)/gm, "");
-                    datos.push(d);
-                }
+                var datos = convertirToString(resultado.result);
                 nivel_4.agregarSonido(datos);
             }
         });
@@ -282,14 +272,17 @@ window.addEventListener("load", function () {
     var btn_eleccion_2 = document.querySelector("#eleccion2");
     var btn_eleccion_3 = document.querySelector("#eleccion3");
     btn_eleccion_1.addEventListener("click", function () {
+        seccion = 1;
         eleecionSeccion(1);
         seguir();
     });
     btn_eleccion_2.addEventListener("click", function () {
+        seccion = 2;
         eleecionSeccion(2);
         seguir();
     });
     btn_eleccion_3.addEventListener("click", function () {
+        seccion = 3;
         eleecionSeccion(3);
         seguir();
     });
@@ -305,13 +298,7 @@ window.addEventListener("load", function () {
         }
     });
     function formatearTexto(resultado) {
-        var datos = [];
-        var data = resultado.split("\n");
-        for (var i = 0; i < data.length; i++) {
-            var d = data[i];
-            d = d.replace(/(\r\n|\n|\r)/gm, "");
-            datos.push(d);
-        }
+        var datos = convertirToString(resultado);
         return datos;
     }
     var des = document.querySelector("#descargarseguro");

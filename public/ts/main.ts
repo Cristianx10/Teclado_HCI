@@ -1,6 +1,8 @@
 var keys: any = {};
 var registro = new Registro("resultados");
 
+var seccion = 0;
+
 var nuevoTeclado: Array<Tecla> = [];
 
 window.addEventListener("load", function () {
@@ -49,9 +51,9 @@ window.addEventListener("load", function () {
     nivel_3.setFinal(seguirnivel);
 
     var nivel_4 = new TextoMultiple();
-   
+
     nivel_4.incluirEn(".pnivel4");
-    nivel_4.setFinal(()=>{
+    nivel_4.setFinal(() => {
         seguirnivel(nivel_4);
 
         registro.descargarGeneral();
@@ -93,20 +95,25 @@ window.addEventListener("load", function () {
 
     var navegador = new Navegador();
 
-
+  
+    /* -------------------- Inicio de la aplciacion ---------------------- */
 
     navegador.agregar(".peleccion");
 
-    /* -------------------- Inicio de la aplciacion ---------------------- */
-    navegador.agregar(".pinicio").setInicial(()=>{
+    navegador.agregar(".pinicio").setInicial(() => {
         registro.clear();
+        
+        registro.agregarRegistro("seccion", seccion+"");
+        let fecha = new Date();
+        registro.agregarRegistro("fecha", `${fecha.getDay()}/${fecha.getMonth()}/${fecha.getFullYear()}`);
+        registro.agregarRegistro("hora", `${fecha.getHours()}:${fecha.getMinutes()}:${fecha.getSeconds()}`);
     });
-    
 
     /* -------------------- Formulario ---------------------- */
     navegador.agregar(".pformulario");
 
     /* -------------------- Instrucciones generales ---------------------- */
+ 
     navegador.agregar(".pinstrucciones");
 
     navegador.agregar(".ppractica");
@@ -126,7 +133,11 @@ window.addEventListener("load", function () {
 
     navegador.agregar(".pnivel1").setInicial(() => {
         nivel_1.iniciar();
+        nivel_1.verErrores();
+        nivel_1.verProgreso();
+        nivel_1.verTiempo();
     });
+
 
     navegador.agregar(".pnivel1finalizado");
 
@@ -178,7 +189,7 @@ window.addEventListener("load", function () {
     navegador.incluirEn(".contenedor");
     navegador.iniciar();
 
-    
+
 
     var siguientes = document.querySelectorAll(".siguiente");
 
@@ -287,6 +298,18 @@ window.addEventListener("load", function () {
     var carga = new createjs.LoadQueue();
 
 
+    function convertirToString(resultado:string) {
+        let datos = [];
+        let data = resultado.split("\n");
+        for (let i = 0; i < data.length; i++) {
+            let d = data[i];
+            d = d.replace(/(\r\n|\n|\r)/gm, "");
+            if(d != ""){
+                datos.push(d);
+            }
+        }
+        return datos;
+    }
 
     function eleecionSeccion(numero: number) {
         //Cargar el archivo
@@ -300,58 +323,27 @@ window.addEventListener("load", function () {
         carga.on("fileload", (resultado: any) => {
 
             if (resultado.item.id == "letras") {
-                let datos = [];
-                let data = resultado.result.split("\n");
-                for (let i = 0; i < data.length; i++) {
-                    let d = data[i];
-                    d = d.replace(/(\r\n|\n|\r)/gm, "");
-                    datos.push(d);
-                }
-
+                let datos = convertirToString(resultado.result);
                 nivel_1.agregarMultiple(datos);
             }
 
             if (resultado.item.id == "palabras") {
-                let datos = [];
-                let data = resultado.result.split("\n");
-                for (let i = 0; i < data.length; i++) {
-                    let d = data[i];
-                    d = d.replace(/(\r\n|\n|\r)/gm, "");
-                    datos.push(d);
-                }
+                let datos = convertirToString(resultado.result);
                 nivel_2.agregarMultiple(datos);
             }
 
             if (resultado.item.id == "frases") {
-                let datos = [];
-                let data = resultado.result.split("\n");
-                for (let i = 0; i < data.length; i++) {
-                    let d = data[i];
-                    d = d.replace(/(\r\n|\n|\r)/gm, "");
-                    datos.push(d);
-                }
+                let datos = convertirToString(resultado.result);
                 nivel_3.agregarMultiple(datos);
             }
 
             if (resultado.item.id == "dictados") {
-                let datos = [];
-                let data = resultado.result.split("\n");
-                for (let i = 0; i < data.length; i++) {
-                    let d = data[i];
-                    d = d.replace(/(\r\n|\n|\r)/gm, "");
-                    datos.push(d);
-                }
+                let datos = convertirToString(resultado.result);
                 nivel_4.agregarMultiple(datos);
             }
 
             if (resultado.item.id == "audios") {
-                let datos = [];
-                let data = resultado.result.split("\n");
-                for (let i = 0; i < data.length; i++) {
-                    let d = data[i];
-                    d = d.replace(/(\r\n|\n|\r)/gm, "");
-                    datos.push(d);
-                }
+                let datos = convertirToString(resultado.result);
                 nivel_4.agregarSonido(datos);
             }
 
@@ -366,56 +358,56 @@ window.addEventListener("load", function () {
     let btn_eleccion_3: HTMLElement = <HTMLElement>document.querySelector("#eleccion3");
 
     btn_eleccion_1.addEventListener("click", () => {
+        
+        seccion = 1;
         eleecionSeccion(1);
         seguir();
     });
 
     btn_eleccion_2.addEventListener("click", () => {
+    
+        seccion = 2;
         eleecionSeccion(2);
         seguir();
     });
 
     btn_eleccion_3.addEventListener("click", () => {
+   
+        seccion = 3;
         eleecionSeccion(3);
         seguir();
     });
 
 
 
-    
+
     var teclasNuevas = new TecladoLoad("teclado");
 
-  
 
-    btn_eleccion_teclado.addEventListener("change", function (a:any) {
+
+    btn_eleccion_teclado.addEventListener("change", function (a: any) {
 
         for (let i = 0; i < a.target.files.length; i++) {
             let promesa = a.target.files[i].text();
-            promesa.then(function (s:any, n:any) {
-                
+            promesa.then(function (s: any, n: any) {
+
                 let data = formatearTexto(s);
                 teclasNuevas.agregar(data);
                 nuevoTeclado = teclasNuevas.cargar();
-           
+
             });
         }
     });
 
-    function formatearTexto(resultado:string){
-        let datos = []
-        let data = resultado.split("\n");
-        for (let i = 0; i < data.length; i++) {
-            let d = data[i];
-            d = d.replace(/(\r\n|\n|\r)/gm, "");
-            datos.push(d);
-        }
+    function formatearTexto(resultado: string) {
+        let datos = convertirToString(resultado);
         return datos;
     }
 
 
-    var des:HTMLElement = <HTMLElement>document.querySelector("#descargarseguro");
+    var des: HTMLElement = <HTMLElement>document.querySelector("#descargarseguro");
 
-    des.addEventListener("click", ()=>{
+    des.addEventListener("click", () => {
         registro.descargarGeneral();
         registro.descargarEspecifico();
     });
