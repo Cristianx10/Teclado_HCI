@@ -96,7 +96,10 @@ window.addEventListener("load", function () {
     navegador.agregar(".peleccion");
 
     /* -------------------- Inicio de la aplciacion ---------------------- */
-    navegador.agregar(".pinicio");
+    navegador.agregar(".pinicio").setInicial(()=>{
+        registro.clear();
+    });
+    
 
     /* -------------------- Formulario ---------------------- */
     navegador.agregar(".pformulario");

@@ -40,7 +40,7 @@ var BloqueNum = /** @class */ (function () {
     return BloqueNum;
 }());
 function eliminarDiacriticos(texto) {
-    return texto.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+    return texto.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u").replace("Á", "A").replace("É", "E").replace("Í", "I").replace("Ó", "O").replace("Ú", "U");
 }
 var Letra = /** @class */ (function () {
     function Letra(letra) {

@@ -66,7 +66,9 @@ window.addEventListener("load", function () {
     var navegador = new Navegador();
     navegador.agregar(".peleccion");
     /* -------------------- Inicio de la aplciacion ---------------------- */
-    navegador.agregar(".pinicio");
+    navegador.agregar(".pinicio").setInicial(function () {
+        registro.clear();
+    });
     /* -------------------- Formulario ---------------------- */
     navegador.agregar(".pformulario");
     /* -------------------- Instrucciones generales ---------------------- */
