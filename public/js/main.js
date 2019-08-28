@@ -91,9 +91,6 @@ window.addEventListener("load", function () {
     });
     navegador.agregar(".pnivel1").setInicial(function () {
         nivel_1.iniciar();
-        nivel_1.verErrores();
-        nivel_1.verProgreso();
-        nivel_1.verTiempo();
     });
     navegador.agregar(".pnivel1finalizado");
     /* -------------------- Nivel 2 ---------------------- */

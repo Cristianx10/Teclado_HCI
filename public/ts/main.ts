@@ -102,7 +102,7 @@ window.addEventListener("load", function () {
 
     navegador.agregar(".pinicio").setInicial(() => {
         registro.clear();
-        
+
         registro.agregarRegistro("seccion", seccion+"");
         let fecha = new Date();
         registro.agregarRegistro("fecha", `${fecha.getDay()}/${fecha.getMonth()}/${fecha.getFullYear()}`);
@@ -133,9 +133,6 @@ window.addEventListener("load", function () {
 
     navegador.agregar(".pnivel1").setInicial(() => {
         nivel_1.iniciar();
-        nivel_1.verErrores();
-        nivel_1.verProgreso();
-        nivel_1.verTiempo();
     });
 
 
