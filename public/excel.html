@@ -1,8 +1,12 @@
 <html>
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Teclado Test</title>
 
-
+    <link rel="stylesheet" href="/sass/main.css">
 
 </head>
 
@@ -44,19 +48,13 @@
             wb.crearHoja("generales");
             wb.crearHoja("especificas");
 
-            
             resultados = datos;
-            let categorias = resultados.categorias;
-            let maximos = resultados.maximos;
-            let pruebas = resultados.pruebas;
 
 
             //Informacion
             var ws_data = [];
 
-            ws_data.push(["Valores generales de puntuacion por area"])
-
-            ws_data.push(["Area", "Puntuacion", "Porcentaje"])
+            ws_data.push(["Usuario", "Seccion", "Genero", "Edad", "Preferencia Mano", "Ocupacion", "Nivel", "Estimulo", "Tiempo", "Error", "Estudiante"])
             categorias.forEach(c => {
                 ws_data.push([c.area, c.valor, c.porcentaje])
             });

@@ -279,7 +279,7 @@ var Registro = /** @class */ (function () {
         anchor.click();
     };
     Registro.prototype.descargarGeneral = function () {
-        var text = "";
+        var text = "tipoDatos:	generales\n";
         this.usuario.forEach(function (user) {
             var temp = text;
             text = temp + user.nombre + ":	" + user.value + "\n";
@@ -317,7 +317,7 @@ var Registro = /** @class */ (function () {
         return dia + "-" + mes + "-" + ano + "_" + hora + "-" + minutos + "-" + segundos;
     };
     Registro.prototype.descargarEspecifico = function () {
-        var text = "";
+        var text = "tipoDatos:	especificos\n";
         this.usuario.forEach(function (user) {
             var temp = text;
             text = temp + user.nombre + ":	" + user.value + "\n";

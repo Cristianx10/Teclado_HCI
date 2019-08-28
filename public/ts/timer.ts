@@ -399,7 +399,7 @@ class Registro {
     }
 
     descargarGeneral() {
-        let text = "";
+        let text = "tipoDatos:	generales\n";
 
         this.usuario.forEach((user) => {
             let temp = text;
@@ -443,7 +443,7 @@ class Registro {
     }
 
     descargarEspecifico() {
-        let text = "";
+        let text = "tipoDatos:	especificos\n";
 
         this.usuario.forEach((user) => {
             let temp = text;

@@ -6,17 +6,16 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", function(request, response) {
-  response.sendfile("/index.html");
+  response.sendfile( __dirname + "/index.html");
 });
 
 app.get("/excel", function(request, response) {
-  response.sendfile("/excel.html");
+  response.sendfile( __dirname + "/public/excel.html");
 });
 
-app.listen(process.env.PORT || 1234);
+//app.listen(process.env.PORT || 1234);
 
-/*
+
 app.listen(3000, function() {
   console.log("Escuchando en el puesto 3000");
 });
-*/
