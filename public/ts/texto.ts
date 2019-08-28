@@ -224,7 +224,9 @@ class Letra {
     toString(): Array<string> {
         let dataError: Array<string> = [];
         this.errores.forEach((e) => {
-            dataError.push(`{${e.error}, ${e.tiempo}}`);
+            let ti = e.tiempo + "";
+            ti = ti.replace(".", ",");
+            dataError.push(`{${e.error}, ${ti}}`);
         });
         return [this.letra, this.tiempo.getTiempo() / 1000 + "", this.errores.length + "", JSON.stringify(dataError)];
     }
