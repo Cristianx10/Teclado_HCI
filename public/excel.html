@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -7,213 +8,43 @@
     <title>Teclado Test</title>
 
     <link rel="stylesheet" href="/sass/main.css">
-
 </head>
 
-<body>
+<body onselectstart="return false">
 
-    <div id="wrapper">
-        <input type="text" id="info_url" placeholder="Nombre.json">
-        <button id="button-a">Crear Excel</button>
+
+    <div class="contenedor centrar" style="background-image: url('/img/background_nivel.png');">
+
+        <div id="navbar">
+            <h1>Imprime los resultados</h1>
+        </div>
+
+        <div class="vertical" style="text-align: center;">
+            <h2 style="color: white;">Archivos cargados:</h2>
+            <h1 class="archivosCargados">0</h1>
+        </div>
+
+        <div>
+            <div class="subir">
+                <p id="subirTecladoTitulo" class="subir__titulo">Subir Archivos</p>
+                <input type="file" id="file-input" multiple />
+            </div>
+
+        </div>
+
+        <div>
+
+            <button id="btn__crearExcel" class="boton">Crear Excel</button>
+        </div>
+
     </div>
 
-    <div id="navbar">
-        <h1>O tambien puedes solo seleccionarlo</h1>
-
-    </div>
-    <div>
-        <input type="file" id="file-input" />
-        <h3>Contenido del archivo:</h3>
-        <pre id="contenido-archivo"></pre>
-    </div>
-
+    <script src="/lib/filesaver.js"></script>
     <script lang="javascript" src="/lib/xlsx.full.min.js"></script>
     <script src="/js/Excel.js"></script>
 
-    <script>
+    <script src="/js/generar.js"></script>
 
-        let resultados;
-        var wb = new Excel();
-
-        function convertirToString(resultado) {
-            let datos = [];
-            let data = resultado.split("\n");
-            for (let i = 0; i < data.length; i++) {
-                let d = data[i];
-                d = d.replace(/(\r\n|\n|\r)/gm, "");
-                if (d != "") {
-                    datos.push(d);
-                }
-            }
-            return datos;
-        }
-
-        function crearArchivo(datos) {
-            let titulo = "Teclado HCI";
-            let asunto = Subject = "HCI";
-            let autor = Author = "Test_HCI";
-            let fecha = new Date();
-
-            wb.autor(titulo, asunto, autor, fecha);
-
-            //Nombre de hoja
-            wb.crearHoja("generales");
-            wb.crearHoja("especificas");
-
-            resultados = convertirToString(datos);
-
-            var ws_data = [];
-
-            let seccion = 0;
-            let nombre = "";
-            let edad = "";
-            let genero = "";
-            let ocupacion = "";
-            let mano = "";
-            let nombre = "nombre"
-
-            let nivel = 0;
-
-            let n1 = 0, n2 = 0, n3 = 0, n4 = 0;
-
-            ws_data.push(["Usuario", "Seccion", "Genero", "Edad", "Preferencia Mano", "Ocupacion", "Nivel", "Estimulo", "Tiempo", "Error", "Estudiante"]);
-
-            datos.forEach((result, index) => {
-
-                let info = result.split("	");
-
-                if (result.includes("tipoDatos")) {
-
-                }
-
-                if (info.length == 2) {
-                    if (info[0].includes("seccion")) {
-                        seccion = info[1];
-                    } else if (info[0].includes("nombre")) {
-                        nombre = info[1];
-                    }
-                    else if (info[0].includes("edad")) {
-                        edad = info[1];
-                    }
-                    else if (info[0].includes("genero")) {
-                        genero = info[1];
-                    }
-                    else if (info[0].includes("ocupacion")) {
-                        ocupacion = info[1];
-                    }
-                    else if (info[0].includes("mano")) {
-                        mano = info[1];
-                    }
-                }else if(info.length == 3){
-                    if(info[0].length == 1){
-                        ws_data.push([nombre, seccion, genero, edad, mano, ocupacion, "1", info[0], info[1], info[2], nombre]);
-                    }else if (info[0].length > 1){
-
-                        let dataInfo = info[0].split(" ");
-
-                        if(dataInfo.length == 1){
-                            ws_data.push([nombre, seccion, genero, edad, mano, ocupacion, "2", info[0], info[1], info[2], nombre]);
-                        }else if(dataInfo.length > 1){
-                            if(index < result.length - 3){
-                                ws_data.push([nombre, seccion, genero, edad, mano, ocupacion, "3", info[0], info[1], info[2], nombre]);
-                            }else{
-                                ws_data.push([nombre, seccion, genero, edad, mano, ocupacion, "4", info[0], info[1], info[2], nombre]);
-                            }
-                            
-                        }
-                    }
-                }
-            });
-
-
-            //Informacion
-
-            categorias.forEach(c => {
-                ws_data.push([c.area, c.valor, c.porcentaje])
-            });
-            ws_data.push([]);
-
-            ws_data.push(["Valores maximos de puntuacion por area"])
-
-            ws_data.push(["Area", "Valor"])
-            maximos.forEach((m) => {
-                ws_data.push([m.area, m.valor])
-            });
-
-            //Convertir informacion
-            wb.cargarMatrix("Resultados", ws_data);
-
-            ws_data = [];
-            let formulario;
-
-            pruebas.forEach((p) => {
-                if (p.id == "formulario") {
-                    formulario = p;
-                } else {
-                    ws_data.push([p.id]);
-                    p.pruebas.forEach((pp) => {
-                        let val = pp.value;
-                        if (val == null) {
-                            val = pp.valor;
-                        }
-                        ws_data.push([pp.id, val]);
-                    });
-                    ws_data.push([]);
-                }
-
-            });
-
-            wb.cargarMatrix("Pruebas", ws_data);
-
-            ws_data = [];
-
-
-            ws_data.push([formulario.id]);
-
-            formulario.pruebas.forEach((pp) => {
-                let val = pp.value;
-                if (val == null) {
-                    val = pp.valor;
-                }
-                ws_data.push([pp.id, val]);
-            });
-            ws_data.push([]);
-
-
-
-            wb.cargarMatrix("Formulario", ws_data);
-            wb.guardar("Titulo.xlsx")
-        }
-
-        var crearArchivo = document.querySelector("#button-a");
-
-        crearArchivo.addEventListener("click", function () {
-            let url = document.querySelector("#info_url").value;
-            console.log(url)
-            cargar("/data/" + url);
-        });
-
-
-        function leerArchivo(e) {
-            var archivo = e.target.files[0];
-            if (!archivo) {
-                return;
-            }
-            var lector = new FileReader();
-            lector.onload = function (e) {
-                var contenido = e.target.result;
-                let datos = JSON.parse(contenido);
-                console.log(datos)
-                crearArchivo(datos);
-            };
-            lector.readAsText(archivo);
-        }
-
-        document.getElementById('file-input')
-            .addEventListener('change', leerArchivo, false);
-
-
-    </script>
 </body>
 
 </html>

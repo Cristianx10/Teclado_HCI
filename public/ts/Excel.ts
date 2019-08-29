@@ -20,7 +20,6 @@ class Excel {
     }
 
     cargarMatrix(nombre:string, valores:Array<any>){
-
         var ws = XLSX.utils.aoa_to_sheet(valores);
         this.excel.Sheets[nombre] = ws;
     }
