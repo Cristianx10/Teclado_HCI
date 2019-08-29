@@ -12,11 +12,16 @@ class Sonido {
         this.recurso.src = ruta;
         this.elemento.append(this.recurso);
 
-        this.elemento.addEventListener("ended", () => {
-            if (this.final != null) {
-                this.final();
-            }
+        this.elemento.addEventListener("loadeddata", () => {
+
+            this.elemento.addEventListener("ended", () => {
+                if (this.final != null) {
+                    this.final();
+                }
+            });
         });
+
+
     }
 
     play() {
@@ -32,7 +37,7 @@ class Sonido {
         return this.elemento.duration;
     }
 
-    setFinal(final?: Function) {
+    setFinal(final: Function) {
         this.final = final;
     }
 
@@ -221,7 +226,6 @@ class Letra {
                     this.keyCode = event.keyCode;
                     if (key == this.letra) {
 
-                        console.log(this.keyCode);
                         this.validando();
                         if (this.ocultado) {
 
@@ -256,7 +260,6 @@ class Letra {
         this.validado = true;
         this.activo = false;
         this.elemento.classList.add("validado");
-
 
         //this.tiempo.imprimir();
     }
@@ -408,7 +411,6 @@ class Texto {
             }
 
             this.audio.playEn(guia);
-            console.log("play")
         }
     }
 
@@ -622,14 +624,15 @@ class TextoMultiple {
 
         if (this.inicial == false) {
             document.addEventListener("keydown", this.inicioAplicacion.bind(this));
-        } else {
-            let audio = this.elementoActual().audio;
-            if (audio != null) {
-                audio.setFinal(() => {
-                    this.iniciarTiempo();
-                });
-            }
+        }
 
+        let audio = this.elementoActual().audio;
+        
+        if (audio != null) {
+            audio.setFinal(() => {
+                this.iniciarTiempo();
+                console.log("Termino el audio");
+            });
         }
 
         this.view_proceso.innerText = (this.actual + 1) + "/" + this.textos.length;

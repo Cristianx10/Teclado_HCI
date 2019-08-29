@@ -7,10 +7,12 @@ var Sonido = /** @class */ (function () {
         this.recurso.type = "audio/mp3";
         this.recurso.src = ruta;
         this.elemento.append(this.recurso);
-        this.elemento.addEventListener("ended", function () {
-            if (_this.final != null) {
-                _this.final();
-            }
+        this.elemento.addEventListener("loadeddata", function () {
+            _this.elemento.addEventListener("ended", function () {
+                if (_this.final != null) {
+                    _this.final();
+                }
+            });
         });
     }
     Sonido.prototype.play = function () {
@@ -137,7 +139,6 @@ var Letra = /** @class */ (function () {
                 if (key != "capslock" && key != "backspace" && key != "shift" && key != "dead") {
                     this.keyCode = event.keyCode;
                     if (key == this.letra) {
-                        console.log(this.keyCode);
                         this.validando();
                         if (this.ocultado) {
                             if (this.letra == " ") {
@@ -284,7 +285,6 @@ var Texto = /** @class */ (function () {
                 guia = this.contador * this.audio.getTiempo() / this.letras.length;
             }
             this.audio.playEn(guia);
-            console.log("play");
         }
     };
     Texto.prototype.iniciar = function (inicio) {
@@ -458,13 +458,12 @@ var TextoMultiple = /** @class */ (function () {
         if (this.inicial == false) {
             document.addEventListener("keydown", this.inicioAplicacion.bind(this));
         }
-        else {
-            var audio = this.elementoActual().audio;
-            if (audio != null) {
-                audio.setFinal(function () {
-                    _this.iniciarTiempo();
-                });
-            }
+        var audio = this.elementoActual().audio;
+        if (audio != null) {
+            audio.setFinal(function () {
+                _this.iniciarTiempo();
+                console.log("Termino el audio");
+            });
         }
         this.view_proceso.innerText = (this.actual + 1) + "/" + this.textos.length;
         this.continuar(elemento);

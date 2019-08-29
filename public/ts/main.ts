@@ -112,7 +112,7 @@ window.addEventListener("load", function () {
         registro.agregarRegistro("hora", `${fecha.getHours()}:${fecha.getMinutes()}:${fecha.getSeconds()}`);
         
     });
-   
+
     /* -------------------- Formulario ---------------------- */
     navegador.agregar(".pformulario");
 
