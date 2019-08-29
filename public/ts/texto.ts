@@ -1,5 +1,4 @@
 
-
 class Sonido {
 
     elemento: HTMLAudioElement;
@@ -33,7 +32,7 @@ class Sonido {
         return this.elemento.duration;
     }
 
-    setFinal(final?:Function){
+    setFinal(final?: Function) {
         this.final = final;
     }
 
@@ -54,6 +53,7 @@ emojiBien.agregarMultiple("/img/emoji_bien/emoji", 11);
 interface Registro_Error {
     tiempo: number;
     error: string;
+    posicion: number;
 }
 
 interface Registro_Letra {
@@ -106,11 +106,15 @@ class Letra {
     tiempoIniciado: boolean;
 
     letra: string;
-    tiempo: Timer;
+    //tiempo: Timer;
+    tiempo: any;
+
     errores: Array<Registro_Error>;
+    keyCode: number;
 
     constructor(letra: string) {
-        this.tiempo = new Timer();
+        //this.tiempo = new Timer();
+        this.tiempo = {};
         this.letra = letra.toLowerCase();
         this.letra = eliminarDiacriticos(this.letra);
         this.validado = false;
@@ -129,6 +133,26 @@ class Letra {
 
         this.sonidoError = sonidoError;
         this.tiempoIniciado = false;
+        this.keyCode = 0;
+
+    }
+
+    iniciarConteo() {
+        //this.tiempo.iniciar();
+        let fecha = new Date();
+        this.tiempo.inicial = fecha.getTime();
+    }
+
+    detenerConteo() {
+        //this.tiempo.detener();
+        let fecha = new Date();
+        this.tiempo.final = fecha.getTime();
+    }
+
+    getTiempo() {
+
+        let tiempo = this.tiempo.final - this.tiempo.inicial;
+        return tiempo / 1000;
     }
 
     iniciar(inicio?: boolean) {
@@ -137,29 +161,32 @@ class Letra {
             if (inicio != null) {
                 if (inicio) {
                     this.tiempoIniciado = true;
-                    this.tiempo.iniciar();
+                    this.iniciarConteo();
                 } else {
 
                 }
             } else {
                 this.tiempoIniciado = true;
-                this.tiempo.iniciar();
+                this.iniciarConteo();
             }
 
             this.activo = true;
             this.elemento.classList.add("underline");
         }
+
     }
 
     iniciarTiempo() {
         if (this.tiempoIniciado == false) {
             this.tiempoIniciado = true;
-            this.tiempo.iniciar();
+            this.iniciarConteo();
         }
     }
 
     detener() {
-        this.tiempo.detener();
+        this.detenerConteo();
+        //  let i = this.letra + ":" + this.tiempo.getTiempo() + "";
+        //  this.elemento.innerHTML = i;
     }
 
     ocultar() {
@@ -173,7 +200,6 @@ class Letra {
             let key: string = event.key;
             key = key.toLowerCase();
 
-
             for (let i = 0; i < nuevoTeclado.length; i++) {
                 let tecla = nuevoTeclado[i];
                 let original = tecla.original.toLowerCase();
@@ -185,7 +211,6 @@ class Letra {
             }
 
 
-
             if (keys[key] == false || keys[key] == null) {
 
                 keys[key] = true;
@@ -193,8 +218,10 @@ class Letra {
                 key = eliminarDiacriticos(key);
 
                 if (key != "capslock" && key != "backspace" && key != "shift" && key != "dead") {
-
+                    this.keyCode = event.keyCode;
                     if (key == this.letra) {
+
+                        console.log(this.keyCode);
                         this.validando();
                         if (this.ocultado) {
 
@@ -207,7 +234,10 @@ class Letra {
                         }
                         this.elemento.classList.remove("underline");
                     } else {
-                        this.errores.push({ tiempo: this.tiempo.getTiempo() / 1000, error: key });
+                        let final = new Date();
+                        let ti = final.getTime() - this.tiempo.inicial;
+
+                        this.errores.push({ tiempo: ti / 1000, error: key, posicion: this.keyCode });
 
                         this.sonidoError.stop();
                         this.sonidoError.play();
@@ -222,10 +252,11 @@ class Letra {
     }
 
     validando() {
-        this.tiempo.detener();
+        this.detener();
         this.validado = true;
         this.activo = false;
         this.elemento.classList.add("validado");
+
 
         //this.tiempo.imprimir();
     }
@@ -239,9 +270,11 @@ class Letra {
         this.errores.forEach((e) => {
             let ti = e.tiempo + "";
             ti = ti.replace(".", ",");
-            dataError.push(`{${e.error}, ${ti}}`);
+            let pos = e.posicion;
+            dataError.push(`{${e.error}, ${ti}}, ${pos}`);
         });
-        return [this.letra, this.tiempo.getTiempo() / 1000 + "", this.errores.length + "", JSON.stringify(dataError)];
+        let timeLetra = this.getTiempo();
+        return [this.letra, timeLetra + "", this.errores.length + "", this.keyCode + "", JSON.stringify(dataError)];
     }
 }
 
@@ -259,11 +292,11 @@ class Texto {
     tiempoIniciado = false;
 
     errores: number;
-    tiempo: Timer;
+    timer: Timer;
+    tiempo: any;
 
     view_tiempo: HTMLElement;
     view_error: HTMLElement;
-
 
     constructor(texto: string, url?: string) {
         this.texto = texto;
@@ -274,7 +307,8 @@ class Texto {
         this.activo = false;
 
         this.errores = 0;
-        this.tiempo = new Timer();
+        this.timer = new Timer();
+        this.tiempo = {};
 
         let palabra = document.createElement("div");
         palabra.className = "palabra";
@@ -308,9 +342,28 @@ class Texto {
         this.view_error.className = "view__error";
         this.view_error.innerText = this.errores + "";
 
-        this.tiempo.setProceso((t: number) => {
+        this.timer.setProceso((t: number) => {
             this.view_tiempo.innerHTML = t / 1000 + "";
         });
+
+    }
+
+    iniciarConteo() {
+        let fecha = new Date();
+        this.timer.iniciar();
+        // this.tiempo.inicial = tiempoGlobal.getTiempo();
+        this.tiempo.inicial = fecha.getTime();
+    }
+
+    detenerConteo() {
+        this.timer.detener();
+        let fecha = new Date();
+        this.tiempo.final = fecha.getTime();
+    }
+
+    getTiempo() {
+        let time = (this.tiempo.final - this.tiempo.inicial) / 1000;
+        return time;
     }
 
     verTiempo(ver?: boolean) {
@@ -363,19 +416,14 @@ class Texto {
         if (this.activo == false) {
             this.activo = true;
 
-
             if (inicio != null) {
-
                 if (inicio) {
                     this.tiempoIniciado = true;
-                    this.tiempo.iniciar();
-                } else {
-
+                    this.iniciarConteo();
                 }
-
             } else {
                 this.tiempoIniciado = true;
-                this.tiempo.iniciar();
+                this.iniciarConteo();
             }
 
         }
@@ -394,7 +442,7 @@ class Texto {
     iniciarTiempo() {
         if (this.tiempoIniciado == false) {
             this.tiempoIniciado = true;
-            this.tiempo.iniciar();
+            this.iniciarConteo();
         }
         if (this.contador < this.letras.length) {
             this.letras[this.contador].iniciarTiempo();
@@ -403,7 +451,8 @@ class Texto {
     }
 
     detener() {
-        this.tiempo.detener();
+        //this.tiempo.detener();
+        this.detenerConteo();
         if (this.final != null) {
             this.final();
         }
@@ -445,7 +494,8 @@ class Texto {
     }
 
     toString(): Array<string> {
-        return [this.texto, this.tiempo.getTiempo() / 1000 + "", this.errores + ""]
+        let timePalabra = this.getTiempo() + "";
+        return [this.texto, timePalabra, this.errores + ""];
     }
 
     toStringEspecificos(): Array<Array<string>> {
@@ -575,7 +625,7 @@ class TextoMultiple {
         } else {
             let audio = this.elementoActual().audio;
             if (audio != null) {
-                audio.setFinal(()=>{
+                audio.setFinal(() => {
                     this.iniciarTiempo();
                 });
             }

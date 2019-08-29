@@ -403,6 +403,7 @@ var TecladoLoad = /** @class */ (function () {
         this.teclado = [];
         this.cargado = false;
         nuevoTeclado = [];
+        nuevasTeclas = null;
         var e = document.querySelector("#restablecerTeclado");
         if (e != null) {
             e.style.display = "none";

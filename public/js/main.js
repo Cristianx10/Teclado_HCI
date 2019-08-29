@@ -2,6 +2,7 @@
 var keys = {};
 var registro = new Registro("resultados");
 var seccion = 0;
+var nuevasTeclas;
 var nuevoTeclado = [];
 window.addEventListener("load", function () {
     var animMundos = [];
@@ -101,6 +102,7 @@ window.addEventListener("load", function () {
     });
     navegador.agregar(".pnivel2").setInicial(function () {
         nivel_2.iniciar();
+        nivel_2.verTiempo();
     });
     navegador.agregar(".pnivel2finalizado");
     navegador.agregar(".pinstruccionesfrases");
@@ -298,6 +300,10 @@ window.addEventListener("load", function () {
                 var data = formatearTexto(s);
                 teclasNuevas.agregar(data);
                 nuevoTeclado = teclasNuevas.cargar();
+                for (var i_1 = 0; i_1 < nuevoTeclado.length; i_1++) {
+                    var t = nuevoTeclado[i_1];
+                    nuevasTeclas[t.original] = t.nuevo;
+                }
             });
         }
     });

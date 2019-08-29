@@ -3,6 +3,8 @@ var registro = new Registro("resultados");
 
 var seccion = 0;
 
+var nuevasTeclas:any;
+
 var nuevoTeclado: Array<Tecla> = [];
 
 window.addEventListener("load", function () {
@@ -62,7 +64,7 @@ window.addEventListener("load", function () {
 
 
     var teclado = document.addEventListener("keydown", event => {
-      
+        
         practica.keyPressed(event);
         nivel_1.keyPressed(event);
         nivel_2.keyPressed(event);
@@ -110,7 +112,6 @@ window.addEventListener("load", function () {
         registro.agregarRegistro("hora", `${fecha.getHours()}:${fecha.getMinutes()}:${fecha.getSeconds()}`);
         
     });
-
    
     /* -------------------- Formulario ---------------------- */
     navegador.agregar(".pformulario");
@@ -152,6 +153,7 @@ window.addEventListener("load", function () {
 
     navegador.agregar(".pnivel2").setInicial(() => {
         nivel_2.iniciar();
+        nivel_2.verTiempo();
     });
 
     navegador.agregar(".pnivel2finalizado");
@@ -403,6 +405,12 @@ window.addEventListener("load", function () {
                 let data = formatearTexto(s);
                 teclasNuevas.agregar(data);
                 nuevoTeclado = teclasNuevas.cargar();
+
+                for (let i = 0; i < nuevoTeclado.length; i++) {
+                    let t = nuevoTeclado[i];
+                    nuevasTeclas[t.original] = t.nuevo;
+                    
+                }
 
             });
         }

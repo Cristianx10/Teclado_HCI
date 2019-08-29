@@ -550,6 +550,7 @@ class TecladoLoad {
         this.teclado = [];
         this.cargado = false;
         nuevoTeclado = [];
+        nuevasTeclas = null;
         let e = <HTMLElement>document.querySelector("#restablecerTeclado");
         if (e != null) {
             e.style.display = "none"
