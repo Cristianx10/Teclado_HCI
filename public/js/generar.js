@@ -1,6 +1,10 @@
 
 
 window.addEventListener("load", function() {
+
+
+    var investigador = this.document.querySelector("#nombre__investigador");
+
   function convertirToString(resultado) {
     let datos = [];
     let data = resultado.split("\n");
@@ -74,6 +78,8 @@ window.addEventListener("load", function() {
 
   function crearArchivo(datos) {
     // result = convertirToString(datos);
+
+    
 
     datos.forEach((result, index) => {
       let info = result.split("	");
@@ -224,10 +230,11 @@ window.addEventListener("load", function() {
   function leerArchivo(e) {
     var archivos = e.target.files;
 
+    nombre = investigador.value;
+    investigador.value = "";
+
     for (let i = 0; i < archivos.length; i++) {
       let archivo = archivos[i];
-
-    
 
       if (!archivo) {
         return;

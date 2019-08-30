@@ -91,6 +91,10 @@
           flex-direction: row;
 }
 
+input {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
 form h2 {
   color: white;
   font-size: 2em;
