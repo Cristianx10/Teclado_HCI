@@ -1,2 +1,2 @@
-/audios/niveles/lo_que_veo_aqui_es_solo.mp3
-/audios/niveles/el_principito_que_me.mp3
+/audios/niveles2019/extraviado_en_la_soledad_de.mp3
+/audios/niveles2019/tiene_la_rara_virtud.mp3
