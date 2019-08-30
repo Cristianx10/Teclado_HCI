@@ -80,8 +80,12 @@ window.addEventListener("load", function() {
 
       if (index == 0 && info[1].includes("general")) {
         esGeneral = true;
+        contadorDeArchivos__general++;
+        contArchivosCargadosG.innerHTML = contadorDeArchivos__general;
       } else if (index == 0) {
         esGeneral = false;
+        contadorDeArchivos__especificos++;
+        contArchivosCargadosE.innerHTML = contadorDeArchivos__especificos;
       }
 
       if (esGeneral) {
@@ -213,14 +217,17 @@ window.addEventListener("load", function() {
     }
   }
 
-  var contadorDeArchivos = 0;
+  var contadorDeArchivos__general = 0;
+
+  var contadorDeArchivos__especificos = 0;
+
   function leerArchivo(e) {
     var archivos = e.target.files;
 
     for (let i = 0; i < archivos.length; i++) {
       let archivo = archivos[i];
 
-      contadorDeArchivos++;
+    
 
       if (!archivo) {
         return;
@@ -238,7 +245,7 @@ window.addEventListener("load", function() {
       };
     }
 
-    contArchivosCargados.innerHTML = contadorDeArchivos;
+    
   }
 
   var cargarDocs = document.getElementById("file-input");
@@ -249,6 +256,8 @@ window.addEventListener("load", function() {
   
   guardarExcel.addEventListener("click", imprimir);
 
-  var contArchivosCargados = document.querySelector(".archivosCargados");
+  var contArchivosCargadosG = document.querySelector(".archivosCargados__generales");
+
+  var contArchivosCargadosE = document.querySelector(".archivosCargados__especificos");
   
 });

@@ -102,7 +102,6 @@ window.addEventListener("load", function () {
     });
     navegador.agregar(".pnivel2").setInicial(function () {
         nivel_2.iniciar();
-        nivel_2.verTiempo();
     });
     navegador.agregar(".pnivel2finalizado");
     navegador.agregar(".pinstruccionesfrases");
