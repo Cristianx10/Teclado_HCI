@@ -3,7 +3,7 @@ var registro = new Registro("resultados");
 
 var seccion = 0;
 
-var nuevasTeclas:any;
+var nuevasTeclas: any;
 
 var nuevoTeclado: Array<Tecla> = [];
 
@@ -64,7 +64,7 @@ window.addEventListener("load", function () {
 
 
     var teclado = document.addEventListener("keydown", event => {
-        
+
         practica.keyPressed(event);
         nivel_1.keyPressed(event);
         nivel_2.keyPressed(event);
@@ -97,7 +97,7 @@ window.addEventListener("load", function () {
 
     var navegador = new Navegador();
 
-  
+
     /* -------------------- Inicio de la aplciacion ---------------------- */
 
     navegador.agregar(".peleccion");
@@ -106,18 +106,18 @@ window.addEventListener("load", function () {
         registro.clear();
 
         registro.tiempo.iniciar();
-        registro.agregarRegistro("seccion", seccion+"");
+        registro.agregarRegistro("seccion", seccion + "");
         let fecha = new Date();
         registro.agregarRegistro("fecha", `${fecha.getDay()}/${fecha.getMonth()}/${fecha.getFullYear()}`);
         registro.agregarRegistro("hora", `${fecha.getHours()}:${fecha.getMinutes()}:${fecha.getSeconds()}`);
-        
+
     });
 
     /* -------------------- Formulario ---------------------- */
     navegador.agregar(".pformulario");
 
     /* -------------------- Instrucciones generales ---------------------- */
- 
+
     navegador.agregar(".pinstrucciones");
 
     navegador.agregar(".ppractica");
@@ -187,6 +187,10 @@ window.addEventListener("load", function () {
 
     navegador.agregar(".pnivel4finalizado");
 
+
+
+    navegador.agregar(".finalAplicacion");
+
     /* -------------------- Configuraciones de la navegación---------------------- */
     navegador.incluirEn(".contenedor");
     navegador.iniciar();
@@ -218,14 +222,14 @@ window.addEventListener("load", function () {
             registro.agregarEspecificos(r);
         });
 
-        if(navegador.actual + 1 >= navegador.elementos.length){
+        if (navegador.actual + 1 >= navegador.elementos.length) {
             registro.tiempo.detener();
 
-            let time = registro.tiempo.getTiempo()/1000 + "";
+            let time = registro.tiempo.getTiempo() / 1000 + "";
             time = time.replace(".", ",");
             registro.agregarRegistro("tiempoEmpleado", time);
         }
-      
+
     }
 
     function selector(ruta: string) {
@@ -308,13 +312,13 @@ window.addEventListener("load", function () {
     var carga = new createjs.LoadQueue();
 
 
-    function convertirToString(resultado:string) {
+    function convertirToString(resultado: string) {
         let datos = [];
         let data = resultado.split("\n");
         for (let i = 0; i < data.length; i++) {
             let d = data[i];
             d = d.replace(/(\r\n|\n|\r)/gm, "");
-            if(d != ""){
+            if (d != "") {
                 datos.push(d);
             }
         }
@@ -368,21 +372,21 @@ window.addEventListener("load", function () {
     let btn_eleccion_3: HTMLElement = <HTMLElement>document.querySelector("#eleccion3");
 
     btn_eleccion_1.addEventListener("click", () => {
-        
+
         seccion = 1;
         eleecionSeccion(1);
         seguir();
     });
 
     btn_eleccion_2.addEventListener("click", () => {
-    
+
         seccion = 2;
         eleecionSeccion(2);
         seguir();
     });
 
     btn_eleccion_3.addEventListener("click", () => {
-   
+
         seccion = 3;
         eleecionSeccion(3);
         seguir();
@@ -397,21 +401,33 @@ window.addEventListener("load", function () {
 
     btn_eleccion_teclado.addEventListener("change", function (a: any) {
 
-        for (let i = 0; i < a.target.files.length; i++) {
-            let promesa = a.target.files[i].text();
-            promesa.then(function (s: any, n: any) {
 
-                let data = formatearTexto(s);
+        for (let i = 0; i < a.target.files.length; i++) {
+            let archivo = a.target.files[i];
+
+            var lector = new FileReader();
+            lector.onload = function (e: any) {
+
+                var contenido = e.target.result;
+
+                let data = formatearTexto(contenido);
+
                 teclasNuevas.agregar(data);
                 nuevoTeclado = teclasNuevas.cargar();
 
                 for (let i = 0; i < nuevoTeclado.length; i++) {
                     let t = nuevoTeclado[i];
-                    nuevasTeclas[t.original] = t.nuevo;
-                    
+                    try {
+                        nuevasTeclas[t.original] = t.nuevo;
+                    } catch{
+
+                    }
                 }
 
-            });
+            };
+
+            lector.readAsText(archivo);
+
         }
     });
 
@@ -427,6 +443,14 @@ window.addEventListener("load", function () {
         registro.descargarGeneral();
         registro.descargarEspecifico();
     });
+
+    var descar: HTMLElement = <HTMLElement>document.querySelector(".descargar__resultados");
+
+    descar.addEventListener("click", () => {
+        registro.descargarGeneral();
+        registro.descargarEspecifico();
+    });
+
 
 
 

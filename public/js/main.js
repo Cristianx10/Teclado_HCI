@@ -124,6 +124,7 @@ window.addEventListener("load", function () {
         nivel_4.iniciar(false);
     });
     navegador.agregar(".pnivel4finalizado");
+    navegador.agregar(".finalAplicacion");
     /* -------------------- Configuraciones de la navegación---------------------- */
     navegador.incluirEn(".contenedor");
     navegador.iniciar();
@@ -294,16 +295,23 @@ window.addEventListener("load", function () {
     var teclasNuevas = new TecladoLoad("teclado");
     btn_eleccion_teclado.addEventListener("change", function (a) {
         for (var i = 0; i < a.target.files.length; i++) {
-            var promesa = a.target.files[i].text();
-            promesa.then(function (s, n) {
-                var data = formatearTexto(s);
+            var archivo = a.target.files[i];
+            var lector = new FileReader();
+            lector.onload = function (e) {
+                var contenido = e.target.result;
+                var data = formatearTexto(contenido);
                 teclasNuevas.agregar(data);
                 nuevoTeclado = teclasNuevas.cargar();
                 for (var i_1 = 0; i_1 < nuevoTeclado.length; i_1++) {
                     var t = nuevoTeclado[i_1];
-                    nuevasTeclas[t.original] = t.nuevo;
+                    try {
+                        nuevasTeclas[t.original] = t.nuevo;
+                    }
+                    catch (_a) {
+                    }
                 }
-            });
+            };
+            lector.readAsText(archivo);
         }
     });
     function formatearTexto(resultado) {
@@ -312,6 +320,11 @@ window.addEventListener("load", function () {
     }
     var des = document.querySelector("#descargarseguro");
     des.addEventListener("click", function () {
+        registro.descargarGeneral();
+        registro.descargarEspecifico();
+    });
+    var descar = document.querySelector(".descargar__resultados");
+    descar.addEventListener("click", function () {
         registro.descargarGeneral();
         registro.descargarEspecifico();
     });
