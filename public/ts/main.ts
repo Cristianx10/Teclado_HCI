@@ -468,18 +468,15 @@ window.addEventListener("load", function () {
     var des: HTMLElement = <HTMLElement>document.querySelector("#descargarseguro");
 
     des.addEventListener("click", () => {
-        registro.descargarGeneral();
         registro.descargarEspecifico();
+        registro.descargarGeneral();
     });
 
     var descar: HTMLElement = <HTMLElement>document.querySelector(".descargar__resultados");
 
     descar.addEventListener("click", () => {
-        registro.descargarGeneral();
         registro.descargarEspecifico();
+        registro.descargarGeneral();
     });
-
-
-
 
 });

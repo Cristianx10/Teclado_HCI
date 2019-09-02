@@ -343,12 +343,12 @@ window.addEventListener("load", function () {
     }
     var des = document.querySelector("#descargarseguro");
     des.addEventListener("click", function () {
-        registro.descargarGeneral();
         registro.descargarEspecifico();
+        registro.descargarGeneral();
     });
     var descar = document.querySelector(".descargar__resultados");
     descar.addEventListener("click", function () {
-        registro.descargarGeneral();
         registro.descargarEspecifico();
+        registro.descargarGeneral();
     });
 });
