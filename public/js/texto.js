@@ -596,6 +596,62 @@ var TextoMultiple = /** @class */ (function () {
     };
     return TextoMultiple;
 }());
+var Pregunta = /** @class */ (function () {
+    function Pregunta(informacion, valor) {
+        this.valor = valor;
+        this.elemento = document.createElement("div");
+        this.elemento.className = "pregunta";
+        this.titulo = document.createElement("div");
+        this.titulo.className = "pregunta__titulo";
+        this.titulo.innerHTML = informacion;
+        this.opcionesHTML = document.createElement("div");
+        this.opcionesHTML.className = "pregunta__opciones";
+        this.elemento.append(this.titulo);
+        this.elemento.append(this.opcionesHTML);
+        this.opciones = new Array();
+    }
+    Pregunta.prototype.agregar = function (informacion, valor) {
+        var opcion = new Opcion(this, informacion, valor);
+        this.opciones.push(opcion);
+        this.opcionesHTML.append(opcion.elemento);
+    };
+    Pregunta.prototype.incluirEn = function (ruta) {
+        var contenedor = document.querySelector(ruta);
+        console.log(contenedor);
+        contenedor.append(this.elemento);
+    };
+    Pregunta.prototype.setCambio = function (cambio) {
+        this.cambio = cambio;
+    };
+    Pregunta.prototype.getPregunta = function () {
+        return this.valor;
+    };
+    Pregunta.prototype.getOpcion = function () {
+        var info = null;
+        if (this.seleccion != null) {
+            info = this.seleccion.valor;
+        }
+        return info;
+    };
+    return Pregunta;
+}());
+var Opcion = /** @class */ (function () {
+    function Opcion(pregunta, informacion, valor) {
+        var _this = this;
+        this.valor = valor;
+        this.pregunta = pregunta;
+        this.elemento = document.createElement("div");
+        this.elemento.className = "pregunta__opcion";
+        this.elemento.innerHTML = informacion;
+        this.elemento.addEventListener("click", function () {
+            _this.pregunta.seleccion = _this;
+            if (_this.pregunta.cambio != null) {
+                _this.pregunta.cambio(_this.pregunta.valor, _this.valor);
+            }
+        });
+    }
+    return Opcion;
+}());
 /*
 var l = new TextoMultiple(["hola mundo", "Tengo un nombre"]);
 l.iniciar();

@@ -5,6 +5,7 @@ var seccion = 0;
 var nuevasTeclas;
 var nuevoTeclado = [];
 window.addEventListener("load", function () {
+    var _this = this;
     var animMundos = [];
     for (var i = 0; i < 4; i++) {
         animMundos.push(new Animacion());
@@ -40,8 +41,6 @@ window.addEventListener("load", function () {
     nivel_4.incluirEn(".pnivel4");
     nivel_4.setFinal(function () {
         seguirnivel(nivel_4);
-        registro.descargarGeneral();
-        registro.descargarEspecifico();
     });
     var teclado = document.addEventListener("keydown", function (event) {
         practica.keyPressed(event);
@@ -124,6 +123,10 @@ window.addEventListener("load", function () {
         nivel_4.iniciar(false);
     });
     navegador.agregar(".pnivel4finalizado");
+    navegador.agregar(".pencuesta").setFinal(function () {
+        registro.descargarGeneral();
+        registro.descargarEspecifico();
+    });
     navegador.agregar(".finalAplicacion");
     /* -------------------- Configuraciones de la navegación---------------------- */
     navegador.incluirEn(".contenedor");
@@ -303,16 +306,96 @@ window.addEventListener("load", function () {
         seccion = 1;
         eleecionSeccion(1);
         seguir();
+        var cambios = [];
+        var cambioA = false;
+        var cambioB = false;
+        var pregunta1 = new Pregunta("¿Te sentiste frustrado realizando el ejercicio?", "¿Te sentiste frustrado realizando el ejercicio?");
+        pregunta1.agregar("<div class=\"opcion__linkert\"><input name=\"frustrado\" type=\"radio\" value=\"1\"><p>1</p></div>", "1");
+        pregunta1.agregar("<div class=\"opcion__linkert\"><input name=\"frustrado\" type=\"radio\" value=\"2\"><p>2</p></div>", "2");
+        pregunta1.agregar("<div class=\"opcion__linkert\"><input name=\"frustrado\" type=\"radio\" value=\"3\"><p>3</p></div>", "3");
+        pregunta1.agregar("<div class=\"opcion__linkert\"><input name=\"frustrado\" type=\"radio\" value=\"4\"><p>4</p></div>", "4");
+        pregunta1.agregar("<div class=\"opcion__linkert\"><input name=\"frustrado\" type=\"radio\" value=\"5\"><p>5</p></div>", "5");
+        pregunta1.incluirEn(".pregunta1");
+        var pregunta2 = new Pregunta("¿Qué tan difícil te pareció el nuevo teclado?", "¿Qué tan difícil te pareció el nuevo teclado?");
+        pregunta2.agregar("<div class=\"opcion__linkert\"><input name=\"dificultad\" type=\"radio\" value=\"1\"><p>1</p></div>", "1");
+        pregunta2.agregar("<div class=\"opcion__linkert\"><input name=\"dificultad\" type=\"radio\" value=\"2\"><p>2</p></div>", "2");
+        pregunta2.agregar("<div class=\"opcion__linkert\"><input name=\"dificultad\" type=\"radio\" value=\"3\"><p>3</p></div>", "3");
+        pregunta2.agregar("<div class=\"opcion__linkert\"><input name=\"dificultad\" type=\"radio\" value=\"4\"><p>4</p></div>", "4");
+        pregunta2.agregar("<div class=\"opcion__linkert\"><input name=\"dificultad\" type=\"radio\" value=\"5\"><p>5</p></div>", "5");
+        pregunta2.incluirEn(".pregunta1");
+        pregunta1.setCambio(function () {
+            if (cambioA == false) {
+                cambios.push("a");
+                cambioA = true;
+                if (cambios.length > 1) {
+                    btn__encuesta1.disabled = false;
+                }
+            }
+        });
+        pregunta2.setCambio(function () {
+            if (cambioB == false) {
+                cambios.push("B");
+                cambioB = true;
+                _this.console.log(cambios.length);
+                if (cambios.length > 1) {
+                    btn__encuesta1.disabled = false;
+                }
+            }
+        });
+        var btn__encuesta1 = document.querySelector("#contestarEncuesta");
+        btn__encuesta1.addEventListener("click", function () {
+            registro.agregarRegistro("pregunta", pregunta1.getPregunta() + ": " + pregunta1.getOpcion());
+            registro.agregarRegistro("pregunta2", pregunta2.getPregunta() + ": " + pregunta2.getOpcion());
+            seguir();
+        });
     });
     btn_eleccion_2.addEventListener("click", function () {
         seccion = 2;
         eleecionSeccion(2);
         seguir();
+        var cambios = [];
+        var cambioC = false;
+        var pregunta3 = new Pregunta("<h2 style=\"text-align:center;\">Siento que mi desempe\u00F1o en relaci\u00F3n con la prueba anterior:", "Siento que mi desempeño en relación con la prueba anterior:");
+        pregunta3.agregar("<div class=\"opcion__linkert\"><input name=\"dificultad\" type=\"radio\" value=\"1\"><p>Mejoro</p></div>", "1");
+        pregunta3.agregar("<div class=\"opcion__linkert\"><input name=\"dificultad\" type=\"radio\" value=\"2\"><p>Fue igual</p></div>", "2");
+        pregunta3.agregar("<div class=\"opcion__linkert\"><input name=\"dificultad\" type=\"radio\" value=\"3\"><p>Mejoro</p></div>", "3");
+        pregunta3.incluirEn(".pregunta1");
+        pregunta3.setCambio(function () {
+            if (cambioC == false) {
+                cambios.push("B");
+                cambioC = true;
+                btn__encuesta1.disabled = false;
+            }
+        });
+        var btn__encuesta1 = document.querySelector("#contestarEncuesta");
+        btn__encuesta1.addEventListener("click", function () {
+            registro.agregarRegistro("pregunta3", pregunta3.getPregunta() + ": " + pregunta3.getOpcion());
+            seguir();
+        });
     });
     btn_eleccion_3.addEventListener("click", function () {
         seccion = 3;
         eleecionSeccion(3);
         seguir();
+        var cambios = [];
+        var cambioC = false;
+        var pregunta3 = new Pregunta("<h2 style=\"text-align:center;\">Siento que mi desempe\u00F1o en relaci\u00F3n con la prueba anterior:", "Siento que mi desempeño en relación con la prueba anterior:");
+        pregunta3.agregar("<div class=\"opcion__linkert\"><input name=\"dificultad\" type=\"radio\" value=\"1\"><p>Mejoro</p></div>", "1");
+        pregunta3.agregar("<div class=\"opcion__linkert\"><input name=\"dificultad\" type=\"radio\" value=\"2\"><p>Fue igual</p></div>", "2");
+        pregunta3.agregar("<div class=\"opcion__linkert\"><input name=\"dificultad\" type=\"radio\" value=\"3\"><p>Mejoro</p></div>", "3");
+        pregunta3.incluirEn(".pregunta1");
+        pregunta3.setCambio(function () {
+            if (cambioC == false) {
+                cambios.push("B");
+                cambioC = true;
+                btn__encuesta1.disabled = false;
+            }
+        });
+        var btn__encuesta1 = document.querySelector("#contestarEncuesta");
+        btn__encuesta1.addEventListener("click", function () {
+            registro.agregarRegistro("pregunta", pregunta3.getPregunta() + ": " + pregunta3.getOpcion());
+            seguir();
+        });
     });
     var teclasNuevas = new TecladoLoad("teclado");
     nuevoTeclado = teclasNuevas.cargar();

@@ -786,6 +786,89 @@ class TextoMultiple {
     }
 }
 
+class Pregunta{
+
+    elemento:HTMLElement;
+    opciones:Array<Opcion>;
+    seleccion?:Opcion;
+    titulo:HTMLElement;
+    opcionesHTML:HTMLElement;
+
+    cambio?:Function;
+
+    valor:string;
+   
+    constructor(informacion:string, valor:string){
+        this.valor = valor;
+        this.elemento = document.createElement("div");
+        this.elemento.className = "pregunta";
+        
+        this.titulo = document.createElement("div");
+        this.titulo.className = "pregunta__titulo";
+        this.titulo.innerHTML = informacion;
+
+        this.opcionesHTML = document.createElement("div");
+        this.opcionesHTML.className = "pregunta__opciones";
+
+        this.elemento.append(this.titulo);
+        this.elemento.append(this.opcionesHTML);
+      
+        this.opciones = new Array();
+
+    }
+
+    agregar(informacion:string, valor:string){
+  
+        let opcion = new Opcion(this, informacion, valor)
+        this.opciones.push(opcion);
+        this.opcionesHTML.append(opcion.elemento);
+    }
+
+    incluirEn(ruta:string){
+        let contenedor:HTMLElement = <HTMLElement>document.querySelector(ruta);
+        console.log(contenedor)
+        contenedor.append(this.elemento);
+    }
+
+    setCambio(cambio:Function){
+        this.cambio = cambio;
+    }
+
+    getPregunta(){
+        return this.valor;
+    }
+
+    getOpcion(){
+        let info = null;
+        if(this.seleccion != null){
+            info = this.seleccion.valor;
+        }
+        return info;
+    }
+}
+
+class Opcion{
+    pregunta:Pregunta;
+    elemento:HTMLElement;
+    valor:string
+
+    constructor(pregunta:Pregunta, informacion:string, valor:string){
+        this.valor = valor;
+        this.pregunta = pregunta;
+        this.elemento = document.createElement("div");
+        this.elemento.className = "pregunta__opcion";
+
+        this.elemento.innerHTML = informacion;
+
+        this.elemento.addEventListener("click", ()=>{
+            this.pregunta.seleccion = this;
+            if(this.pregunta.cambio != null){
+                this.pregunta.cambio(this.pregunta.valor, this.valor);
+            }
+        });
+    }
+}
+
 /*
 var l = new TextoMultiple(["hola mundo", "Tengo un nombre"]);
 l.iniciar();

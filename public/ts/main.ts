@@ -58,8 +58,7 @@ window.addEventListener("load", function () {
     nivel_4.setFinal(() => {
         seguirnivel(nivel_4);
 
-        registro.descargarGeneral();
-        registro.descargarEspecifico();
+        
     });
 
 
@@ -96,7 +95,7 @@ window.addEventListener("load", function () {
     /* --------------------------------  Configuación de la navegación entre paginas -------------------------------------- */
 
     var navegador = new Navegador();
-
+  
 
     /* -------------------- Inicio de la aplciacion ---------------------- */
 
@@ -187,7 +186,10 @@ window.addEventListener("load", function () {
 
     navegador.agregar(".pnivel4finalizado");
 
-
+    navegador.agregar(".pencuesta").setFinal(()=>{
+        registro.descargarGeneral();
+        registro.descargarEspecifico();
+    });
 
     navegador.agregar(".finalAplicacion");
 
@@ -311,7 +313,7 @@ window.addEventListener("load", function () {
 
     let carrera: HTMLSelectElement = <HTMLSelectElement>document.querySelector("#form-carrera")
 
-    carrera.addEventListener("change", ()=> {
+    carrera.addEventListener("change", () => {
         let selectedOption = carrera.options[carrera.selectedIndex];
         let info = selectedOption.text;
 
@@ -399,11 +401,69 @@ window.addEventListener("load", function () {
     let btn_eleccion_2: HTMLElement = <HTMLElement>document.querySelector("#eleccion2");
     let btn_eleccion_3: HTMLElement = <HTMLElement>document.querySelector("#eleccion3");
 
+
+
     btn_eleccion_1.addEventListener("click", () => {
 
         seccion = 1;
         eleecionSeccion(1);
         seguir();
+
+        let cambios = [];
+        let cambioA = false;
+        let cambioB = false;
+
+
+        var pregunta1 = new Pregunta("¿Te sentiste frustrado realizando el ejercicio?", "¿Te sentiste frustrado realizando el ejercicio?");
+        pregunta1.agregar(`<div class="opcion__linkert"><input name="frustrado" type="radio" value="1"><p>1</p></div>`, "1");
+        pregunta1.agregar(`<div class="opcion__linkert"><input name="frustrado" type="radio" value="2"><p>2</p></div>`, "2");
+        pregunta1.agregar(`<div class="opcion__linkert"><input name="frustrado" type="radio" value="3"><p>3</p></div>`, "3");
+        pregunta1.agregar(`<div class="opcion__linkert"><input name="frustrado" type="radio" value="4"><p>4</p></div>`, "4");
+        pregunta1.agregar(`<div class="opcion__linkert"><input name="frustrado" type="radio" value="5"><p>5</p></div>`, "5");
+
+        pregunta1.incluirEn(".pregunta1");
+
+        var pregunta2 = new Pregunta("¿Qué tan difícil te pareció el nuevo teclado?", "¿Qué tan difícil te pareció el nuevo teclado?");
+        pregunta2.agregar(`<div class="opcion__linkert"><input name="dificultad" type="radio" value="1"><p>1</p></div>`, "1");
+        pregunta2.agregar(`<div class="opcion__linkert"><input name="dificultad" type="radio" value="2"><p>2</p></div>`, "2");
+        pregunta2.agregar(`<div class="opcion__linkert"><input name="dificultad" type="radio" value="3"><p>3</p></div>`, "3");
+        pregunta2.agregar(`<div class="opcion__linkert"><input name="dificultad" type="radio" value="4"><p>4</p></div>`, "4");
+        pregunta2.agregar(`<div class="opcion__linkert"><input name="dificultad" type="radio" value="5"><p>5</p></div>`, "5");
+
+        pregunta2.incluirEn(".pregunta1");
+
+        pregunta1.setCambio(() => {
+            if (cambioA == false) {
+                cambios.push("a");
+                cambioA = true;
+                if (cambios.length > 1) {
+                    btn__encuesta1.disabled = false
+                }
+            }
+
+
+        });
+
+        pregunta2.setCambio(() => {
+            if (cambioB == false) {
+                cambios.push("B");
+                cambioB = true;
+              this.console.log(cambios.length)
+                if (cambios.length > 1) {
+                    btn__encuesta1.disabled = false
+                }
+            }
+        });
+
+
+        var btn__encuesta1: HTMLButtonElement = <HTMLButtonElement>document.querySelector("#contestarEncuesta");
+
+        btn__encuesta1.addEventListener("click", () => {
+            registro.agregarRegistro("pregunta", pregunta1.getPregunta() + ": " + pregunta1.getOpcion());
+            registro.agregarRegistro("pregunta2", pregunta2.getPregunta() + ": " + pregunta2.getOpcion());
+            seguir();
+        });
+
     });
 
     btn_eleccion_2.addEventListener("click", () => {
@@ -411,6 +471,32 @@ window.addEventListener("load", function () {
         seccion = 2;
         eleecionSeccion(2);
         seguir();
+
+        let cambios = [];
+        let cambioC = false;
+    
+        var pregunta3 = new Pregunta(`<h2 style="text-align:center;">Siento que mi desempeño en relación con la prueba anterior:`, "Siento que mi desempeño en relación con la prueba anterior:");
+        pregunta3.agregar(`<div class="opcion__linkert"><input name="dificultad" type="radio" value="1"><p>Mejoro</p></div>`, "1");
+        pregunta3.agregar(`<div class="opcion__linkert"><input name="dificultad" type="radio" value="2"><p>Fue igual</p></div>`, "2");
+        pregunta3.agregar(`<div class="opcion__linkert"><input name="dificultad" type="radio" value="3"><p>Mejoro</p></div>`, "3");
+    
+        pregunta3.incluirEn(".pregunta1");
+    
+        pregunta3.setCambio(() => {
+            if (cambioC == false) {
+                cambios.push("B");
+                cambioC = true;
+                btn__encuesta1.disabled = false
+            }
+        });
+
+        var btn__encuesta1: HTMLButtonElement = <HTMLButtonElement>document.querySelector("#contestarEncuesta");
+
+        btn__encuesta1.addEventListener("click", () => {
+            registro.agregarRegistro("pregunta3", pregunta3.getPregunta() + ": " + pregunta3.getOpcion());
+            seguir();
+        });
+
     });
 
     btn_eleccion_3.addEventListener("click", () => {
@@ -418,6 +504,32 @@ window.addEventListener("load", function () {
         seccion = 3;
         eleecionSeccion(3);
         seguir();
+
+        
+        let cambios = [];
+        let cambioC = false;
+    
+        var pregunta3 = new Pregunta(`<h2 style="text-align:center;">Siento que mi desempeño en relación con la prueba anterior:`, "Siento que mi desempeño en relación con la prueba anterior:");
+        pregunta3.agregar(`<div class="opcion__linkert"><input name="dificultad" type="radio" value="1"><p>Mejoro</p></div>`, "1");
+        pregunta3.agregar(`<div class="opcion__linkert"><input name="dificultad" type="radio" value="2"><p>Fue igual</p></div>`, "2");
+        pregunta3.agregar(`<div class="opcion__linkert"><input name="dificultad" type="radio" value="3"><p>Mejoro</p></div>`, "3");
+    
+        pregunta3.incluirEn(".pregunta1");
+    
+        pregunta3.setCambio(() => {
+            if (cambioC == false) {
+                cambios.push("B");
+                cambioC = true;
+                btn__encuesta1.disabled = false
+            }
+        });
+
+        var btn__encuesta1: HTMLButtonElement = <HTMLButtonElement>document.querySelector("#contestarEncuesta");
+
+        btn__encuesta1.addEventListener("click", () => {
+            registro.agregarRegistro("pregunta", pregunta3.getPregunta() + ": " + pregunta3.getOpcion());
+            seguir();
+        });
     });
 
 
@@ -478,5 +590,12 @@ window.addEventListener("load", function () {
         registro.descargarEspecifico();
         registro.descargarGeneral();
     });
+
+  
+
+
+
+
+
 
 });

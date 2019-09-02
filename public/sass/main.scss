@@ -314,3 +314,54 @@ body {
         top: 0;
     }
 }
+
+
+/*Estilos de pregunta*/
+
+.boton:disabled{
+    background-color: #FEBE5B;
+
+    &:hover{
+        color: black;
+    }
+}
+
+.pregunta{
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 50%;
+
+    &__titulo{
+        font-size: 3em;
+        color: white;
+    }
+
+    &__opciones{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+.opcion__linkert{
+    width: 100px;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    input{
+        width: 20px;
+        height: 20px;
+    }
+
+    p{
+        color: white;
+    }
+}
