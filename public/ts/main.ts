@@ -187,8 +187,8 @@ window.addEventListener("load", function () {
     navegador.agregar(".pnivel4finalizado");
 
     navegador.agregar(".pencuesta").setFinal(()=>{
-        registro.descargarGeneral();
         registro.descargarEspecifico();
+        registro.descargarGeneral();
     });
 
     navegador.agregar(".finalAplicacion");

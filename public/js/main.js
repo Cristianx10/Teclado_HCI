@@ -124,8 +124,8 @@ window.addEventListener("load", function () {
     });
     navegador.agregar(".pnivel4finalizado");
     navegador.agregar(".pencuesta").setFinal(function () {
-        registro.descargarGeneral();
         registro.descargarEspecifico();
+        registro.descargarGeneral();
     });
     navegador.agregar(".finalAplicacion");
     /* -------------------- Configuraciones de la navegación---------------------- */
