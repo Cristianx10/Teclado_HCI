@@ -315,6 +315,7 @@ window.addEventListener("load", function () {
         seguir();
     });
     var teclasNuevas = new TecladoLoad("teclado");
+    nuevoTeclado = teclasNuevas.cargar();
     btn_eleccion_teclado.addEventListener("change", function (a) {
         for (var i = 0; i < a.target.files.length; i++) {
             var archivo = a.target.files[i];

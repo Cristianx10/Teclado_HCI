@@ -424,7 +424,7 @@ window.addEventListener("load", function () {
 
 
     var teclasNuevas = new TecladoLoad("teclado");
-
+    nuevoTeclado = teclasNuevas.cargar();
 
 
     btn_eleccion_teclado.addEventListener("change", function (a: any) {
