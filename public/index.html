@@ -113,8 +113,73 @@
 
 
                     <label>
-                        <h2>Carrera:</h2>
-                        <input id="form__usuario__ocupacion" type="text" placeholder="Mi carrera es:">
+                        <h2>Carrera: <span id="form__usuario__carrera" class="error"></span></h2>
+                        
+                        <select style="height: 50px" id="form-carrera" name="carrera">
+                            <option selected value="0"> Elige una opción </option>
+                            <optgroup label="Ingenieria">
+                              <option value="1">Ing. de Sistemas</option>
+                              <option value="2">Ing. Telematica</option>
+                              <option value="3">Ing. Industrial</option>
+                              <option value="4">Ing. Bioquímica</option>
+                            </optgroup>
+                            <optgroup label="Diseño">
+                              <option value="10">Diseño de Medios</option>
+                              <option value="11">Diseño Industrial</option>
+                              <option value="12">Diseño Grafico</option>
+                              <option value="9">Diseño de Modas</option>
+                            </optgroup>
+                            <optgroup label="Deporte">
+                              <option value="5">Natación</option>
+                              <option value="6">Tenis</option>
+                              <option value="7">Kung Fu</option>
+                              <option value="8">Ciclismo</option>
+                            </optgroup>
+                            <optgroup label="C. De la Salud">
+                              <option value="10">Odontología</option>
+                              <option value="11">Medicina general</option>
+                              <option value="12">Enfermería</option>
+                              <option value="13">Cirugía</option>
+                            </optgroup>
+                            <optgroup label="Ciencias">
+                              <option value="14">Farmaceutica</option>
+                              <option value="15">Biología</option>
+                              <option value="16">Química</option>
+                            </optgroup>
+                            <optgroup label="Artes">
+                              <option value="17">Visuales</option>
+                              <option value="18">Literatura</option>
+                              <option value="19">Música</option>
+                            </optgroup>
+                            <optgroup label="Ciencias sociales">
+                                <option value="20">Antropologia</option>
+                                <option value="21">Ciencia Politica</option>
+                                <option value="22">Derecho</option>
+                                <option value="23">Psicologia</option>
+                                <option value="24">Sociologia</option>
+                                <option value="25">Musica</option>
+                              </optgroup>
+                              <optgroup label="Ciencias administrativas y eco.">
+                                  <option value="26">Administracion de empresas</option>
+                                  <option value="27">Economia</option>
+                                  <option value="28">Mercadeo y Publicidad</option>
+                                  <option value="29">Economia</option>
+                                  <option value="30">Finanzas</option>
+                                </optgroup>
+                                <optgroup label="Ciencias de la educacion">
+                                    <option value="20">Lic. Basica Primaria</option>
+                                    <option value="20">Lic. Literatura</option>
+                                    <option value="20">Lic. Artes</option>
+                                    <option value="20">Lic. Lenguas</option>
+                                    <option value="20">Lic. Ciencias Naturales</option>
+                                    <option value="20">Lic. Ciencias Sociales</option>
+                                  </optgroup>
+                            <optgroup label="Otro">
+                              <option value="20">Otra</option>
+                            </optgroup>
+                          </select>
+                          <input id="form__usuario__ocupacion" type="text" placeholder="Mi carrera es:">
+
                     </label>
 
                     <div>

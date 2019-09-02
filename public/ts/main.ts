@@ -246,7 +246,8 @@ window.addEventListener("load", function () {
     let genero: any = selector("#form__usuario__genero");
     let hombre: any = selector("#form__usuario__genero__hombre");
     let mujer: any = selector("#form__usuario__genero__mujer");
-    let ocuapcion: any = selector("#form__usuario__ocupacion");
+    let carrera__error: any = selector("#form__usuario__carrera");
+    let ocuapcion: HTMLInputElement = <HTMLInputElement>selector("#form__usuario__ocupacion");
     let mano: any = selector("#form__usuario__mano");
     let izquierda: any = selector("#form__usuario__mano__izquierda");
     let derecha: any = selector("#form__usuario__mano__derecha");
@@ -268,7 +269,10 @@ window.addEventListener("load", function () {
         }
     }
 
+    ocuapcion.style.display = "none";
+
     function formulario() {
+
         if (nombre.value == "") {
             nombre.setCustomValidity("Ingresa su nombre, por favor");
         } else if (edad.value == "" || isNaN(edad.value)) {
@@ -276,6 +280,7 @@ window.addEventListener("load", function () {
         } else if (hombre.checked == false && mujer.checked == false) {
             genero.innerHTML = "Selecione su genero, por favor";
         } else if (ocuapcion.value == "") {
+            carrera__error.innerHTML = "Selecione una carrera, por favor";
             ocuapcion.setCustomValidity("Ingresa su ocupación, por favor");
         } else if (izquierda.checked == false && derecha.checked == false) {
             mano.innerHTML = "Selecione una orientacion, por favor";
@@ -303,6 +308,29 @@ window.addEventListener("load", function () {
     normalizar(genero, mujer, hombre);
     normalizar(ocuapcion);
     normalizar(mano, izquierda, derecha);
+
+    let carrera: HTMLSelectElement = <HTMLSelectElement>document.querySelector("#form-carrera")
+
+    carrera.addEventListener("change", ()=> {
+        let selectedOption = carrera.options[carrera.selectedIndex];
+        let info = selectedOption.text;
+
+        if (info == "Elige una opción") {
+            carrera__error.innerHTML = "Selecione una carrera, por favor";
+            ocuapcion.value = "";
+        } else if (info == "Otra") {
+            carrera__error.innerHTML = "Selecione una carrera, por favor";
+            ocuapcion.value = "";
+            ocuapcion.style.display = "flex";
+        } else {
+            carrera__error.innerHTML = "";
+            ocuapcion.style.display = "none";
+            ocuapcion.value = info;
+        }
+    });
+
+
+
 
     let enviar: any = selector("#form__usuario__enviar");
     enviar.addEventListener("click", formulario);

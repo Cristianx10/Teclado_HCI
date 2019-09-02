@@ -166,6 +166,7 @@ window.addEventListener("load", function () {
     var genero = selector("#form__usuario__genero");
     var hombre = selector("#form__usuario__genero__hombre");
     var mujer = selector("#form__usuario__genero__mujer");
+    var carrera__error = selector("#form__usuario__carrera");
     var ocuapcion = selector("#form__usuario__ocupacion");
     var mano = selector("#form__usuario__mano");
     var izquierda = selector("#form__usuario__mano__izquierda");
@@ -187,6 +188,7 @@ window.addEventListener("load", function () {
             });
         }
     }
+    ocuapcion.style.display = "none";
     function formulario() {
         if (nombre.value == "") {
             nombre.setCustomValidity("Ingresa su nombre, por favor");
@@ -198,6 +200,7 @@ window.addEventListener("load", function () {
             genero.innerHTML = "Selecione su genero, por favor";
         }
         else if (ocuapcion.value == "") {
+            carrera__error.innerHTML = "Selecione una carrera, por favor";
             ocuapcion.setCustomValidity("Ingresa su ocupación, por favor");
         }
         else if (izquierda.checked == false && derecha.checked == false) {
@@ -227,6 +230,25 @@ window.addEventListener("load", function () {
     normalizar(genero, mujer, hombre);
     normalizar(ocuapcion);
     normalizar(mano, izquierda, derecha);
+    var carrera = document.querySelector("#form-carrera");
+    carrera.addEventListener("change", function () {
+        var selectedOption = carrera.options[carrera.selectedIndex];
+        var info = selectedOption.text;
+        if (info == "Elige una opción") {
+            carrera__error.innerHTML = "Selecione una carrera, por favor";
+            ocuapcion.value = "";
+        }
+        else if (info == "Otra") {
+            carrera__error.innerHTML = "Selecione una carrera, por favor";
+            ocuapcion.value = "";
+            ocuapcion.style.display = "flex";
+        }
+        else {
+            carrera__error.innerHTML = "";
+            ocuapcion.style.display = "none";
+            ocuapcion.value = info;
+        }
+    });
     var enviar = selector("#form__usuario__enviar");
     enviar.addEventListener("click", formulario);
     var carga = new createjs.LoadQueue();
