@@ -567,8 +567,6 @@ class TextoMultiple {
         this.view_proceso.className = "view__proceso";
         this.view_proceso.innerText = this.actual + "/" + this.textos.length;
 
-
-
     }
 
     agregarMultiple(textos?: Array<string>, urls?: Array<string>) {
@@ -637,7 +635,26 @@ class TextoMultiple {
 
         this.view_proceso.innerText = (this.actual + 1) + "/" + this.textos.length;
         this.continuar(elemento);
+    }
 
+    detenerTodo(){
+
+        let elemento = this.elementoActual();
+
+        if (this.actual < this.textos.length) {
+            elemento.detener();
+            this.elemento.removeChild(elemento.elemento);
+            this.actual = this.textos.length - 1;
+            this.view_proceso.innerText = (this.actual + 1) + "/" + this.textos.length;
+
+            if (this.actual < this.textos.length) {
+                elemento = this.elementoActual();
+                this.play();
+                this.continuar(elemento);
+            } else {
+                this.detener();
+            }
+        }
 
     }
 
@@ -701,6 +718,8 @@ class TextoMultiple {
         });
     }
 
+    
+
     siguiente() {
         if (this.actual < this.textos.length) {
             let elemento = this.elementoActual();
@@ -746,6 +765,10 @@ class TextoMultiple {
 
     setFinal(final: Function) {
         this.final = final;
+    }
+
+    cambiarUbicacion(ruta:string){
+        this.elemento = <HTMLElement>document.querySelector(ruta);
     }
 
     incluirEn(ruta: string) {

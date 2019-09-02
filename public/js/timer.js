@@ -233,9 +233,11 @@ var Contenido = /** @class */ (function () {
     };
     Contenido.prototype.setInicial = function (accion) {
         this.accionInicial = accion;
+        return this;
     };
     Contenido.prototype.setFinal = function (accion) {
         this.accionFinal = accion;
+        return this;
     };
     return Contenido;
 }());

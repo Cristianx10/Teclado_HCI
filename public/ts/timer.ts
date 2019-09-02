@@ -337,10 +337,12 @@ class Contenido {
 
     setInicial(accion: Function) {
         this.accionInicial = accion;
+        return this;
     }
 
     setFinal(accion: Function) {
         this.accionFinal = accion;
+        return this;
     }
 }
 

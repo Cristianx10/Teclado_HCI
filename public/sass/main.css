@@ -540,4 +540,23 @@ body {
 #restablecerTeclado {
   display: none;
 }
+
+.practica__blue {
+  position: relative;
+}
+
+.practica__blue .texto {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.practica__blue .letra {
+  color: #00A6B6;
+}
+
+.practica__blue .contenedor__animacion {
+  position: absolute;
+  top: 0;
+}
 /*# sourceMappingURL=main.css.map */
