@@ -476,7 +476,7 @@ window.addEventListener("load", function () {
         let cambioC = false;
     
         var pregunta3 = new Pregunta(`<h2 style="text-align:center;">Siento que mi desempeño en relación con la prueba anterior:`, "Siento que mi desempeño en relación con la prueba anterior:");
-        pregunta3.agregar(`<div class="opcion__linkert"><input name="dificultad" type="radio" value="1"><p>Mejoro</p></div>`, "1");
+        pregunta3.agregar(`<div class="opcion__linkert"><input name="dificultad" type="radio" value="1"><p>Empeoro</p></div>`, "1");
         pregunta3.agregar(`<div class="opcion__linkert"><input name="dificultad" type="radio" value="2"><p>Fue igual</p></div>`, "2");
         pregunta3.agregar(`<div class="opcion__linkert"><input name="dificultad" type="radio" value="3"><p>Mejoro</p></div>`, "3");
     
@@ -510,7 +510,7 @@ window.addEventListener("load", function () {
         let cambioC = false;
     
         var pregunta3 = new Pregunta(`<h2 style="text-align:center;">Siento que mi desempeño en relación con la prueba anterior:`, "Siento que mi desempeño en relación con la prueba anterior:");
-        pregunta3.agregar(`<div class="opcion__linkert"><input name="dificultad" type="radio" value="1"><p>Mejoro</p></div>`, "1");
+        pregunta3.agregar(`<div class="opcion__linkert"><input name="dificultad" type="radio" value="1"><p>Empeoro</p></div>`, "1");
         pregunta3.agregar(`<div class="opcion__linkert"><input name="dificultad" type="radio" value="2"><p>Fue igual</p></div>`, "2");
         pregunta3.agregar(`<div class="opcion__linkert"><input name="dificultad" type="radio" value="3"><p>Mejoro</p></div>`, "3");
     
