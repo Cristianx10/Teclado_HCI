@@ -35,11 +35,15 @@
                                     <li>a/b</li>
                                     <li>b/c</li>
                                     <li>e/r</li>
+                                    <li>ñ/t</li>
+                                    <li>orden: 1, 2, 3, 4</li>
+
                                 </ul>
                             </div>
                             <div>
                                 <p style="color: white;">Guarda tu nuevo teclado en lista en formato .txt</p>
                                 <p style="color: white;">Recordar guardarlo como UTF - 8 para evitar problemas con la ñ</p>
+                                <p style="color: white;">Escribe orden para perzonalizar tu test</p>
                             </div>
                         </div>
 
@@ -52,7 +56,6 @@
                         </div>
                         <div id="restablecerTeclado" class="subir boton orange">
                             <div>RESTABLECER</div>
-
                         </div>
 
                     </div>
@@ -89,8 +92,8 @@
 
                     <div class="horizontal">
                         <label>
-                            <h2>Edad:</h2>
-                            <input id="form__usuario__edad" type="text" placeholder="Tu edad">
+                            <h2>Semestre:</h2>
+                            <input id="form__usuario__edad" type="text" placeholder="Semestre">
                         </label>
 
                         <div class="vertical">
@@ -226,14 +229,15 @@
                     <div class="bloque vertical">
                         <h2>2</h2>
                         <div>
-                            <p>La dificultad irá aumentando hasta convertirse en palabras, que posteriormente serán
-                                frases.</p>
+                            <p>Existen cuatro niveles de dificultad. Estos niveles serán aleatorios.</p>
                         </div>
                     </div>
                     <div class="bloque vertical">
-                        <h2>3</h2>
-                        <div>
-                            <p>El último nivel será un dictado</p>
+                        <div class="horizontal">
+                            <h2>3</h2>
+                            <div>
+                                <p>Uno de los nivel es un dictado de audio, ten los audifonos siempre puestos.</p>
+                            </div>
                             <img src="/img/icons/sonido.png" alt="" width="70" style="margin: 20px">
                         </div>
                     </div>
@@ -242,7 +246,7 @@
                         bottom: 17px;">4</h2>
                         <div>
                             <p style="position: relative; bottom: 23px;
-                        ">Recuerda: Entre más rapido seas y menos te equivoques tu puntaje será mejor.</p>
+                        ">Recuerda: Entre más rápido seas y menos te equivoques tu puntaje será mejor.</p>
                         </div>
                     </div>
                 </div>
@@ -280,17 +284,19 @@
             </div>
         </div>
 
+        
         <div class="pantalla pmundo1"></div>
+        <div class="pantalla pcontador1"></div>
 
         <div class="pantalla pnivel1">
             <div class="pantalla">
-                <h1 class="titulo__nivel">Nivel 1</h1>
+                <h1 class="titulo__nivel">Letras</h1>
             </div>
         </div>
 
         <div class="pantalla pnivel1finalizado">
             <div class="centrar">
-                <h1>¡Nivel 1 terminado!</h1>
+                <h1>¡Nivel terminado!</h1>
                 <img src="/img/icons/planeta1.png" alt="">
                 <button class="boton siguiente">Continuar</button>
             </div>
@@ -314,15 +320,17 @@
             </div>
         </div>
 
+        
         <div class="pantalla pmundo2"></div>
+        <div class="pantalla pcontador2"></div>
 
         <div class="pantalla pnivel2">
-            <h1 class="titulo__nivel">Nivel 2</h1>
+            <h1 class="titulo__nivel">Palabras</h1>
         </div>
 
         <div class="pantalla pnivel2finalizado">
             <div class="centrar">
-                <h1>¡Nivel 2 terminado!</h1>
+                <h1>¡Nivel terminado!</h1>
                 <img src="/img/icons/planeta2.png" alt="">
                 <button class="boton siguiente">Continuar</button>
             </div>
@@ -344,15 +352,17 @@
             </div>
         </div>
 
+        
         <div class="pantalla pmundo3"></div>
+        <div class="pantalla pcontador3"></div>
 
         <div class="pantalla pnivel3">
-            <h1 class="titulo__nivel">Nivel 3</h1>
+            <h1 class="titulo__nivel">Frases</h1>
         </div>
 
         <div class="pantalla pnivel3finalizado">
             <div class="centrar">
-                <h1>¡Nivel 3 terminado!</h1>
+                <h1>¡Nivel terminado!</h1>
                 <img src="/img/icons/planeta3.png" alt="">
                 <button class="boton siguiente">Continuar</button>
             </div>
@@ -373,17 +383,19 @@
             </div>
         </div>
 
+        
         <div class="pantalla pmundo4"></div>
+        <div class="pantalla pcontador4"></div>
 
         <div class="pantalla pnivel4">
-            <h1 class="titulo__nivel">Nivel 4</h1>
+            <h1 class="titulo__nivel">Dictado</h1>
         </div>
 
 
 
         <div class="pantalla pnivel4finalizado">
             <div class="centrar">
-                <h1>¡Nivel 4 terminado!</h1>
+                <h1>¡Nivel terminado!</h1>
                 <img src="/img/icons/planeta4.png" alt="">
                 <button class="boton siguiente">Continuar</button>
             </div>

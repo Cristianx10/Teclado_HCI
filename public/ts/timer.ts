@@ -171,6 +171,10 @@ class Animacion {
         this.velocidad = 100;
     }
 
+    setVelocidad(numero: number) {
+        this.velocidad = numero;
+    }
+
     getFrameActual() {
         return this.frames[this.contador];
     }
@@ -230,24 +234,27 @@ class Navegador {
 
     elemento: HTMLElement;
     elementos: Array<Contenido>;
+    copyElementos: Array<Contenido>;
     actual: number;
     anidado?: HTMLElement;
-    final?:Function;
-   
+    final?: Function;
+
 
     constructor() {
+        this.copyElementos = [];
         this.elementos = new Array();
         this.actual = 0;
         this.elemento = document.createElement("div");
         this.elemento.className = "contenedor__nav";
 
-   
+
     }
 
     agregar(ruta: string) {
         var contenido = new Contenido(ruta)
         this.elementos.push(contenido);
         this.elemento.append(contenido.elemento);
+        this.copyElementos = this.elementos;
         return contenido;
     }
 
@@ -262,6 +269,7 @@ class Navegador {
                 elemento.ocultar();
             }
         });
+        this.copyElementos = this.elementos;
     }
 
     elementoActual() {
@@ -275,15 +283,33 @@ class Navegador {
             this.actual++;
             this.elementoActual().accionInicial();
             this.elementoActual().mostrar();
-        }else{
-            if(this.final != null){
+        } else {
+            if (this.final != null) {
                 this.final();
             }
-           
+
         }
     }
 
-    setFinal(final:Function){
+    setOrderList(index: number, change: number) {
+        this.elementos[index] = this.copyElementos[change];
+        this.elementos[change] = this.copyElementos[index];
+    }
+
+    resetOrder() {
+        this.elementos = [];
+    }
+    setOrden(inicial: number, final: number) {
+        for (let i = 0; i < (1 + final) - inicial; i++) {
+            this.elementos.push(this.copyElementos[inicial + i]);
+        }
+    }
+
+    normalizarOrden(){
+        this.elementos = this.copyElementos;
+    }
+
+    setFinal(final: Function) {
         this.final = final;
     }
 
@@ -357,8 +383,8 @@ class Registro {
     general: Array<Array<string>>;
     especifico: Array<Array<string>>;
     origen: string;
-    
-    tiempo:Timer;
+
+    tiempo: Timer;
 
     constructor(origen: string) {
         this.origen = origen;
@@ -498,10 +524,13 @@ class TecladoLoad {
     id: string;
     teclado: Array<Tecla>;
     cargado: boolean;
+    randomMode: number[];
+    ejecutando?: Function;
 
 
     constructor(id: string) {
         this.id = id;
+
 
         let data = localStorage.getItem(id);
 
@@ -509,6 +538,7 @@ class TecladoLoad {
             let datos: TecladoLoad = JSON.parse(data);
             this.teclado = datos.teclado;
             this.cargado = datos.cargado;
+            this.randomMode = datos.randomMode;
 
             if (this.cargado) {
                 let e = <HTMLElement>document.querySelector("#restablecerTeclado");
@@ -519,23 +549,43 @@ class TecladoLoad {
                     e.innerHTML = "Cambiar Teclado";
                     e = <HTMLElement>document.querySelector("#cargaTecladoTitulo");
                     e.innerHTML = "Tu teclado esta cargado";
-
                 }
             }
         } else {
             this.teclado = new Array();
             this.cargado = false;
+            this.randomMode = [];
         }
         this.update();
     }
 
+    ejecutar(codigo: Function) {
+        this.ejecutando = codigo;
+    }
+
     agregar(texto: Array<string>) {
         this.teclado = [];
+        this.randomMode = [];
+
         for (let i = 0; i < texto.length; i++) {
             let t = texto[i];
-            let teclas = t.split("/");
-            this.teclado.push({ original: teclas[0], nuevo: teclas[1] });
+            if (t.indexOf("/") != -1) {
+
+                let teclas = t.split("/");
+                this.teclado.push({ original: teclas[0], nuevo: teclas[1] });
+
+            } else if (t.indexOf("orden:") != -1 || t.indexOf("Orden:") != -1) {
+
+                var orden = t.replace("orden:", "").replace("Orden:", "").replace(" ", "").replace(" ", "").replace(" ", "").replace(" ", "").replace(" ", "");
+                var newOrden = orden.split(",");
+                newOrden.forEach(o => {
+                    var parseTo = parseInt(o);
+                    this.randomMode.push(parseTo);
+                });
+            }
+
         }
+
         this.cargado = true;
         let e = <HTMLElement>document.querySelector("#restablecerTeclado");
         if (e != null) {
@@ -550,6 +600,7 @@ class TecladoLoad {
 
     restablecer() {
         this.teclado = [];
+        this.randomMode = [];
         this.cargado = false;
         nuevoTeclado = [];
         nuevasTeclas = null;
@@ -562,6 +613,9 @@ class TecladoLoad {
         e = <HTMLElement>document.querySelector("#cargaTecladoTitulo");
         e.innerHTML = "Aun no has escogido teclado";
 
+        if (this.ejecutando) {
+            this.ejecutando();
+        }
 
         this.update();
     }

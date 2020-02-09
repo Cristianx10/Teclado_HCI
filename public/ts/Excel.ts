@@ -1,3 +1,6 @@
+declare var XLSX: any;
+declare var saveAs: any;
+
 class Excel {
 
     excel: any;
@@ -6,7 +9,7 @@ class Excel {
         this.excel = XLSX.utils.book_new();
     }
 
-    autor(titulo:string, sujeto:string, autor:string, fecha:Date) {
+    autor(titulo: string, sujeto: string, autor: string, fecha: Date) {
         this.excel.Props = {
             Title: titulo,
             Subject: sujeto,
@@ -15,24 +18,24 @@ class Excel {
         };
     }
 
-    crearHoja(nombre:string){
+    crearHoja(nombre: string) {
         this.excel.SheetNames.push(nombre);
     }
 
-    cargarMatrix(nombre:string, valores:Array<any>){
+    cargarMatrix(nombre: string, valores: Array<any>) {
         var ws = XLSX.utils.aoa_to_sheet(valores);
         this.excel.Sheets[nombre] = ws;
     }
 
-    guardar(titulo:string){
-        var wbout = XLSX.write(this.excel, {bookType:'xlsx',  type: 'binary'});
+    guardar(titulo: string) {
+        var wbout = XLSX.write(this.excel, { bookType: 'xlsx', type: 'binary' });
         var buf = new ArrayBuffer(wbout.length);
         var view = new Uint8Array(buf);
-        for (var i=0; i<wbout.length; i++) view[i] = wbout.charCodeAt(i) & 0xFF;
-       
+        for (var i = 0; i < wbout.length; i++) view[i] = wbout.charCodeAt(i) & 0xFF;
+
         //Guardar Archivo
-        saveAs(new Blob([buf],{type:"application/octet-stream"}), titulo);
+        saveAs(new Blob([buf], { type: "application/octet-stream" }), titulo);
     }
 
-   
+
 }

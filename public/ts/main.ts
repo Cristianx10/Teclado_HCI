@@ -10,16 +10,29 @@ var nuevoTeclado: Array<Tecla> = [];
 window.addEventListener("load", function () {
 
 
+    console.log("Pangina cargada")
+
+    var contadores: Array<Animacion> = [];
+
+
 
     var animMundos: Array<Animacion> = [];
 
     for (let i = 0; i < 4; i++) {
         animMundos.push(new Animacion());
+        var anim = new Animacion();
+        contadores.push(anim);
+        anim.setVelocidad(300);
     }
     animMundos[0].agregarMultiple("/img/level1/nivelUno", 42);
     animMundos[1].agregarMultiple("/img/level2/AnimacionDos", 23);
     animMundos[2].agregarMultiple("/img/level3/NivelTres", 23);
     animMundos[3].agregarMultiple("/img/level4/NivelCuatro", 23);
+
+    contadores[0].agregarMultiple("/img/contador/contador", 3);
+    contadores[1].agregarMultiple("/img/contador/contador", 3);
+    contadores[2].agregarMultiple("/img/contador/contador", 3);
+    contadores[3].agregarMultiple("/img/contador/contador", 3);
 
     animMundos.forEach((animMundo, i) => {
         animMundo.setFinal(() => {
@@ -28,10 +41,22 @@ window.addEventListener("load", function () {
         });
     });
 
+    contadores.forEach((contador, i) => {
+        contador.setFinal(() => {
+            contador.detener();
+            seguir();
+        });
+    });
+
     animMundos[0].incluirEn(".pmundo1");
     animMundos[1].incluirEn(".pmundo2");
     animMundos[2].incluirEn(".pmundo3");
     animMundos[3].incluirEn(".pmundo4");
+
+    contadores[0].incluirEn(".pcontador1");
+    contadores[1].incluirEn(".pcontador2");
+    contadores[2].incluirEn(".pcontador3");
+    contadores[3].incluirEn(".pcontador4");
 
     /* --------------------------------  Preparacion de niveles -------------------------------------- */
 
@@ -58,7 +83,7 @@ window.addEventListener("load", function () {
     nivel_4.setFinal(() => {
         seguirnivel(nivel_4);
 
-        
+
     });
 
 
@@ -95,12 +120,12 @@ window.addEventListener("load", function () {
     /* --------------------------------  Configuación de la navegación entre paginas -------------------------------------- */
 
     var navegador = new Navegador();
-  
+
 
     /* -------------------- Inicio de la aplciacion ---------------------- */
-
+    //0
     navegador.agregar(".peleccion");
-
+    //1
     navegador.agregar(".pinicio").setInicial(() => {
         registro.clear();
 
@@ -111,93 +136,113 @@ window.addEventListener("load", function () {
         registro.agregarRegistro("hora", `${fecha.getHours()}:${fecha.getMinutes()}:${fecha.getSeconds()}`);
 
     });
-
+    //2
     /* -------------------- Formulario ---------------------- */
     navegador.agregar(".pformulario");
 
     /* -------------------- Instrucciones generales ---------------------- */
-
+    //3
     navegador.agregar(".pinstrucciones");
-
+    //4
     navegador.agregar(".ppractica");
-
+    //5
     navegador.agregar(".ppractica1");
-
+    //6
     /* -------------------- Nivel 1 ---------------------- */
     navegador.agregar(".ppracticanivel").setInicial(() => {
         practica.iniciar();
     });
-
+    //7
     navegador.agregar(".ppractica2");
-
+    //8
     navegador.agregar(".pmundo1").setInicial(() => {
         animMundos[0].iniciar();
     });
+    //9
+    navegador.agregar(".pcontador1").setInicial(() => {
+        contadores[0].iniciar();
+    });
 
+    //10
     navegador.agregar(".pnivel1").setInicial(() => {
         nivel_1.iniciar();
     });
 
 
-
+    //11
     navegador.agregar(".pnivel1finalizado");
 
     /* -------------------- Nivel 2 ---------------------- */
-
+    //12
     navegador.agregar(".pinstruccionespalabras");
-
+    //13
     navegador.agregar(".pmundo2").setInicial(() => {
         animMundos[1].iniciar();
     });
+    //14
+    navegador.agregar(".pcontador2").setInicial(() => {
+        contadores[1].iniciar();
+    });
 
+    //15
     navegador.agregar(".pnivel2").setInicial(() => {
         nivel_2.iniciar();
     });
-
+    //16
     navegador.agregar(".pnivel2finalizado");
 
+    /* -------------------- Nivel 3 ---------------------- */
+    //17
     navegador.agregar(".pinstruccionesfrases");
 
-    /* -------------------- Nivel 3 ---------------------- */
-
+    //18
     navegador.agregar(".pmundo3").setInicial(() => {
         animMundos[2].iniciar();
     });
+    //19
+    navegador.agregar(".pcontador3").setInicial(() => {
+        contadores[2].iniciar();
+    });
 
+
+    //20
     navegador.agregar(".pnivel3").setInicial(() => {
         nivel_3.iniciar();
     });
-
+    //21
     navegador.agregar(".pnivel3finalizado");
-
+    /* -------------------- Nivel 4 ---------------------- */
+    //22
     navegador.agregar(".pinstruccionesdictado");
 
-    /* -------------------- Nivel 4 ---------------------- */
-
+    //23
     navegador.agregar(".pmundo4").setInicial(() => {
         animMundos[3].iniciar();
     });
+    //24
+    navegador.agregar(".pcontador4").setInicial(() => {
+        contadores[3].iniciar();
+    });
 
+    //25
     navegador.agregar(".pnivel4").setInicial(() => {
         nivel_4.ocultar();
         nivel_4.play();
         nivel_4.iniciar(false);
     });
-
+    //26
     navegador.agregar(".pnivel4finalizado");
-
-    navegador.agregar(".pencuesta").setFinal(()=>{
+    //27
+    navegador.agregar(".pencuesta").setFinal(() => {
         registro.descargarEspecifico();
         registro.descargarGeneral();
     });
-
+    //28
     navegador.agregar(".finalAplicacion");
 
     /* -------------------- Configuraciones de la navegación---------------------- */
     navegador.incluirEn(".contenedor");
     navegador.iniciar();
-
-
 
     var siguientes = document.querySelectorAll(".siguiente");
 
@@ -208,7 +253,13 @@ window.addEventListener("load", function () {
     function seguir() {
         navegador.siguiente();
     }
-
+/*
+    document.addEventListener("keydown", (e)=>{
+        if(e.key == "e" || e.key == "E"){
+            seguir();
+        }
+    })
+*/
     function seguirnivel(e: any) {
 
         navegador.siguiente();
@@ -278,7 +329,7 @@ window.addEventListener("load", function () {
         if (nombre.value == "") {
             nombre.setCustomValidity("Ingresa su nombre, por favor");
         } else if (edad.value == "" || isNaN(edad.value)) {
-            edad.setCustomValidity("Ingresa una edad valida");
+            edad.setCustomValidity("Ingresa un semestre valido");
         } else if (hombre.checked == false && mujer.checked == false) {
             genero.innerHTML = "Selecione su genero, por favor";
         } else if (ocuapcion.value == "") {
@@ -448,7 +499,7 @@ window.addEventListener("load", function () {
             if (cambioB == false) {
                 cambios.push("B");
                 cambioB = true;
-              this.console.log(cambios.length)
+                this.console.log(cambios.length)
                 if (cambios.length > 1) {
                     btn__encuesta1.disabled = false
                 }
@@ -474,14 +525,14 @@ window.addEventListener("load", function () {
 
         let cambios = [];
         let cambioC = false;
-    
+
         var pregunta3 = new Pregunta(`<h2 style="text-align:center;">Siento que mi desempeño en relación con la prueba anterior:`, "Siento que mi desempeño en relación con la prueba anterior:");
         pregunta3.agregar(`<div class="opcion__linkert"><input name="dificultad" type="radio" value="1"><p>Empeoro</p></div>`, "1");
         pregunta3.agregar(`<div class="opcion__linkert"><input name="dificultad" type="radio" value="2"><p>Fue igual</p></div>`, "2");
         pregunta3.agregar(`<div class="opcion__linkert"><input name="dificultad" type="radio" value="3"><p>Mejoro</p></div>`, "3");
-    
+
         pregunta3.incluirEn(".pregunta1");
-    
+
         pregunta3.setCambio(() => {
             if (cambioC == false) {
                 cambios.push("B");
@@ -505,17 +556,17 @@ window.addEventListener("load", function () {
         eleecionSeccion(3);
         seguir();
 
-        
+
         let cambios = [];
         let cambioC = false;
-    
+
         var pregunta3 = new Pregunta(`<h2 style="text-align:center;">Siento que mi desempeño en relación con la prueba anterior:`, "Siento que mi desempeño en relación con la prueba anterior:");
         pregunta3.agregar(`<div class="opcion__linkert"><input name="dificultad" type="radio" value="1"><p>Empeoro</p></div>`, "1");
         pregunta3.agregar(`<div class="opcion__linkert"><input name="dificultad" type="radio" value="2"><p>Fue igual</p></div>`, "2");
         pregunta3.agregar(`<div class="opcion__linkert"><input name="dificultad" type="radio" value="3"><p>Mejoro</p></div>`, "3");
-    
+
         pregunta3.incluirEn(".pregunta1");
-    
+
         pregunta3.setCambio(() => {
             if (cambioC == false) {
                 cambios.push("B");
@@ -538,6 +589,37 @@ window.addEventListener("load", function () {
     var teclasNuevas = new TecladoLoad("teclado");
     nuevoTeclado = teclasNuevas.cargar();
 
+    const updateNivel = () => {
+
+        if(teclasNuevas.randomMode.length > 0){
+            navegador.resetOrder();
+            navegador.setOrden(0, 7);
+    
+            teclasNuevas.randomMode.forEach((orden, index) => {
+                switch (orden) {
+                    case 1:
+                        navegador.setOrden(8, 11);
+                        break;
+                    case 2:
+                        navegador.setOrden(12, 16);
+                        break;
+                    case 3:
+                        navegador.setOrden(17, 21);
+                        break;
+                    case 4:
+                        navegador.setOrden(22, 26);
+                        break;
+                }
+               
+            });
+    
+            navegador.setOrden(27, 28);
+        }else{
+            navegador.normalizarOrden();
+        }
+        
+    }
+
 
     btn_eleccion_teclado.addEventListener("change", function (a: any) {
 
@@ -554,6 +636,7 @@ window.addEventListener("load", function () {
 
                 teclasNuevas.agregar(data);
                 nuevoTeclado = teclasNuevas.cargar();
+                updateNivel();
 
                 for (let i = 0; i < nuevoTeclado.length; i++) {
                     let t = nuevoTeclado[i];
@@ -591,11 +674,17 @@ window.addEventListener("load", function () {
         registro.descargarGeneral();
     });
 
-  
 
 
 
+
+    updateNivel();
+
+    teclasNuevas.ejecutar(() => {
+        updateNivel();
+    })
 
 
 
 });
+

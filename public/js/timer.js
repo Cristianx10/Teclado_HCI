@@ -109,6 +109,9 @@ var Animacion = /** @class */ (function () {
         this.contador = 0;
         this.velocidad = 100;
     }
+    Animacion.prototype.setVelocidad = function (numero) {
+        this.velocidad = numero;
+    };
     Animacion.prototype.getFrameActual = function () {
         return this.frames[this.contador];
     };
@@ -157,6 +160,7 @@ var Animacion = /** @class */ (function () {
 }());
 var Navegador = /** @class */ (function () {
     function Navegador() {
+        this.copyElementos = [];
         this.elementos = new Array();
         this.actual = 0;
         this.elemento = document.createElement("div");
@@ -166,6 +170,7 @@ var Navegador = /** @class */ (function () {
         var contenido = new Contenido(ruta);
         this.elementos.push(contenido);
         this.elemento.append(contenido.elemento);
+        this.copyElementos = this.elementos;
         return contenido;
     };
     Navegador.prototype.iniciar = function () {
@@ -178,6 +183,7 @@ var Navegador = /** @class */ (function () {
                 elemento.ocultar();
             }
         });
+        this.copyElementos = this.elementos;
     };
     Navegador.prototype.elementoActual = function () {
         return this.elementos[this.actual];
@@ -195,6 +201,21 @@ var Navegador = /** @class */ (function () {
                 this.final();
             }
         }
+    };
+    Navegador.prototype.setOrderList = function (index, change) {
+        this.elementos[index] = this.copyElementos[change];
+        this.elementos[change] = this.copyElementos[index];
+    };
+    Navegador.prototype.resetOrder = function () {
+        this.elementos = [];
+    };
+    Navegador.prototype.setOrden = function (inicial, final) {
+        for (var i = 0; i < (1 + final) - inicial; i++) {
+            this.elementos.push(this.copyElementos[inicial + i]);
+        }
+    };
+    Navegador.prototype.normalizarOrden = function () {
+        this.elementos = this.copyElementos;
     };
     Navegador.prototype.setFinal = function (final) {
         this.final = final;
@@ -365,6 +386,7 @@ var TecladoLoad = /** @class */ (function () {
             var datos = JSON.parse(data);
             this.teclado = datos.teclado;
             this.cargado = datos.cargado;
+            this.randomMode = datos.randomMode;
             if (this.cargado) {
                 var e = document.querySelector("#restablecerTeclado");
                 if (e != null) {
@@ -380,15 +402,31 @@ var TecladoLoad = /** @class */ (function () {
         else {
             this.teclado = new Array();
             this.cargado = false;
+            this.randomMode = [];
         }
         this.update();
     }
+    TecladoLoad.prototype.ejecutar = function (codigo) {
+        this.ejecutando = codigo;
+    };
     TecladoLoad.prototype.agregar = function (texto) {
+        var _this = this;
         this.teclado = [];
+        this.randomMode = [];
         for (var i = 0; i < texto.length; i++) {
             var t = texto[i];
-            var teclas = t.split("/");
-            this.teclado.push({ original: teclas[0], nuevo: teclas[1] });
+            if (t.indexOf("/") != -1) {
+                var teclas = t.split("/");
+                this.teclado.push({ original: teclas[0], nuevo: teclas[1] });
+            }
+            else if (t.indexOf("orden:") != -1 || t.indexOf("Orden:") != -1) {
+                var orden = t.replace("orden:", "").replace("Orden:", "").replace(" ", "").replace(" ", "").replace(" ", "").replace(" ", "").replace(" ", "");
+                var newOrden = orden.split(",");
+                newOrden.forEach(function (o) {
+                    var parseTo = parseInt(o);
+                    _this.randomMode.push(parseTo);
+                });
+            }
         }
         this.cargado = true;
         var e = document.querySelector("#restablecerTeclado");
@@ -403,6 +441,7 @@ var TecladoLoad = /** @class */ (function () {
     };
     TecladoLoad.prototype.restablecer = function () {
         this.teclado = [];
+        this.randomMode = [];
         this.cargado = false;
         nuevoTeclado = [];
         nuevasTeclas = null;
@@ -414,6 +453,9 @@ var TecladoLoad = /** @class */ (function () {
         e.innerHTML = "Subir teclado";
         e = document.querySelector("#cargaTecladoTitulo");
         e.innerHTML = "Aun no has escogido teclado";
+        if (this.ejecutando) {
+            this.ejecutando();
+        }
         this.update();
     };
     TecladoLoad.prototype.estado = function () {
