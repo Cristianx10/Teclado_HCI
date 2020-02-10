@@ -1,9 +1,9 @@
 
 
-window.addEventListener("load", function() {
+window.addEventListener("load", function () {
 
 
-    var investigador = this.document.querySelector("#nombre__investigador");
+  var investigador = this.document.querySelector("#nombre__investigador");
 
   function convertirToString(resultado) {
     let datos = [];
@@ -79,7 +79,7 @@ window.addEventListener("load", function() {
   function crearArchivo(datos) {
     // result = convertirToString(datos);
 
-    
+
 
     datos.forEach((result, index) => {
       let info = result.split("	");
@@ -126,36 +126,62 @@ window.addEventListener("load", function() {
       } else if (info[0].includes("mano")) {
         mano = info[1];
       }
-    } else if (info.length == 3) {
-      if (info[0].length == 1) {
-        nivel = "1";
-      } else if (info[0].length > 1) {
-        let dataInfo = info[0].split(" ");
+    } else if (info.length >= 3) {
 
-        if (dataInfo.length == 1) {
-          nivel = "2";
-        } else if (dataInfo.length > 1) {
-          if (index < datos.length - 2) {
-            nivel = "3";
-          } else {
-            nivel = "4";
+      if (info.length == 3) {
+
+        if (info[0].length == 1) {
+          nivel = "1";
+        } else if (info[0].length > 1) {
+          let dataInfo = info[0].split(" ");
+
+          if (dataInfo.length == 1) {
+            nivel = "2";
+          } else if (dataInfo.length > 1) {
+            if (index < datos.length - 2) {
+              nivel = "3";
+            } else {
+              nivel = "4";
+            }
           }
         }
+
+        ws_general.push([
+          tester,
+          seccion,
+          genero,
+          edad,
+          mano,
+          ocupacion,
+          nivel,
+          info[0],
+          info[1],
+          info[2],
+          nombre
+        ]);
+
+      } else {
+
+        nivel = info[0];
+
+        ws_general.push([
+          tester,
+          seccion,
+          genero,
+          edad,
+          mano,
+          ocupacion,
+          nivel,
+          info[1],
+          info[2],
+          info[3],
+          nombre
+        ]);
+
       }
 
-      ws_general.push([
-        tester,
-        seccion,
-        genero,
-        edad,
-        mano,
-        ocupacion,
-        nivel,
-        info[0],
-        info[1],
-        info[2],
-        nombre
-      ]);
+
+
     }
   }
 
@@ -163,6 +189,7 @@ window.addEventListener("load", function() {
   var contEspecifico = 0;
 
   function evaluacionEspecifico(info, index, datos) {
+
     if (info.length == 2) {
       if (info[0].includes("seccion")) {
         seccion = info[1];
@@ -177,32 +204,43 @@ window.addEventListener("load", function() {
       } else if (info[0].includes("mano")) {
         mano = info[1];
       }
-    } else if (info.length == 3) {
-      analizadoActual = info[0];
+    } else if (info.length >= 3) {
+   
+      if (info.length == 3) {
 
-      if (analizadoActual.length == 1) {
-        nivel = "1";
-      } else if (analizadoActual.length > 1) {
-        let dataInfo = analizadoActual.split(" ");
+        analizadoActual = info[0];
 
-        if (dataInfo.length == 1) {
-          nivel = "2";
-        } else if (dataInfo.length > 1) {
-       
-          contEspecifico++;
+        if (analizadoActual.length == 1) {
+          nivel = "1";
+        } else if (analizadoActual.length > 1) {
+          let dataInfo = analizadoActual.split(" ");
 
-          if (contEspecifico > 6) {
-            contEspecifico = 0;
-          }
+          if (dataInfo.length == 1) {
+            nivel = "2";
+          } else if (dataInfo.length > 1) {
 
-          if (contEspecifico <= 4) {
-            nivel = "3";
-          } else if (contEspecifico <= 6) {
-            nivel = "4";
+            contEspecifico++;
+
+            if (contEspecifico > 6) {
+              contEspecifico = 0;
+            }
+
+            if (contEspecifico <= 4) {
+              nivel = "3";
+            } else if (contEspecifico <= 6) {
+              nivel = "4";
+            }
           }
         }
+
+      } else {
+        nivel = info[0];
+
       }
-    } else if (info.length == 5) {
+
+    }
+    if (info.length == 5) {
+   
       ws_especifico.push([
         tester,
         seccion,
@@ -218,7 +256,27 @@ window.addEventListener("load", function() {
         info[4],
         nombre
       ]);
+    } else if (info.length >= 6) {
+
+      ws_especifico.push([
+        tester,
+        seccion,
+        genero,
+        edad,
+        mano,
+        ocupacion,
+        nivel,
+        info[1],
+        info[2],
+        info[3],
+        info[4],
+        info[5],
+        nombre
+      ]);
+    } else {
+      console.log(info.length)
     }
+
   }
 
   var contadorDeArchivos__general = 0;
@@ -241,7 +299,7 @@ window.addEventListener("load", function() {
       let lector = new FileReader();
       lector.readAsText(archivo);
 
-      lector.onload = function(e) {
+      lector.onload = function (e) {
         let contenido = e.target.result;
         let datos = convertirToString(contenido);
 
@@ -250,7 +308,7 @@ window.addEventListener("load", function() {
       };
     }
 
-    
+
   }
 
   var cargarDocs = document.getElementById("file-input");
@@ -258,11 +316,11 @@ window.addEventListener("load", function() {
   cargarDocs.addEventListener("change", leerArchivo, false);
 
   var guardarExcel = document.querySelector("#btn__crearExcel");
-  
+
   guardarExcel.addEventListener("click", imprimir);
 
   var contArchivosCargadosG = document.querySelector(".archivosCargados__generales");
 
   var contArchivosCargadosE = document.querySelector(".archivosCargados__especificos");
-  
+
 });
