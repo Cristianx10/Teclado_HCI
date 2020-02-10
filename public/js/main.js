@@ -44,19 +44,19 @@ window.addEventListener("load", function () {
     contadores[2].incluirEn(".pcontador3");
     contadores[3].incluirEn(".pcontador4");
     /* --------------------------------  Preparacion de niveles -------------------------------------- */
-    var practica = new TextoMultiple(["a", "ñ", "n", "c", "casa", "aqui y ahora"]);
+    var practica = new TextoMultiple(0, ["a", "ñ", "n", "c", "casa", "aqui y ahora"]);
     practica.incluirEn(".ppracticanivel");
     practica.setFinal(seguir);
-    var nivel_1 = new TextoMultiple();
+    var nivel_1 = new TextoMultiple(1);
     nivel_1.incluirEn(".pnivel1");
     nivel_1.setFinal(seguirnivel);
-    var nivel_2 = new TextoMultiple();
+    var nivel_2 = new TextoMultiple(2);
     nivel_2.incluirEn(".pnivel2");
     nivel_2.setFinal(seguirnivel);
-    var nivel_3 = new TextoMultiple();
+    var nivel_3 = new TextoMultiple(3);
     nivel_3.incluirEn(".pnivel3");
     nivel_3.setFinal(seguirnivel);
-    var nivel_4 = new TextoMultiple();
+    var nivel_4 = new TextoMultiple(4);
     nivel_4.incluirEn(".pnivel4");
     nivel_4.setFinal(function () {
         seguirnivel(nivel_4);

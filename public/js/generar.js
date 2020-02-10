@@ -180,8 +180,6 @@ window.addEventListener("load", function() {
     } else if (info.length == 3) {
       analizadoActual = info[0];
 
-  
-
       if (analizadoActual.length == 1) {
         nivel = "1";
       } else if (analizadoActual.length > 1) {

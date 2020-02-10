@@ -116,8 +116,9 @@ class Letra {
 
     errores: Array<Registro_Error>;
     keyCode: number;
+    nivel:number;
 
-    constructor(letra: string) {
+    constructor(letra: string, nivel:number) {
         //this.tiempo = new Timer();
         this.tiempo = {};
         this.letra = letra.toLowerCase();
@@ -126,6 +127,8 @@ class Letra {
         this.activo = false;
         this.errores = new Array();
         this.ocultado = false;
+
+        this.nivel = nivel;
 
         this.elemento = document.createElement('div');
         this.elemento.className = "letra";
@@ -277,7 +280,7 @@ class Letra {
             dataError.push(`{${e.error}, ${ti}}, ${pos}`);
         });
         let timeLetra = this.getTiempo();
-        return [this.letra, timeLetra + "", this.errores.length + "", this.keyCode + "", JSON.stringify(dataError)];
+        return [this.nivel+"", this.letra, timeLetra + "", this.errores.length + "", this.keyCode + "", JSON.stringify(dataError)];
     }
 }
 
@@ -300,14 +303,16 @@ class Texto {
 
     view_tiempo: HTMLElement;
     view_error: HTMLElement;
+    nivel:number;
 
-    constructor(texto: string, url?: string) {
+    constructor(texto: string, nivel:number, url?: string) {
         this.texto = texto;
         this.letras = new Array();
         this.contador = 0;
         this.elemento = document.createElement("div");
         this.elemento.className = "texto";
         this.activo = false;
+        this.nivel = nivel;
 
         this.errores = 0;
         this.timer = new Timer();
@@ -319,7 +324,7 @@ class Texto {
 
         for (let i = 0; i < this.texto.length; i++) {
             let l = this.texto.charAt(i);
-            let new_l = new Letra(l);
+            let new_l = new Letra(l, this.nivel);
             this.letras.push(new_l);
             palabra.append(new_l.elemento);
             if (l == " ") {
@@ -497,7 +502,7 @@ class Texto {
 
     toString(): Array<string> {
         let timePalabra = this.getTiempo() + "";
-        return [this.texto, timePalabra, this.errores + ""];
+        return [this.nivel+"", this.texto, timePalabra, this.errores + ""];
     }
 
     toStringEspecificos(): Array<Array<string>> {
@@ -529,20 +534,22 @@ class TextoMultiple {
     inicial: boolean = true;
 
     view_proceso: HTMLElement;
+    nivel:number;
 
 
-    constructor(textos?: Array<string>, urls?: Array<string>) {
+    constructor(nivel:number, textos?: Array<string>, urls?: Array<string>) {
 
         this.actual = 0;
         this.textos = new Array();
         this.activado = false;
+        this.nivel = nivel;
 
         if (textos != null) {
             textos.forEach((t, index) => {
                 if (urls != null) {
-                    this.textos.push(new Texto(t, urls[index]));
+                    this.textos.push(new Texto(t, this.nivel, urls[index]));
                 } else {
-                    this.textos.push(new Texto(t));
+                    this.textos.push(new Texto(t, this.nivel));
                 }
             });
         }
@@ -573,9 +580,9 @@ class TextoMultiple {
         if (textos != null) {
             textos.forEach((t, index) => {
                 if (urls != null) {
-                    this.textos.push(new Texto(t, urls[index]));
+                    this.textos.push(new Texto(t, this.nivel, urls[index]));
                 } else {
-                    this.textos.push(new Texto(t));
+                    this.textos.push(new Texto(t, this.nivel));
                 }
             });
         }

@@ -53,7 +53,7 @@ function eliminarDiacriticos(texto) {
     return texto.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u").replace("Á", "A").replace("É", "E").replace("Í", "I").replace("Ó", "O").replace("Ú", "U");
 }
 var Letra = /** @class */ (function () {
-    function Letra(letra) {
+    function Letra(letra, nivel) {
         //this.tiempo = new Timer();
         this.tiempo = {};
         this.letra = letra.toLowerCase();
@@ -62,6 +62,7 @@ var Letra = /** @class */ (function () {
         this.activo = false;
         this.errores = new Array();
         this.ocultado = false;
+        this.nivel = nivel;
         this.elemento = document.createElement('div');
         this.elemento.className = "letra";
         this.elemento.innerText = letra;
@@ -184,12 +185,12 @@ var Letra = /** @class */ (function () {
             dataError.push("{" + e.error + ", " + ti + "}, " + pos);
         });
         var timeLetra = this.getTiempo();
-        return [this.letra, timeLetra + "", this.errores.length + "", this.keyCode + "", JSON.stringify(dataError)];
+        return [this.nivel + "", this.letra, timeLetra + "", this.errores.length + "", this.keyCode + "", JSON.stringify(dataError)];
     };
     return Letra;
 }());
 var Texto = /** @class */ (function () {
-    function Texto(texto, url) {
+    function Texto(texto, nivel, url) {
         var _this = this;
         this.tiempoIniciado = false;
         this.texto = texto;
@@ -198,6 +199,7 @@ var Texto = /** @class */ (function () {
         this.elemento = document.createElement("div");
         this.elemento.className = "texto";
         this.activo = false;
+        this.nivel = nivel;
         this.errores = 0;
         this.timer = new Timer();
         this.tiempo = {};
@@ -206,7 +208,7 @@ var Texto = /** @class */ (function () {
         var encontro = false;
         for (var i = 0; i < this.texto.length; i++) {
             var l = this.texto.charAt(i);
-            var new_l = new Letra(l);
+            var new_l = new Letra(l, this.nivel);
             this.letras.push(new_l);
             palabra.append(new_l.elemento);
             if (l == " ") {
@@ -363,7 +365,7 @@ var Texto = /** @class */ (function () {
     };
     Texto.prototype.toString = function () {
         var timePalabra = this.getTiempo() + "";
-        return [this.texto, timePalabra, this.errores + ""];
+        return [this.nivel + "", this.texto, timePalabra, this.errores + ""];
     };
     Texto.prototype.toStringEspecificos = function () {
         var data = [];
@@ -378,19 +380,20 @@ var Texto = /** @class */ (function () {
 function inicioDelTiempo() {
 }
 var TextoMultiple = /** @class */ (function () {
-    function TextoMultiple(textos, urls) {
+    function TextoMultiple(nivel, textos, urls) {
         var _this = this;
         this.inicial = true;
         this.actual = 0;
         this.textos = new Array();
         this.activado = false;
+        this.nivel = nivel;
         if (textos != null) {
             textos.forEach(function (t, index) {
                 if (urls != null) {
-                    _this.textos.push(new Texto(t, urls[index]));
+                    _this.textos.push(new Texto(t, _this.nivel, urls[index]));
                 }
                 else {
-                    _this.textos.push(new Texto(t));
+                    _this.textos.push(new Texto(t, _this.nivel));
                 }
             });
         }
@@ -415,10 +418,10 @@ var TextoMultiple = /** @class */ (function () {
         if (textos != null) {
             textos.forEach(function (t, index) {
                 if (urls != null) {
-                    _this.textos.push(new Texto(t, urls[index]));
+                    _this.textos.push(new Texto(t, _this.nivel, urls[index]));
                 }
                 else {
-                    _this.textos.push(new Texto(t));
+                    _this.textos.push(new Texto(t, _this.nivel));
                 }
             });
         }
