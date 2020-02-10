@@ -351,8 +351,10 @@ window.addEventListener("load", function () {
             } else {
                 registro.agregarRegistro("mano", "derecha");
             }
+            registro.agregarRegistro("orden", JSON.stringify(teclasNuevas.randomMode));
 
             seguir();
+
         }
     }
 
