@@ -4,7 +4,7 @@
   "description": "Aplicacion para la evaluacion del teclado",
   "main": "index.js",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.3"
   },
   "devDependencies": {
     "@types/createjs": "0.0.29",
